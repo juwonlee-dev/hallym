@@ -12,7 +12,7 @@
   * 동아리 회원 관리 및 다양한 정보 서비스를 제공 받을 수 있음.  
   
 ## 팀 구성 인원
-팀명 :    
+팀명 :    L H P
 지도교수 : 이원철  
 팀원 : [이주원]( https://github.com/juwonlee-dev ), [허주환]( https://github.com/juhwanHeo ), [박민석]( https://github.com/pms0905 )  
   
