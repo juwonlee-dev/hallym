@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hallym.club.user.dao.UserDAO">
+    
+    <resultMap id="UserVOResult" type="hallym.club.user.vo.UserVO">
+		 <result property="id" column="IDNO" />
+		 <result property="identity" column="IDENTITYNAME" />
+		 <result property="condition" column="CONDITIONNAME" />
+		 <result property="resident" column="RESIDENTNO" />
+		 <result property="name" column="NAME" />
+		 <result property="univ" column="UNIVNAME" />
+		 <result property="dept" column="DEPTNAME" />
+		 <result property="major" column="MAJORNAME" />
+		 <result property="major2" column="MAJORNAME2" />
+		 <result property="grade" column="GRADE" />
+		 <result property="semester" column="SEMESTER" />
+		 <result property="e_mail" column="E_MAIL" />
+		 <result property="phoneNumber" column="PHONENUMBER" />
+		 <result property="gender" column="GENDER" />
+	 </resultMap>
+
+     <select id="checkLogin" parameterType="map" resultType="String">
+         
+         <!-- local Only -->
+	 	 SELECT NF_USER_LOGIN(#{GBN}, #{ID}, #{PASSWORD}) vRESULT FROM DUAL
+		 
+     </select>
+     
+     <select id="getUserVO" parameterType="map" resultMap="UserVOResult">
+         
+     	    
+     	 SELECT     	 
+             IDNO,
+        	 IDENTITYNAME,
+        	 CONDITIONNAME,
+        	 RESIDENTNO,
+        	 NAME,
+        	 UNIVNAME,
+        	 DEPTNAME,
+        	 MAJORNAME,
+        	 MAJORNAME2,
+        	 GRADE,
+        	 SEMESTER,
+        	 E_MAIL,
+        	 PHONENUMBER,
+        	 GENDER 
+         FROM
+        	 V_ISSUE_MASTER
+         WHERE
+        	 IDNO=#{ID}
+         
+     </select>
+     
+</mapper>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+	<!-- board -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:/egovframework/sqlmap/sql-mapper-config.xml" />
+		<property name="mapperLocations" value="classpath:/egovframework/sqlmap/board/*.xml" />
+	</bean>
+	
+ 	<bean class="egovframework.rte.psl.dataaccess.mapper.MapperConfigurer">
+		<property name="basePackage" value="hallym.club.board.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSession" />
+	</bean>
+	
+ 	
+ 	<!-- file  -->
+ 	<bean id="sqlSessionFile" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:/egovframework/sqlmap/sql-mapper-config.xml" />
+		<property name="mapperLocations" value="classpath*:/egovframework/sqlmap/file/*.xml" />
+	</bean>	
+ 	
+ 	<bean class="egovframework.rte.psl.dataaccess.mapper.MapperConfigurer">
+		<property name="basePackage" value="hallym.league.file.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFile" />
+	</bean>
+	
+ 	<!-- club -->
+ 	<bean id="sqlSessionClub" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:/egovframework/sqlmap/sql-mapper-config.xml" />
+		<property name="mapperLocations" value="classpath*:/egovframework/sqlmap/club/*.xml" />
+	</bean>
+	 	
+ 	<bean class="egovframework.rte.psl.dataaccess.mapper.MapperConfigurer">
+		<property name="basePackage" value="hallym.club.club.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionClub" />
+	</bean>
+	
+ 	<!-- clubMember -->
+ 	<bean id="sqlSessionClubMember" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:/egovframework/sqlmap/sql-mapper-config.xml" />
+		<property name="mapperLocations" value="classpath*:/egovframework/sqlmap/user/*.xml" />
+	</bean>
+	
+ 	
+ 	<bean class="egovframework.rte.psl.dataaccess.mapper.MapperConfigurer">
+		<property name="basePackage" value="hallym.club.clubmember.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionClubMember" />
+	</bean>
+ 	
+ 	
+ 	<!-- login  -->
+	<bean id="sqlSessionLogin" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource2" />
+		<property name="configLocation" value="classpath:/egovframework/sqlmap/sql-mapper-config.xml" />
+		<property name="mapperLocations" value="classpath*:/egovframework/sqlmap/user/*.xml" />
+	</bean>
+	
+ 	
+ 	<bean class="egovframework.rte.psl.dataaccess.mapper.MapperConfigurer">
+		<property name="basePackage" value="hallym.club.user.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionLogin" />
+	</bean>
+	
+</beans>

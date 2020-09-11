@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hallym.club.board.dao.BoardDAO">
+    
+	<!-- BoardVO -->
+	<!-- 
+	private int club_id;
+	private int board_no;
+	private String board_cd;
+	private String title;
+	private String contents;
+	private int open_cnt;
+	private int bbsAvailable;
+	private String start_date;
+	private String end_date;
+	private String agree_yn;
+	private String input_id;
+	private String input_ip;
+	private String input_date;
+	private String update_id;
+	private String update_ip;
+	private String update_date;
+	private String board_fix; -->
+	<resultMap type="hallym.club.board.vo.BoardVO" id="boardVOResult">
+	    
+	    <result property="club_id" column="CLUB_ID" />
+    	<result property="board_no" column="BOARD_NO" />
+       	<result property="board_cd" column="BOARD_CD" />
+       	<result property="title" column="TITLE" />
+       	<result property="contents" column="CONTENTS" />
+       	<result property="open_cnt" column="OPEN_CNT" />
+       	<result property="bbsAvailable" column="BBSAVAILABLE" />       	   
+       	<result property="start_date" column="START_DATE" />
+       	<result property="end_date" column="END_DATE" />        	
+       	<result property="agree_yn" column="AGREE_YN" />        	
+       	<result property="board_fix" column="BOARD_FIX" />
+       	<result property="input_id" column="INPUT_ID" />
+       	<result property="input_ip" column="INPUT_IP" />
+       	<result property="input_date" column="INPUT_DATE" />
+       	<result property="update_id" column="UPDATE_ID" />
+       	<result property="update_ip" column="UPDATE_IP" />
+       	<result property="update_date" column="UPDATE_DATE" />
+    </resultMap>
+    
+	<select id="getIntroNotice" resultMap="boardVOResult">
+	    SELECT 
+	    	* 
+	    FROM (
+	    	SELECT 
+	    		ROW_NUMBER() OVER (ORDER BY BOARD_FIX DESC, BOARD_NO DESC) RNUM, BOARD.* 
+			FROM 
+				BOARD 
+			WHERE 
+				BBSAVAILABLE = 1 AND CLUB_ID = 1 AND BOARD_CD = '007001') 
+		WHERE 
+			RNUM BETWEEN 1 AND 6 ORDER BY RNUM ASC
+	    
+	    
+	</select>
+    
+
+     
+</mapper>
