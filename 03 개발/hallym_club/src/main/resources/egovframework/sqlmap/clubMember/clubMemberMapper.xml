@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hallym.club.clubmember.dao.ClubMemberDAO">
+    <!-- <resultMap id="ClubVOResult" type="hallym.club.club.vo.ClubVO">
+		 <result property="club_id" column="CLUB_ID" />
+		 <result property="club_nm" column="CLUB_NM" />
+		 <result property="club_gb_cd" column="CLUB_GB_CD" />
+		 <result property="club_at_cd" column="CLUB_AT_CD" />
+		 <result property="cnt" column="CLUB_CNT" />
+		 <result property="club_aim" column="CLUB_AIM" />
+		 <result property="club_active" column="CLUB_ACTIVE" />
+		 <result property="club_room" column="CLUB_ROOM" />
+		 <result property="open_dt" column="OPEN_DT" />
+		 <result property="intro_cont" column="INTRO_CONT" />
+		 <result property="intro_file_nm" column="INTRO_FILE_NM" />
+		 <result property="intro_file_path" column="INTRO_FILE_PATH" />
+		 <result property="intro_save_file_nm" column="INTRO_SAVE_FILE_NM" />
+		 <result property="poster_file_nm" column="POSTER_FILE_NM" />
+		 <result property="poster_save_file_nm" column="POSTER_SAVE_FILE_NM" />
+		 <result property="register_cd" column="REGISTER_CD" />
+		 <result property="topClub_YN" column="TOPCLUB_YN" />
+		 <result property="topClub_rank" column="TOPCLUB_RANK" />
+		 <result property="gb_nm" column="GB_NM"/>
+		 <result property="at_nm" column="AT_NM"/>
+	</resultMap> -->
+   	<insert id="addClubMember" parameterType="map">
+	INSERT INTO 
+		CLUB_MEMBER(
+			CLUB_ID, 
+			STUDENT_ID, 
+			STAFF_CD, 
+			JOIN_DT, 
+			JOIN_CD, 
+			NM,
+			MAJOR, 
+			GRADE, 
+			GENDER_CD,
+			PHONE_NO,
+			EMAIL
+			) 
+		VALUES
+		(
+			(SELECT NVL(MAX(CLUB_ID),0) FROM CLUB),
+			#{id},
+			#{staff_cd},
+			#{join_dt},
+			'008001',
+			#{name},
+			#{major},
+			#{grade},
+			#{gender_cd},
+			#{phone_no},
+			#{email}
+		)
+   	</insert>
+</mapper>

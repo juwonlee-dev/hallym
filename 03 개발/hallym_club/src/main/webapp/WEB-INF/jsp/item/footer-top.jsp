@@ -17,7 +17,7 @@
 	        <li>
 	            <a href="https://www.hallym.ac.kr/sub07/cP1" target="_blank" title="주요민원 연락처 새창열림">주요민원 연락처</a></li>
 	        <li>
-	            <a href="https://hclub.hallym.ac.kr:1443" target="_blank" title="동아리 플랫폼 새창열림">동아리 플랫폼</a></li>
+	            <a href="https://hleague.hallym.ac.kr:2443/" target="_blank" title="동아리 플랫폼 새창열림">Intramural League</a></li>
 	    </ul>
 	</div>
 </body>

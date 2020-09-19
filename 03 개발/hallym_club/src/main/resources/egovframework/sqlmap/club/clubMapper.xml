@@ -24,7 +24,16 @@
 		 <result property="gb_nm" column="GB_NM"/>
 		 <result property="at_nm" column="AT_NM"/>
 	</resultMap>
-	 
+	<select id="getClubName" parameterType="map" resultType="string">
+	    SELECT
+	    	club_nm
+	    FROM
+	    	club
+	    WHERE
+	    	club_nm=#{club_nm}
+	    
+	    
+	</select>
     <select id="getIntroClub" resultMap="ClubVOResult">
         SELECT 
         	* 
@@ -159,5 +168,41 @@
    	    	AND topclub_yn='Y' 
    	    ORDER BY topclub_rank ASC
    	</select>
+   	
+   	<insert id="createClub" parameterType="map">
+	INSERT INTO
+		CLUB(CLUB_ID,
+			 CLUB_NM,
+			 CLUB_GB_CD,
+			 CLUB_AT_CD,
+			 CLUB_CNT,
+			 CLUB_AIM,
+			 CLUB_ACTIVE,
+			 CLUB_ROOM,
+			 OPEN_DT, 
+			 INTRO_FILE_NM, 
+			 INTRO_SAVE_FILE_NM, 
+			 POSTER_FILE_NM,
+			 POSTER_SAVE_FILE_NM, 
+			 REGISTER_CD)
+		VALUES
+		(
+			(SELECT NVL(MAX(CLUB_ID),0)+1 FROM CLUB),
+			#{club_nm},
+			#{club_gb_cd},
+			#{club_at_cd},
+			#{club_cnt},
+			#{club_aim},
+			#{club_active},
+			#{club_room},
+			#{open_dt},
+			#{intro_file_nm},
+			#{intro_save_file_nm},
+			#{poster_file_nm},
+			#{poster_save_file_nm},
+			#{register_cd}
+		)
+   	</insert>
+   	
    	
 </mapper>

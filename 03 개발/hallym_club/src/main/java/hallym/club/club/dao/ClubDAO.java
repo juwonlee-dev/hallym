@@ -15,4 +15,7 @@ public interface ClubDAO {
 	public int getClubListCnt(Map<String, Object> params);
 	public int getTotalPageCnt(Map<String, Object> params);
 	public List<ClubVO> getTopClub(Map<String, Object> params);
+	public void createClub(Map<String, Object> params);
+	public String getClubName(Map<String, Object> params);
+	
 }

@@ -63,13 +63,13 @@
 					</ul>
 				</li>
 				<li>
-				 	<a title="개설" href="#" class="">
+				 	<a title="개설" href="createClub.do" class="">
 				 		<span>개설</span>
 				 			
 				 	</a>
 					<ul class="sub-mn" style="display: none;">
 						<li>
-							<a href="#">동아리 개설 신청</a>
+							<a href="createClub.do">동아리 개설 신청</a>
 						</li>
 					</ul>
 				</li>
@@ -127,9 +127,9 @@
 					<li><a href="/topClub.do?at_cd=002002">비공연</a></li>
 				</ul></li>
 		
-			<li><a href="#">개설</a>
+			<li><a href="createClub.do">개설</a>
 				<ul class="dep2">
-					<li><a href="#">동아리 개설 신청</a></li>
+					<li><a href="createClub.do">동아리 개설 신청</a></li>
 				</ul></li>
 			<li><a href="#">게시판</a>
 				<ul class="dep2">
@@ -164,10 +164,10 @@
 							href="#" class="depth_2 ">비공연</a></li>
 					</ul></li>
 				<li id="menu_4141" class="depth_1"><a
-					href="#" class="depth_1 ">개설</a>
+					href="createClub.do" class="depth_1 ">개설</a>
 					<ul class="depth_2">
 						<li id="menu_4157" class="depth_2 first"><a
-							href="#" class="depth_2 ">동아리 개설 신청</a></li>
+							href="createClub.do" class="depth_2 ">동아리 개설 신청</a></li>
 					</ul></li>
 				<li id="menu_4138" class="depth_1"><a
 					href="#" class="depth_1 ">게시판</a>

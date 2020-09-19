@@ -7,7 +7,7 @@
         http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd">
     
 	<!-- data DB -->	
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
         <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
         <property name="username" value="hr"/>

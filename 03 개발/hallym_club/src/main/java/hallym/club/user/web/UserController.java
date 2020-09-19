@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import hallym.club.user.service.UserService;
 import hallym.club.user.vo.UserVO;
-import hallym.league.utils.CommonUtils;
+import hallym.club.utils.CommonUtils;
 
 @Controller
 public class UserController {
@@ -29,7 +29,7 @@ public class UserController {
 	@RequestMapping(value = "/loginView.do")
 	public ModelAndView ViewLogin(HttpServletRequest request,
 								  ModelAndView mav){
-		mav.setViewName("hallym/BoardListForm");
+		mav.setViewName("hallym/Login");
 		return mav;
 	}
 	
@@ -40,13 +40,16 @@ public class UserController {
 	{
 		HttpSession session = request.getSession();
 		UserVO userVO = (UserVO) session.getAttribute("userVO");
+		System.out.println("[login.do] method = GET");
+		System.out.println("[login.do] userVO: " + userVO);
 		
 		if(userVO == null || userVO.getId().isEmpty()) {
-			mav.setViewName("hallym/login");
+			mav.setViewName("hallym/Login");
 		} else {
 			CommonUtils.showAlert(response, "이미 로그인이 되어있습니다.");
 			mav.setViewName("hallym/index");
 		}
+		System.out.println("[login.do] mav: " + mav);
 		return mav;
 	}
 	
@@ -59,9 +62,7 @@ public class UserController {
 							 @RequestParam(value = "user_id", required = false) String ID,
 							 @RequestParam(value = "password", required = false) String PASSWORD,
 							 @RequestParam(value = "chk_id", required = false) String chk_id) {
-		
 		HttpSession session = request.getSession();
-		
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("GBN", GBN);
 		params.put("ID", ID);
@@ -88,14 +89,13 @@ public class UserController {
 //			response.addCookie(cookie);
 //		}
 		
-		
 		if(result.equalsIgnoreCase("F")) {
-			result = "hallym/login";
+			result = "hallym/Login";
 			CommonUtils.showAlert(response, "아이디 또는 비밀번호가 올바르지 않습니다.");
 			System.err.println("[login.do] 아이디 또는 비밀번호가 올바르지 않습니다.");
 			
 		} else if(result.equalsIgnoreCase("E")) {
-			result = "hallym/login";
+			result = "hallym/Login";
 			CommonUtils.showAlert(response, "알 수 없는 오류가 발생했습니다.","index.do");
 			System.err.println("[login.do] 알 수 없는 오류가 발생했습니다.");
 		} else {
@@ -110,12 +110,9 @@ public class UserController {
 	public ModelAndView logoutAction(HttpServletRequest request,
 							HttpServletResponse response,
 							ModelAndView mav) throws Exception {
-		
 		HttpSession session = request.getSession();
 		session.invalidate();
-
-		mav.setViewName("hallym/login");
-		
+		mav.setViewName("hallym/Login");
 		response.setContentType("text/html; charset=UTF-8");
         PrintWriter out = response.getWriter();
 		out.println("<script>");
@@ -136,7 +133,7 @@ public class UserController {
 		HttpSession session = request.getSession();
 		session.invalidate();
 
-		mav.setViewName("hallym/login");
+		mav.setViewName("hallym/Login");
 		
 		response.setContentType("text/html; charset=UTF-8");
         PrintWriter out = response.getWriter();

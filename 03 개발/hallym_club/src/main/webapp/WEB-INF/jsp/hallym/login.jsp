@@ -71,10 +71,10 @@
 		<li><a href="#jwxe_sub_menu" >서브메뉴 바로가기</a></li>
 	</ul>
 	<div class="sub-wrap">
-		<%-- <header>
+		<header>
 			<div class="top-header-wrap"><jsp:include page="/WEB-INF/jsp/item/top-util.jsp"/></div>
 			<div class="bottom-header-wrap"><jsp:include page="/WEB-INF/jsp/item/header.jsp"/></div>
-		</header> --%>
+		</header> 
 		<div class="sub-visual-wrap"></div>
 		<div class="path-wrap">
             <div class="path-box">
@@ -168,10 +168,10 @@
             </div>
         </div>
 		<!--마지막페이지-->
-		<%-- <footer>
+		 <footer>
 			<div class="top-footer-wrap"><jsp:include page="/WEB-INF/jsp/item/footer-top.jsp"/></div>
 			<div class="bottom-footer-wrap"><jsp:include page="/WEB-INF/jsp/item/footer.jsp"/></div>
-		</footer> --%>
+		</footer>
 	</div>
 	<noscript><p>이 사이트는 자바스크립트를 지원하지 않으면 정상적으로 보이지 않을수 있습니다.</p></noscript>
 </body>

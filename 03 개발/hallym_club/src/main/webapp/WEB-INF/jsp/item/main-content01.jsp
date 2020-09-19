@@ -57,7 +57,7 @@
 							<div class="thm">
 								<img class="logo"
 									src="upload/club/${item.intro_save_file_nm}"
-									onerror="this.src='image/error.png'" alt="">
+									onerror="this.src='images/error/error.png'" alt="">
 							</div>
 							
 							

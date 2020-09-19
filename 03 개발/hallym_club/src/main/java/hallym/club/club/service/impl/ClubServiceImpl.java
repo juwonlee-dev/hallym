@@ -46,6 +46,16 @@ public class ClubServiceImpl implements ClubService{
 	public List<ClubVO> getTopClub(Map<String, Object> params) {
 		return clubDAO.getTopClub(params);
 	}
+
+	@Override
+	public void createClub(Map<String, Object> params) {
+		clubDAO.createClub(params);
+	}
+
+	@Override
+	public String getClubName(Map<String, Object> params) {
+		return clubDAO.getClubName(params);
+	}
 	
 	
 

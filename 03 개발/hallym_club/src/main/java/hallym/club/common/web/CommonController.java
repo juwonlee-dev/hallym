@@ -30,7 +30,7 @@ public class CommonController {
 	
 	
 	@RequestMapping(value = "/index.do")
-	public ModelAndView IndexFormSetup(HttpServletRequest request,
+	public ModelAndView indexFormSetup(HttpServletRequest request,
 							HttpServletResponse response,
 							ModelAndView mav)
 	{
@@ -40,31 +40,18 @@ public class CommonController {
 		if (session.getAttribute("userVO") != null) 
 			userVO = (UserVO) session.getAttribute("userVO");
 		
-		
 		List<BoardVO> boardList = null;
 		List<ClubVO> clubList = null;
 		
-		boardList = boardService.getIntroNotice();
+		boardList = boardService.getIntroNotice();		
 		
-		
-		if(userVO == null) {
-			
-			clubList = clubService.getIntroClub();
-			System.err.println("clubList: " + clubList);
-			
-		}
+		if(userVO == null) { clubList = clubService.getIntroClub(); }
 		else {
 			Map<String, Object> clubParams = new HashMap<String, Object>();
 			clubParams.put("id", userVO.getId());
-			try {
-				clubList = clubService.getIntroClubLogin(clubParams);
-				System.err.println("clubList: " + clubList);
-			} catch (Exception e) {
-				System.out.println("[index.do getIntroClub(clubParams)] clublist Null Error");
-			}
-			
+			try { clubList = clubService.getIntroClubLogin(clubParams); } 
+			catch (Exception e) { System.out.println("[index.do getIntroClub(clubParams)] clublist Null Error"); }
 		}
-		System.out.println("[index.do] userVO: " + userVO);
 		mav.addObject("userVO", userVO);
 		mav.addObject("boardList", boardList);
 		mav.addObject("clubList", clubList);
