@@ -22,6 +22,78 @@ public class BoardServiceImpl implements BoardService{
 		/* 메인화면 공지 조회 */
 		return boardDAO.getIntroNotice();
 	}
+
+	@Override
+	public List<BoardVO> getBoardList(Map<String, Object> params) {
+		return boardDAO.getBoardList(params);
+	}
+
+	@Override
+	public int getTotalPageCnt(Map<String, Object> params)  {
+		int totalPageCnt = 0;
+		
+		try {
+			totalPageCnt = boardDAO.getTotalPageCnt(params);
+		} catch (Exception e) {
+			System.err.println("[BoardServiceImpl] getTotalPageCnt ERR: " + e.getMessage());
+		}
+				
+		return totalPageCnt;
+	}
+
+	@Override
+	public int getBoardListCnt(Map<String, Object> params)  {
+		int boardListCnt = 0;
+		
+		try {
+			boardListCnt = boardDAO.getBoardListCnt(params);
+		} catch (Exception e) {
+			System.err.println("[BoardServiceImpl] getBoardListCnt ERR: " + e.getMessage());
+		}
+		
+		
+		return boardListCnt;
+	}
+
+	@Override
+	public String checkAuth(Map<String, Object> params) {
+		return boardDAO.checkAuth(params);
+	}
+
+	@Override
+	public void increaseOpenCnt(Map<String, Object> params) {
+		boardDAO.increaseOpenCnt(params);
+	}
+
+	@Override
+	public BoardVO getBoard(Map<String, Object> params) {
+		return boardDAO.getBoard(params);
+	}
+
+	@Override
+	public void addBoard(Map<String, Object> params) {
+		boardDAO.addBoard(params);
+	}
+
+	@Override
+	public void updateAttach(Map<String, Object> params) {
+		boardDAO.updateAttach(params);
+	}
+
+	@Override
+	public void deleteBoard(Map<String, Object> params) {
+		boardDAO.deleteBoard(params);
+	}
+
+	@Override
+	public void deleteBoardReal(Map<String, Object> params) {
+		boardDAO.deleteBoardReal(params);
+	}
+
+	@Override
+	public void updateBoard(Map<String, Object> params) {
+		boardDAO.updateBoard(params);
+	} 
 	
 
 

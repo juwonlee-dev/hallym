@@ -18,6 +18,7 @@ public class BoardVO {
 	private String update_ip;
 	private String update_date;
 	private String board_fix;
+	
 
 	private int row_count;
 

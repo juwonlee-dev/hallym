@@ -10,7 +10,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<title>우수동아리</title>
+	<title>게시판</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
@@ -52,33 +52,29 @@
 	<script type = "text/javascript" src="${pageContext.request.contextPath}/res/league/js/user.js"></script>
 	
 	<script type="text/javascript">	        
-        function getPage(data1, data2, data3, data4) {
-            var urlpaging = "/topClub.do?";
+	    function writeForm(){
+	            location.href="/BoardWriteForm.do";   
+	    }
+        
+        function getPage(data1, data2, data3) {
+            var urlpaging = "/BoardSearch.do?";
         	var page = data1; /* 페이지 번호 */
-        	var opt = data2; /* gb_cd*/
-        	var opt2 = data3; /* at_cd*/
-        	var opt3 = data4; /* search */
-        	var link = urlpaging + "&page=" + page;
-        	
-        	if(opt != null) {
-        		link += "&gb_cd=" + opt;
-        	}
-        	if(opt2 != null) {
-        		link += "&at_cd=" + opt2;
-        	}
-        	if(opt3 != null) {
-        		link += "&search=" + opt3;
+        	var bdc = data2; /* board_cd */
+        	var cdn = data3; /* title */
+        	var link = urlpaging + "page=" + page + "&bdc=" + bdc  
+        	if(data3 != null){
+        		link += "&cdn=" + cdn;
         	}
         	
+        	//link += "&bdc="+ opt2 + "&condition=" + (data3 == null)?"":cdn;
+        	//link = urlpaging+"bdc=007001&page="+page + (data3 == null)?"":"&cdn="+cdn;
         	location.href = link; 
         }
         
         $(document).ready(function() {
-        	var at_cd = "<%=session.getAttribute("at_cd") %>"
-        	<%System.err.println("[topClub.jsp]: " + session.getAttribute("at_cd")); %>
+        	var board_cd = "<%=session.getAttribute("board_cd") %>"
         	var sidemenu = document.querySelector("#item_body > div > div.sub-container > div.lnb-wrap > div > ul").getElementsByTagName('li');
         	var activeNum = 0;
-        	<%System.err.println("[topClub.jsp] at_cd: " +session.getAttribute("at_cd")); %>
         	for(var i=0; i<sidemenu.length; i++) {
         		if(sidemenu[i].className == "active") {
         			activeNum = i;
@@ -91,30 +87,41 @@
         	
     		sidemenu[activeNum].classList.remove('active');
     		sidemenu[activeNum].getElementsByTagName("a")[0].classList.remove("active");
-        	switch(at_cd) {
-        	case "002001":
-        		msg = "공연";
-        		msg2 = "우수동아리";
-        		//code = 1;
+        	switch(board_cd) {
+        	case "007001":
+        		msg = "공지사항";
+        		msg2 = "게시판";
+        		code = 1;
         		sidemenu[0].classList.add('active');
         		sidemenu[0].getElementsByTagName("a")[0].classList.add("active");
         		break;
-           	case "002002":
-           		msg = "비공연";
-           		msg2 = "우수동아리";
-           		//code = 1;
-           		sidemenu[0].classList.add('active');
-           		sidemenu[0].getElementsByTagName("a")[0].classList.add("active");
-           		break;
-        	
+        	case "007002":
+        		msg = "자유게시판";
+        		msg2 = "게시판";
+        		code = 1;
+        		sidemenu[1].classList.add('active');
+        		sidemenu[1].getElementsByTagName("a")[0].classList.add("active");
+        		break;
+        	case "007003":
+        		msg = "사진";
+        		msg2 = "게시판";
+        		code = 1;
+        		sidemenu[2].classList.add('active');
+        		sidemenu[2].getElementsByTagName("a")[0].classList.add("active");
+        		break;
+        	case "007004":
+        		msg = "일정";
+        		msg2 = "게시판";
+        		code = 1;
+        		sidemenu[3].classList.add('active');
+        		sidemenu[3].getElementsByTagName("a")[0].classList.add("active");
+        		break;
+
         	default:
-        		msg = "비공연22";
-   				msg2 = "우수동아리22";
-   				sidemenu[0].classList.add('active');
-           		sidemenu[0].getElementsByTagName("a")[0].classList.add("active");
+        		msg = "Null";
+   				msg2 = "Null";
         		break;
         	}
-       		
         	document.querySelector("#item_body > div > div.sub-container > div.lnb-wrap > div > div > div > h2").innerText = msg2;
         	document.querySelector("#item_body > div > div.path-wrap > div > div > ul > li:nth-child(2)").innerText = msg2;
         	document.querySelector("#item_body > div > div.path-wrap > div > div > ul > li:nth-child(3)").innerText = msg;
@@ -132,12 +139,15 @@
 	<%
 		UserVO cuserVO = null;
 		String cuserId = null;
+		String auth_code = null;
 		if (session.getAttribute("userVO") != null) {
 			cuserVO = (UserVO) session.getAttribute("userVO");
 			cuserId = cuserVO.getId();
+			//auth_code = (String) session.getAttribute("auth_code");
 		}
 	%>
-	
+	<c:set var="board_cd" value="${board_cd}"/>
+	<c:set var="writerAuthList" value="${writerAuthList}"/>
 	<ul id="go_main">
 		<li><a href="#jwxe_main_content">본문 바로가기</a></li>
 	</ul>
@@ -152,8 +162,8 @@
                 <div class="jwxe_navigator jw-relative">
                     <ul>
                         <li><a href="/index.do"><img src="images/common/ico-home.png" alt="home"></a></li>
-                        <li>구분</li>
-                        <li>우수동아리</li>
+                        <li>게시판</li>
+                        <li>공지사항</li>
                     </ul>
                 </div>
             </div>
@@ -164,21 +174,31 @@
                 <div class="lnb">
                     <div class="lnb-title-box">
                         <div>
-                            <h2>구분</h2>
+                            <h2>게시판</h2>
                         </div>
                     </div>
                     <ul class="lnb-menu jwxe-menu-ul">
-                    
-<%--                     <c:choose>
-                    	<c:when test="${(at_cd eq '002001') or (at_cd eq '002002') or (at_cd eq '002003') or (at_cd eq '002004') 
-                    	or (at_cd eq '002005') or (at_cd eq '002006') or (at_cd eq '002007')}">
---%>	                        
-						<li class="active"><a href="/topClub.do?at_cd=002001" class="active">공연</a></li>
-                        <li><a href="/topClub.do?at_cd=002002">비공연</a></li>
-                      
-                        
-                        <%-- </c:when>
-                   </c:choose> --%>
+                    <%-- <c:choose>
+                    	<c:when test="${(board_cd eq '007001') or (board_cd eq '007002') or (board_cd eq '007003') or (board_cd eq '007004')}">
+	                         --%>
+	                        <li class="active"><a href="/BoardSearch.do?&bdc=007001" class="active">공지사항</a></li>
+	                        <!-- <li><a href="/BoardSearch.do?&bdc=007102">Photos</a></li>
+	                        <li><a href="/BoardSearch.do?&bdc=007103">경기영상</a></li>
+	                        <li><a href="/BoardSearch.do?&bdc=007104">News</a></li> -->
+                        <%-- </c:when> --%>
+                       
+                        <%-- <c:otherwise> --%>
+                        	<!-- <li class="active"><a href="/BoardSearch.do?&bdc=007001" class="active">축구</a></li>
+							<li><a href="/BoardSearch.do?&bdc=007002">농구</a></li>
+							<li><a href="/BoardSearch.do?&bdc=007003">야구</a></li>
+							<li><a href="/BoardSearch.do?&bdc=007006">족구</a></li>
+							<li><a href="/BoardSearch.do?&bdc=007004">배드민턴</a></li>
+							<li><a href="/BoardSearch.do?&bdc=007010">테니스</a></li>
+							<li><a href="/BoardSearch.do?&bdc=007009">피구</a></li>
+							<li><a href="/BoardSearch.do?&bdc=007007">풋살</a></li>
+							<li><a href="/BoardSearch.do?&bdc=007008">탁구</a></li> -->
+                        <%-- </c:otherwise>
+                    </c:choose> --%>
                     </ul>
                 </div>
             </div>
@@ -187,7 +207,7 @@
             <div class="content-wrap">
                 <div class="title">
                     <div class="jwxe_mnu_template jw-relative page-title">
-                        <h3>우수동아리</h3>
+                        <h3>공지사항</h3>
                     </div>
                 </div>
                 
@@ -203,34 +223,23 @@
                     <div class="ko board list co-board type01">
                         <div class="common">
                             <!--검색창-->
-                            <!-- <div class="bn-search01 type01">
-                                <form method="post" action="/clubSearch.do" name="clubForm" enctype="multipart/form-data">
+                            <div class="bn-search01 type01">
+                                <form method="post" action="/BoardSearch.do" name="boardForm" enctype="multipart/form-data">
                                     <fieldset class="b-search-wrap">
                                         <legend class="hide">게시글 검색</legend>
-                                        <div class="b-sel-box b-cate-basic" style="z-index: 0;">
-                                        	<select class="b-sel-title" name="gb_cd">
+                                        <input type="hidden" name="mode" value="list">
+                                        <!-- <div class="b-sel-box b-cate-basic" style="z-index: 0;">
+                                        	<select class="b-sel-title" name="o1">
                                         		<option class=searchOption value="0">전체</option>
-								                <option class=searchOption value="001001">증앙동아리</option>
-								                <option class=searchOption value="001002">과동아리</option>
+								                <option class=searchOption value="1">제목</option>
+								                <option class=searchOption value="2">작성자(번호)</option>
 								            </select>
-								        </div>
-                                        <div class="b-sel-box b-cate-basic" style="z-index: 0;">
-                                        	<select class="b-sel-title" name="at_cd">
-								                <option class=searchOption value="002">전체</option>
-                                        		<option class=searchOption value="002001">공연</option>
-								                <option class=searchOption value="002002">학술</option>
-								                <option class=searchOption value="002003">취미예술</option>
-								                <option class=searchOption value="002004">종교</option>
-								                <option class=searchOption value="002005">체육</option>
-								                <option class=searchOption value="002006">봉사</option>
-								                <option class=searchOption value="002007">기타</option>
-								            </select>
-                                        </div>
+								        </div> -->
                                         <label for="search_val" class="b-sel-label"><span>검색어</span></label>
-                                        <input type="text" id="search_val" name="search" value placeholder="검색어를 입력해 주세요">
+                                        <input type="text" id="search_val" name="cdn" value placeholder="검색어를 입력해 주세요">
                                         <button type="submit" class="b-sel-btn">검색</button>
                                     </fieldset>
-                                </form> -->
+                                </form>
                             </div>
                             <!--검색창-->
 
@@ -238,8 +247,8 @@
                             <div class="bn-list-common01 type01 bn-common bn-common">
                                 <div class="b-top-info-wrap">
                                 </div>
-                                <table summary="구분" class=board-table>
-                                    <caption class="hide">구분 </caption>
+                                <table summary="게시판 > Notice" class=board-table>
+                                    <caption class="hide">게시판 > Notice</caption>
                                     <colgroup>
                                         <col class="b-col01">
                                         <col class="b-col02">
@@ -250,71 +259,127 @@
                                     </colgroup>
                                     <thead>
                                         <tr>
-                                            <th scope="col">순위</th>
-                                            <th scope="col">동아리명</th>
-                                            <th scope="col">회장</th>
-                                            <th scope="col">회원수</th>
-                                            <th scope="col" class="b-no-right">개설년도</th>
-                                            <th scope="col">기타</th>
+                                            <th scope="col">번호</th>
+                                            <th scope="col">제목</th>
+                                            <th scope="col">작성자</th>
+                                            <th scope="col">작성일</th>
+                                            <th scope="col" class="b-no-right">조회</th>
+                                            <th scope="col">파일</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <c:forEach items='${clubList}' var="item" varStatus="status">
+                                        <c:forEach items='${boardList}' var="item" varStatus="status">
 									        <tr class>
-									        	<!-- 순위  -->
 									            <td class="b-num-box" id="id_${status.count}">
-									            ${status.count}
+									            	<c:choose>
+									            		<c:when test='${item.board_fix eq "Y"}'>
+									            			<img src="images/board/ico-notice01.png" border="0" valign="middle" alt="고정글">
+									            		</c:when>
+									            		<c:otherwise>
+									            			${item.board_no}
+									            		</c:otherwise>
+									            	</c:choose>
 									            </td>
-									            <td class="b-td-right">
+									            <td class="b-td-left">
 	                                                <div class="b-title-box">
-	                                                
-	                                            		
-	                                            		<!-- 동아리명 -->
-	                                                    <a href="#" title="${item.club_nm}">
-	                                                    	${item.club_nm}
+	                                                    <a href="/BoardReadForm.do?num=${item.board_no}" title="${item.title} 자세히 보기">
+	                                                    	${item.title}
 	                                                    </a>
 	                                                    <div class="b-etc-box"></div>
 	                                                    <div class="b-m-con">
-	                                                    	<!-- 회장 -->
 	                                                        <span class="b-writer">
-	                                                        ${item.president}
-	                                                        <%-- 	${item.cnt} --%>
+	                                                        	<c:forEach items='${writerList}' var="user" varStatus="status2">
+	                                                        		<c:if test="${status.index eq status2.index}">
+	                                                        			<c:forEach items='${writerAuthList}' var="userAuth" varStatus="status3">
+	                                                        				<c:if test="${status2.index eq status3.index}">
+	                                                        					<c:set var="tmpAuth" value="${userAuth}"/>
+	                                                        						<%
+                                                        							String tmpAuth = (String) pageContext.getAttribute("tmpAuth");
+													                           		String[] allowAuth = {"010001", "010002", "010003"};
+													                           		if(Arrays.asList(allowAuth).contains(tmpAuth)) {
+														                           	%>
+														                            	관리자(${user.name})
+														                            <%
+													                        		} else {
+														                        	%>
+															                        	${user.name}
+														                        	<%
+													                        		}
+														                            %>
+	                                                        				</c:if>
+	                                                        			</c:forEach>
+	                                                        		</c:if>
+	                                                        	</c:forEach>
 	                                                        </span>
-	                                                        <!-- 개설년도 -->
 	                                                        <span class="b-date">
-	                                                        	 ${item.open_dt}
+	                                                        ${item.input_date}
+	                                                        	<%-- <c:choose>
+	                                                        		<c:when test='${empty item.update_date}'>
+	                                                        			<fmt:formatDate value="${item.input_date}" pattern="yy.MM.dd" />
+	                                                        		</c:when>
+	                                                        		<c:otherwise>
+	                                                        			<fmt:formatDate value="${item.update_date}" pattern="yy.MM.dd" />
+	                                                        		</c:otherwise>
+	                                                        	</c:choose> --%>
 	                                                        </span>
-	                                                        <span class="hit">인원  ${item.cnt}</span>
-	                                                        
+	                                                        <span class="hit">조회수 ${item.open_cnt}</span>
+	                                                    	<span class="b-file">첨부파일</span>
 	                                                    </div>
 	                                                </div>
 	                                            </td>
-	                                            <!-- 회장 -->
 	                                            <td>
-	                                            ${item.president}
+                                                   	<c:forEach items='${writerList}' var="user" varStatus="status2">
+                                                   		<c:if test="${status.index eq status2.index}">
+                                                   			<c:forEach items='${writerAuthList}' var="userAuth" varStatus="status3">
+                                                   				<c:if test="${status2.index eq status3.index}">
+                                                   					<c:set var="tmpAuth" value="${userAuth}"/>
+                                                   						<%
+                                               							String tmpAuth = (String) pageContext.getAttribute("tmpAuth");
+										                           		String[] allowAuth = {"010001", "010002", "010003"};
+										                           		if(Arrays.asList(allowAuth).contains(tmpAuth)) {
+											                           	%>
+											                            	관리자(${user.name})
+											                            <%
+										                        		} else {
+											                        	%>
+												                        	${user.name}
+											                        	<%
+										                        		}
+											                            %>
+                                                   				</c:if>
+                                                   			</c:forEach>
+                                                   		</c:if>
+                                                   	</c:forEach>
 	                                            </td>
-	                                            <!-- 인원  -->
 	                                            <td>
-												${item.cnt}
+	                                            ${item.input_date}
+													<%-- <c:choose>
+                                                   		<c:when test='${empty item.update_date}'>
+                                                   			<fmt:formatDate value="${item.input_date}" pattern="yy.MM.dd" />
+                                                   		</c:when>
+                                                   		<c:otherwise>
+                                                   			<fmt:formatDate value="${item.update_date}" pattern="yy.MM.dd" />
+	                                                    </c:otherwise>
+                                                   	</c:choose> --%>
 												</td>
-	                                            <td>${item.open_dt}</td>
-	                                            <form method="post" action="/clubSignUpForm.do"
-	                                                	target="w" onsubmit="return postPopUp();">
+	                                            <td>${item.open_cnt}</td>
 	                                            <td class="b-no-right">
-	                                            
-	                                            	<span>
-	                                                	<input type="hidden" name="club_id" value="${item.club_id}">
-														<input type="hidden" name="club_nm" value="${item.club_nm}">
-	                                            		<input type="submit" value="가입신청" class="b-sel-btn">
-	                                               
-	                                            	</span>
-									            </td>
-									            </form>
+	                                            	<%-- <c:choose>
+									            		<c:when test='${item.ATTACH_YN eq "Y"}'>
+									            			<div class="b-file-box">
+		                                                    	<span class="hide">첨부파일</span>
+		                                                	</div>	
+									            		</c:when> --%>
+									            		<%-- <c:otherwise> --%>
+									            			<span>-</span>
+									            		<%-- </c:otherwise>
+									            	</c:choose> --%>
+	                                            </td>
 									        </tr>  
 								    	</c:forEach>
-								    	<c:if test="${clubListCount lt 1}">
+								    	<c:if test="${boardListCount lt 1}">
 									    	<tr>
-												<td class="b-no-post" colspan="6">검색된 동아리가 없습니다.</td> 
+												<td class="b-no-post" colspan="6">등록된 글이 없습니다.</td>
 											</tr>
 										</c:if>
                                     </tbody>
@@ -326,15 +391,15 @@
                             <div class="b-paging01 type03">
                                 <div class="b-paging01 type01">
                                     <div class="b-paging-wrap">
-										<%-- <ul>
+										<ul>
 											<c:if test="${totalPage > 1 and currPage ne prevPage}">
 												<li class="first pager">
-													<a href="javascript:getPage(1,'${gb_cd}','${at_cd}','${search}');" title="첫 페이지로 이동하기">
+													<a href="javascript:getPage(1,'${board_cd}','${condition}');" title="첫 페이지로 이동하기">
 														<span class="hide">첫 페이지로 이동하기</span>
 													</a>
 												</li>
 												<li class="prev pager">
-													<a href="javascript:getPage(${prevPage},'${gb_cd}','${at_cd}','${search}');" title="이전 페이지로 이동하기">
+													<a href="javascript:getPage(${prevPage},'${board_cd}','${condition}');" title="이전 페이지로 이동하기">
 														<span class="hide">이전 페이지로 이동하기</span>
 													</a>
 												</li>
@@ -343,34 +408,33 @@
 												<li>
 													<c:choose>
 							                        	<c:when test="${i eq currPage}">
-							                        		<a class="active" href="javascript:getPage(${i},'${gb_cd}','${at_cd}','${search}');">${i}</a>
+							                        		<a class="active" href="javascript:getPage(${i},'${board_cd}','${condition}');">${i}</a>
 							                        	</c:when>
 							                        	<c:otherwise>
-							                        		<a class href="javascript:getPage(${i},'${gb_cd}','${at_cd}','${search}');">${i}</a>
+							                        		<a class href="javascript:getPage(${i},'${board_cd}','${condition}');">${i}</a>
 							                        	</c:otherwise>
 							                        </c:choose>
 						                        </li>
 											</c:forEach>
 											<c:if test="${totalPage > 1 and currPage ne nextPage}">
 												<li class="next pager">
-													<a href="javascript:getPage(${nextPage},'${gb_cd}','${at_cd}','${search}');" title="다음 페이지로 이동하기">
+													<a href="javascript:getPage(${nextPage},'${board_cd}','${condition}');" title="다음 페이지로 이동하기">
 														<span class="hide">다음 페이지로 이동하기</span>
 													</a>
 												</li>
 												<li class="last pager">
-													<a href="javascript:getPage(${totalPage},'${gb_cd}','${at_cd}','${search}');" title="마지막 페이지로 이동하기">
+													<a href="javascript:getPage(${totalPage},'${board_cd}','${condition}');" title="마지막 페이지로 이동하기">
 														<span class="hide">마지막 페이지로 이동하기</span>
 													</a>
 												</li>
 											</c:if>
-											
-										</ul> --%>
+										</ul>
 									</div>
                                 </div>
                             </div>
                             <!--공지사항2-->
                             <div class="b-btn-wrap">
-                       		<%-- <%
+                       		<%
                            	if (cuserId != null) {
                            		String board_cd = (String) pageContext.getAttribute("board_cd");
                            		String[] bList = {"007101", "007102", "007103", "007104"};
@@ -378,18 +442,19 @@
                            		//System.out.println(auth_code);
                            		System.out.println(board_cd);
                         		if(Arrays.asList(bList).contains(board_cd)) {
-                            		if(Arrays.asList(allowAuth).contains(auth_code)) {
+                            		//if(Arrays.asList(allowAuth).contains(auth_code)) {
                            	%>
-                            	<a class="b-btn-type01 b-btn-c-blue" href="javascript:writeForm();">등록</a>
+                            	<!-- <a class="b-btn-type01 b-btn-c-blue" href="javascript:writeForm();">등록</a> -->
                             <%
                             		}
-                        		} else {
+                        		//} 
+                        		else {
                         	%>
                         		<a class="b-btn-type01 b-btn-c-blue" href="javascript:writeForm();">등록</a>
                         	<%
                         		}
                             }
-                            %> --%>
+                            %>
                             </div>
                             <form name=admin-form method=post action="">
                                 <input type="hidden" name="method">
@@ -407,31 +472,7 @@
 		<footer>
 			<div class="top-footer-wrap"><jsp:include page="/WEB-INF/jsp/item/footer-top.jsp"/></div>
 			<div class="bottom-footer-wrap"><jsp:include page="/WEB-INF/jsp/item/footer.jsp"/></div>
-	</footer>
-		<script>
-	var winRef;
-	function postPopUp() {
-	<%if (cuserId == null) {%>
-		alert("로그인이 필요합니다.");
-		location.href='/login.do';
-		return false;
-	<%} else {%>
-	if(winRef == null){
-		winRef = window.open("/clubSignUpForm.do", 'w', 'width=900,height=650,location=no,status=no');
-		return true;
-		
-	} else {
-		if(winRef.closed == false){
-			winRef.focus();
-			return true;
-		}
-		else {
-			winRef = window.open("/clubSignUpForm.do", 'w', 'width=900,height=650,location=no,status=no');
-			return true;
-		}
-	}
-	<%}%>
-	}
-</script>
+		</footer>
+	</div>
 </body>
 </html>

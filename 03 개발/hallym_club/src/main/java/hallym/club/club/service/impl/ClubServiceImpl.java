@@ -56,6 +56,7 @@ public class ClubServiceImpl implements ClubService{
 	public String getClubName(Map<String, Object> params) {
 		return clubDAO.getClubName(params);
 	}
+
 	
 	
 

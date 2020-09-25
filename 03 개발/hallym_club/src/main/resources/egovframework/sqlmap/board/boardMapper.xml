@@ -57,7 +57,195 @@
 	    
 	    
 	</select>
+	<select id="getBoardList" parameterType="map" resultMap="boardVOResult">
+		SELECT
+			*
+		FROM 
+			(
+				SELECT 
+					ROW_NUMBER() OVER 
+						(ORDER BY BOARD_FIX DESC, BOARD_NO DESC)
+						RNUM, BOARD.* 
+				FROM 
+					BOARD 
+				WHERE 
+					BBSAVAILABLE = '1' AND 
+					TITLE LIKE '%' || #{title} || '%' AND
+					CLUB_ID = #{club_id} AND 
+					BOARD_CD = #{board_cd}) 
+		WHERE 
+			RNUM BETWEEN #{startNum} AND #{endNum} ORDER BY RNUM ASC
+	    
+	</select>
     
+	<select id="getBoardListCnt" parameterType="map" resultType="int">
+	    SELECT
+			COUNT(BOARD_NO)
+		FROM
+			BOARD
+		WHERE
+			BBSAVAILABLE = '1' AND 
+			TITLE LIKE '%' || #{title} || '%' AND
+			CLUB_ID = #{club_id} AND 
+			BOARD_CD = #{board_cd}
+	    
+	</select>
+	
+	<select id="getTotalPageCnt" parameterType="map" resultType="int">
+	    SELECT
+			distinct CEIL(
+				(
+					SELECT
+						NVL(COUNT(BOARD_NO), 0)
+					FROM (
+						SELECT BOARD_NO
+						FROM BOARD
+						WHERE
+							BBSAVAILABLE = '1' AND 
+							TITLE LIKE '%' || #{title} || '%' AND
+							CLUB_ID = #{club_id} AND 
+							BOARD_CD = #{board_cd}
+					)
+				)
+			/ #{limit} ) as page
+		FROM
+			BOARD
+	    
+	    
+	</select>
+	
+	<!-- 게시글 조회수 증가 -->
+     <update id="increaseOpenCnt" parameterType="map">
+     		
+	 	UPDATE
+	 		BOARD
+	 	SET
+	 		OPEN_CNT = NVL(OPEN_CNT, 0) + 1
+	 	WHERE
+	 		BOARD_CD = #{board_cd}
+	 		AND BOARD_NO = #{board_no}
+      
+     </update>
+     
+     <!-- 게시글 가져오기 -->
+     <select id="getBoard" parameterType="map" resultMap="boardVOResult">
+		
+         SELECT
+         	*
+         FROM (
+         	SELECT
+         		ROW_NUMBER()
+         		OVER(ORDER BY board_no DESC) RNUM,
+         		BOARD.*
+         	FROM
+         		BOARD
+         	WHERE
+         		BOARD_CD = #{board_cd}
+         	<if test="opt != 1">
+         	    AND BOARD_NO = #{board_no}
+         	</if>
+         )
+         WHERE 1=1
+         <if test="opt == 1">
+         	AND RNUM = 1
+         </if>
 
+     </select>
+	
+	<select id="checkAuth" parameterType="map" resultType="string">
+		SELECT CK_USER_AUTH(#{ID}) vRESULT FROM DUAL
+     </select>
+     
+	<insert id="addBoard" parameterType="map">
+
+        INSERT INTO
+        	BOARD(
+        		CLUB_ID,
+        		BOARD_CD,
+				BOARD_NO,
+				TITLE,
+				CONTENTS,
+				BOARD_FIX,
+				ATTACH_YN,
+				START_DATE,
+				END_DATE,
+				INPUT_ID,
+				INPUT_IP,
+				INPUT_DATE
+        	)
+         	
+         	VALUES(
+         		#{club_id},
+         		#{board_cd},
+         		(SELECT NVL( MAX(board_no), 0) + 1 FROM BOARD WHERE BOARD_CD = #{board_cd}),
+         		#{title},
+         		#{contents},
+         		#{fix_yn},
+         		#{attach_yn}, 
+         		#{start_date},
+         		#{end_date},
+         		#{input_id},
+         		#{input_ip},
+         		SYSDATE
+         	)
+         	
+     </insert>
+    <!-- 게시글 수정 -->
+     <update id="updateBoard" parameterType="map">
+					
+		UPDATE
+			BOARD
+		SET
+			TITLE = #{title},
+			CONTENTS = #{contents},
+			BOARD_FIX = #{fix_yn},
+			ATTACH_YN = #{attach_yn},
+			START_DATE = #{start_date},
+			END_DATE = #{end_date},
+			UPDATE_ID = #{update_id},
+			UPDATE_IP = #{update_ip},
+			UPDATE_DATE = SYSDATE
+		WHERE
+			BOARD_CD = #{board_cd} AND 
+			BOARD_NO = #{board_no}
+			      
+     </update> 
+	
+	
+      <!-- 게시글 삭제(원본 백업됨) -->
+     <update id="deleteBoard" parameterType="map">
+     	
+     	UPDATE
+     		BOARD
+     	SET
+     		BBSAVAILABLE = 0
+     	WHERE
+     		BOARD_CD = #{board_cd}
+     		AND BOARD_NO = #{board_no}
+     	
+     </update>
+     
+     <!-- 게시글 삭제(영구) -->
+     <delete id="deleteBoardReal" parameterType="map">
+     	
+   		DELETE
+   		FROM
+   			BOARD
+   		WHERE
+   			BOARD_CD = #{board_cd}
+   			AND BOARD_NO = #{board_no}
+     	
+     </delete>
+     
+	<update id="updateAttach" parameterType="map">
+	    UPDATE
+	    	BOARD
+	    SET
+	    	ATTACH_YN = #{attach_yn}
+	    WHERE
+	    	CLUB_ID = #{club_id} AND
+	    	BOARD_NO = #{board_no}
+	    
+	</update>
      
 </mapper>

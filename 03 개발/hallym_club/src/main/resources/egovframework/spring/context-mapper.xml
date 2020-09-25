@@ -22,8 +22,9 @@
 		<property name="mapperLocations" value="classpath*:/egovframework/sqlmap/file/*.xml" />
 	</bean>	
  	
+ 	
  	<bean class="egovframework.rte.psl.dataaccess.mapper.MapperConfigurer">
-		<property name="basePackage" value="hallym.league.file.dao" />
+		<property name="basePackage" value="hallym.club.file.dao" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFile" />
 	</bean>
 	

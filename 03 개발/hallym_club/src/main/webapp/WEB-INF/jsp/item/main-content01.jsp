@@ -31,7 +31,7 @@
 					<ul>
 						<c:forEach items='${boardList}' var="item" varStatus="status">
 							<li>
-								<a class="articleTitle" href="/BoardReadForm.do?bdc=007101&num=${item.board_no}">
+								<a class="articleTitle" href="/BoardReadForm.do?bdc=007001&num=${item.board_no}">
 								<p><span class="mini-title">
 									<c:if test='${item.board_fix eq "Y"}'>
 										[공지]

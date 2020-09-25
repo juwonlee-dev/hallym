@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import hallym.club.board.service.BoardService;
 import hallym.club.user.service.UserService;
 import hallym.club.user.vo.UserVO;
 import hallym.club.utils.CommonUtils;
@@ -24,6 +25,9 @@ public class UserController {
 
 	@Resource(name = "userService")
 	private UserService userService;
+	
+	@Resource(name = "boardService")
+	private BoardService boardService;
 	
 	//0. 로그인 화면
 	@RequestMapping(value = "/loginView.do")
@@ -38,6 +42,7 @@ public class UserController {
 	public ModelAndView loginFormSetUp(HttpServletRequest request, HttpServletResponse response,
 			  ModelAndView mav)
 	{
+		
 		HttpSession session = request.getSession();
 		UserVO userVO = (UserVO) session.getAttribute("userVO");
 		System.out.println("[login.do] method = GET");
@@ -70,6 +75,10 @@ public class UserController {
 		
 		// 사용자 로그인 체크
 		String result = userService.checkLogin(session, params);
+		Map<String, Object> authParams = new HashMap<String, Object>();
+		authParams.put("ID", ID);
+		String auth_code = boardService.checkAuth(authParams);
+		
 //		Cookie cookie = null;
 //		if(chk_id != null && !chk_id.isEmpty() && chk_id.equalsIgnoreCase("Y")) {
 //			cookie = new Cookie("ID", ID);
@@ -91,14 +100,17 @@ public class UserController {
 		
 		if(result.equalsIgnoreCase("F")) {
 			result = "hallym/Login";
-			CommonUtils.showAlert(response, "아이디 또는 비밀번호가 올바르지 않습니다.");
 			System.err.println("[login.do] 아이디 또는 비밀번호가 올바르지 않습니다.");
-			
+			CommonUtils.showAlert(response, "아이디 또는 비밀번호가 올바르지 않습니다.","login.do");
+			return null;
 		} else if(result.equalsIgnoreCase("E")) {
 			result = "hallym/Login";
-			CommonUtils.showAlert(response, "알 수 없는 오류가 발생했습니다.","index.do");
+
 			System.err.println("[login.do] 알 수 없는 오류가 발생했습니다.");
+			CommonUtils.showAlert(response, "알 수 없는 오류가 발생했습니다.","login.do");
+			return null;
 		} else {
+			session.setAttribute("auth_code", auth_code);
 			System.out.println("IP : " + CommonUtils.getClientIP(request));
 			System.out.println("[UserController][login.do] (session) userVO: "+ (UserVO) session.getAttribute("userVO"));
 		}

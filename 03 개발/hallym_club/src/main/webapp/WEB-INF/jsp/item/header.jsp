@@ -63,7 +63,7 @@
 					</ul>
 				</li>
 				<li>
-				 	<a title="개설" href="createClub.do" class="">
+				 	<a title="개설" href="/createClub.do" class="">
 				 		<span>개설</span>
 				 			
 				 	</a>
@@ -74,13 +74,13 @@
 					</ul>
 				</li>
 				<li>
-				 	<a title="게시판" href="#">
+				 	<a title="게시판" href="/BoardSearch.do?bdc=007001">
 				 		<span>게시판</span>
 				 			<span>notice</span>
 				 	</a>
 					<ul class="sub-mn" style="display: none;">
 						<li>
-							<a href="#">공지사항</a>
+							<a href="/BoardSearch.do?bdc=007001">공지사항</a>
 						</li>
 						
 					</ul>
@@ -127,13 +127,13 @@
 					<li><a href="/topClub.do?at_cd=002002">비공연</a></li>
 				</ul></li>
 		
-			<li><a href="createClub.do">개설</a>
+			<li><a href="/createClub.do">개설</a>
 				<ul class="dep2">
-					<li><a href="createClub.do">동아리 개설 신청</a></li>
+					<li><a href="/createClub.do">동아리 개설 신청</a></li>
 				</ul></li>
-			<li><a href="#">게시판</a>
+			<li><a href="/BoardSearch.do?bdc=007001">게시판</a>
 				<ul class="dep2">
-					<li><a href="#">공지사항</a></li>	
+					<li><a href="/BoardSearch.do?bdc=007001">공지사항</a></li>	
 				</ul></li>
 		</ul>
 	</div>
@@ -153,27 +153,27 @@
 					href="/clubSearch.do" class="depth_1 ">조회 및 가입</a>
 					<ul class="depth_2">
 						<li id="menu_4142" class="depth_2 first"><a
-							href="#" class="depth_2 ">동아리 조회 및 가입</a></li>
+							href="/clubSearch.do" class="depth_2 ">동아리 조회 및 가입</a></li>
 					</ul></li>
 				<li id="menu_4138" class="depth_1"><a
 					href="/topClub.do" class="depth_1 ">우수동아리</a>
 					<ul class="depth_2">
 						<li id="menu_4441" class="depth_2"><a
-							href="#" class="depth_2 ">공연</a></li>
+							href="/topClub.do?at_cd=002001" class="depth_2 ">공연</a></li>
 						<li id="menu_4435" class="depth_2"><a
-							href="#" class="depth_2 ">비공연</a></li>
+							href="/topClub.do?at_cd=002002" class="depth_2 ">비공연</a></li>
 					</ul></li>
 				<li id="menu_4141" class="depth_1"><a
-					href="createClub.do" class="depth_1 ">개설</a>
+					href="/createClub.do" class="depth_1 ">개설</a>
 					<ul class="depth_2">
 						<li id="menu_4157" class="depth_2 first"><a
-							href="createClub.do" class="depth_2 ">동아리 개설 신청</a></li>
+							href="/createClub.do" class="depth_2 ">동아리 개설 신청</a></li>
 					</ul></li>
 				<li id="menu_4138" class="depth_1"><a
-					href="#" class="depth_1 ">게시판</a>
+					href="/BoardSearch.do?bdc=007001" class="depth_1 ">게시판</a>
 					<ul class="depth_2">
 						<li id="menu_4146" class="depth_2 first"><a
-							href="#" class="depth_2 ">공지사항</a></li>
+							href="/BoardSearch.do?bdc=007001" class="depth_2 ">공지사항</a></li>
 					</ul></li>	
 			</ul>
 			<a href="#" title="닫기" class="sitemap-close">

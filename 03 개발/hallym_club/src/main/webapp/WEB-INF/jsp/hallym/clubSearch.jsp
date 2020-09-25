@@ -79,7 +79,7 @@
         	var at_cd = "<%=session.getAttribute("at_cd") %>"
         	var sidemenu = document.querySelector("#item_body > div > div.sub-container > div.lnb-wrap > div > ul").getElementsByTagName('li');
         	var activeNum = 0;
-        	<%System.err.println("at_cd: " +session.getAttribute("at_cd")); %>
+        	<%System.err.println("[clubSearch.jsp] at_cd: " +session.getAttribute("at_cd")); %>
         	for(var i=0; i<sidemenu.length; i++) {
         		if(sidemenu[i].className == "active") {
         			activeNum = i;
@@ -161,6 +161,7 @@
 	<style type='text/css'></style>
 
 </head>
+
 
 <body id="item_body" class="pc">
 	<%
@@ -286,79 +287,77 @@
                                         <col class="b-col04">
                                         <col class="b-col05">
                                         <col class="b-col06">
+                                        <col class="b-col07">
+                                        
                                     </colgroup>
                                     <thead>
                                         <tr>
-                                            <th scope="col">번호</th>
+                                            <th scope="col">사진</th>
                                             <th scope="col">동아리명</th>
                                             <th scope="col">회장</th>
-                                            <th scope="col">작성일</th>
-                                            <th scope="col" class="b-no-right">조회</th>
-                                            <th scope="col">파일</th>
+                                            <th scope="col">인원</th>
+                                            <th scope="col">개설년도</th>
+                                            <th scope="col" class="b-no-right">주요활동</th>
+                                            <th scope="col">기타</th>
+                                            <!-- <th scope="col" class="b-no-right">목적</th> -->
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <c:forEach items='${clubList}' var="item" varStatus="status">
 									        <tr class>
 									            <td class="b-num-box" id="id_${status.count}">
-									            	<%-- <c:choose>
-									            		<c:when test='${item.FIX_YN eq "Y"}'>
-									            			<img src="images/board/ico-notice01.png" border="0" valign="middle" alt="고정글">
-									            		</c:when>
-									            		<c:otherwise>
-									            			${item.SEQ_NO}
-									            		</c:otherwise>
-									            	</c:choose> --%>
+									            	<!-- 사진 -->
 									            </td>
-									            <td class="b-td-left">
+									            
+									            <td class="b-td-right">
+									           		 <!-- 동아리명 -->
 	                                                <div class="b-title-box">
+	                                                	
+	                                                	
 	                                                    <a href="#" title="${item.club_nm}">
 	                                                    	${item.club_nm}
 	                                                    </a>
+	                                                    
 	                                                    <div class="b-etc-box"></div>
+	                                                    
 	                                                    <div class="b-m-con">
+	                                                    	<!-- 회장 -->
 	                                                        <span class="b-writer">
-	                                                        	<%-- <c:forEach items='${writerList}' var="user" varStatus="status2">
-	                                                        		<c:if test="${status.index eq status2.index}">
-	                                                        			<c:forEach items='${writerAuthList}' var="userAuth" varStatus="status3">
-	                                                        				<c:if test="${status2.index eq status3.index}">
-	                                                        					<c:set var="tmpAuth" value="${userAuth}"/>
-	                                                        						<%
-                                                        							String tmpAuth = (String) pageContext.getAttribute("tmpAuth");
-													                           		String[] allowAuth = {"010001", "010002", "010003"};
-													                           		if(Arrays.asList(allowAuth).contains(tmpAuth)) {
-														                           	%>
-														                            	관리자(${user.name})
-														                            <%
-													                        		} else {
-														                        	%>
-															                        	${user.name}
-														                        	<%
-													                        		}
-														                            %>
-	                                                        				</c:if>
-	                                                        			</c:forEach>
-	                                                        		</c:if>
-	                                                        	</c:forEach> --%>
+	                                                        ${item.president}
+	                                                        <%-- 	${item.cnt} --%>
 	                                                        </span>
+	                                                        <!-- 개설년도 -->
 	                                                        <span class="b-date">
-	                                                        	${item.open_dt}
+	                                                        	 ${item.open_dt}
 	                                                        </span>
-	                                                        <span class="hit">조회수 </span>
+	                                                        <span class="hit">인원 ${item.cnt} </span>
 	                                                    	<span class="b-file">첨부파일</span>
+	                                                    	
+	                                                    </div>
+	                                                    <div>
+	                                                    
 	                                                    </div>
 	                                                </div>
 	                                            </td>
+	                                            
+	                                            <!-- 회장 -->
 	                                            <td>
-                                                   	
+                                                 ${item.president}
 	                                            </td>
+	                                            <!-- 인원 -->
 	                                            <td>
-													
+												${item.cnt}	
 												</td>
+												<!-- 개설년도 -->
 	                                            <td>${item.open_dt}</td>
+	                                            <form method="post" action="/clubSignUpForm.do"
+	                                                	target="w" onsubmit="return postPopUp();">
+	                                                	<input type="hidden" name="club_id" value="${item.club_id}">
+														<input type="hidden" name="club_nm" value="${item.club_nm}">
 	                                            <td class="b-no-right">
-	                                            	<span>-</span>
+	                                            	<span><input type="submit" value="가입신청" class="b-sel-btn"></span>
 									            </td>
+									            </form>
 									        </tr>  
 								    	</c:forEach>
 								    	<c:if test="${clubListCount lt 1}">
@@ -458,5 +457,31 @@
 			<div class="bottom-footer-wrap"><jsp:include page="/WEB-INF/jsp/item/footer.jsp"/></div>
 		</footer>
 	</div>
+	
+	<script>
+		var winRef;
+		function postPopUp() {
+		<%if (cuserId == null) {%>
+			alert("로그인이 필요합니다.");
+			location.href='/login.do';
+			return false;
+		<%} else {%>
+		if(winRef == null){
+			winRef = window.open("/clubSignUpForm.do", 'w', 'width=900,height=650,location=no,status=no');
+			return true;
+			
+		} else {
+			if(winRef.closed == false){
+				winRef.focus();
+				return true;
+			}
+			else {
+				winRef = window.open("/clubSignUpForm.do", 'w', 'width=900,height=650,location=no,status=no');
+				return true;
+			}
+		}
+		<%}%>
+		}
+	</script>
 </body>
 </html>

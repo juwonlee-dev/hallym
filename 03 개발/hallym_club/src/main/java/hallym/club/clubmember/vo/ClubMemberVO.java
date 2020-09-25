@@ -1,19 +1,19 @@
 package hallym.club.clubmember.vo;
 
 public class ClubMemberVO {
-	private int CLUB_ID;
-	private String STUDENT_ID;
-	private String NM;
-	private String MAJOR;
-	private String GRADE;
-	private String GENDER_CD;
-	private String STAFF_CD; // 회장,부회장
-	private String PHONE_NO;
-	private String ADDRESS;
-	private String EMAIL;
+	private int club_id;
+	private String student_id;
+	private String name;
+	private String major;
+	private String grade;
+	private String gender_cd;
+	private String staff_cd; // 회장,부회장
+	private String phone_no;
+	private String address;
+	private String email;
 	private String join_dt;
-	private String BIRTH_DT;
-	private String JOIN_CD;
+	private String birth_dt;
+	private String join_cd;
 	private String input_id;
 	private String input_ip;
 	private String input_date;
@@ -23,195 +23,139 @@ public class ClubMemberVO {
 	private String plan;
 	private String hope;
 	private int row_count;
-
-	public int getCLUB_ID() {
-		return CLUB_ID;
+	
+	public int getClub_id() {
+		return club_id;
 	}
-
-	public void setCLUB_ID(int cLUB_ID) {
-		CLUB_ID = cLUB_ID;
+	public void setClub_id(int club_id) {
+		this.club_id = club_id;
 	}
-
-	public String getSTUDENT_ID() {
-		return STUDENT_ID;
+	public String getStudent_id() {
+		return student_id;
 	}
-
-	public void setSTUDENT_ID(String sTUDENT_ID) {
-		STUDENT_ID = sTUDENT_ID;
+	public void setStudent_id(String student_id) {
+		this.student_id = student_id;
 	}
-
-	public String getNM() {
-		return NM;
+	public String getName() {
+		return name;
 	}
-
-	public void setNM(String nM) {
-		NM = nM;
+	public void setName(String name) {
+		this.name = name;
 	}
-
-	public String getMAJOR() {
-		return MAJOR;
+	public String getMajor() {
+		return major;
 	}
-
-	public void setMAJOR(String mAJOR) {
-		MAJOR = mAJOR;
+	public void setMajor(String major) {
+		this.major = major;
 	}
-
-	public String getGRADE() {
-		return GRADE;
+	public String getGrade() {
+		return grade;
 	}
-
-	public void setGRADE(String gRADE) {
-		GRADE = gRADE;
+	public void setGrade(String grade) {
+		this.grade = grade;
 	}
-
-	public String getGENDER_CD() {
-		return GENDER_CD;
+	public String getGender_cd() {
+		return gender_cd;
 	}
-
-	public void setGENDER_CD(String gENDER_CD) {
-		GENDER_CD = gENDER_CD;
+	public void setGender_cd(String gender_cd) {
+		this.gender_cd = gender_cd;
 	}
-
-	public String getPHONE_NO() {
-		return PHONE_NO;
+	public String getStaff_cd() {
+		return staff_cd;
 	}
-
-	public void setPHONE_NO(String pHONE_NO) {
-		PHONE_NO = pHONE_NO;
+	public void setStaff_cd(String staff_cd) {
+		this.staff_cd = staff_cd;
 	}
-
-	public String getADDRESS() {
-		if (ADDRESS == null)
-			ADDRESS = "";
-		return ADDRESS;
+	public String getPhone_no() {
+		return phone_no;
 	}
-
-	public void setADDRESS(String aDDRESS) {
-		ADDRESS = aDDRESS;
+	public void setPhone_no(String phone_no) {
+		this.phone_no = phone_no;
 	}
-
-	public String getEMAIL() {
-		if (EMAIL == null)
-			EMAIL = "";
-		return EMAIL;
+	public String getAddress() {
+		return address;
 	}
-
-	public void setEMAIL(String eMAIL) {
-		EMAIL = eMAIL;
+	public void setAddress(String address) {
+		this.address = address;
 	}
-
-	public String getBIRTH_DT() {
-		if (BIRTH_DT == null)
-			BIRTH_DT = "";
-		return BIRTH_DT;
+	public String getEmail() {
+		return email;
 	}
-
-	public void setBIRTH_DT(String bIRTH_DT) {
-		BIRTH_DT = bIRTH_DT;
+	public void setEmail(String email) {
+		this.email = email;
 	}
-
-	public String getPlan() {
-		if (plan == null)
-			plan = "";
-		return plan;
-	}
-
-	public void setPlan(String plan) {
-		this.plan = plan;
-	}
-
-	public String getHope() {
-		if (hope == null)
-			hope = "";
-		return hope;
-	}
-
-	public void setHope(String hope) {
-		this.hope = hope;
-	}
-
-	public String getSTAFF_CD() {
-		/*
-		 * if(STAFF_CD == null) STAFF_CD = "회원"; else if(STAFF_CD.equals("004001"))
-		 * STAFF_CD = "회장"; else if(STAFF_CD.equals("004002")) STAFF_CD = "부회장"; else
-		 * if(STAFF_CD.equals("004003")) STAFF_CD = "총무"; return STAFF_CD;
-		 */
-		return STAFF_CD;
-	}
-
-	public void setSTAFF_CD(String sTAFF_CD) {
-		STAFF_CD = sTAFF_CD;
-	}
-
-	public String getJOIN_CD() {
-		return JOIN_CD;
-	}
-
-	public void setJOIN_CD(String jOIN_CD) {
-		JOIN_CD = jOIN_CD;
-	}
-
 	public String getJoin_dt() {
 		return join_dt;
 	}
-
 	public void setJoin_dt(String join_dt) {
 		this.join_dt = join_dt;
 	}
-
+	public String getBirth_dt() {
+		return birth_dt;
+	}
+	public void setBirth_dt(String birth_dt) {
+		this.birth_dt = birth_dt;
+	}
+	public String getJoin_cd() {
+		return join_cd;
+	}
+	public void setJoin_cd(String join_cd) {
+		this.join_cd = join_cd;
+	}
 	public String getInput_id() {
 		return input_id;
 	}
-
 	public void setInput_id(String input_id) {
 		this.input_id = input_id;
 	}
-
 	public String getInput_ip() {
 		return input_ip;
 	}
-
 	public void setInput_ip(String input_ip) {
 		this.input_ip = input_ip;
 	}
-
 	public String getInput_date() {
 		return input_date;
 	}
-
 	public void setInput_date(String input_date) {
 		this.input_date = input_date;
 	}
-
 	public String getUpdate_id() {
 		return update_id;
 	}
-
 	public void setUpdate_id(String update_id) {
 		this.update_id = update_id;
 	}
-
 	public String getUpdate_ip() {
 		return update_ip;
 	}
-
 	public void setUpdate_ip(String update_ip) {
 		this.update_ip = update_ip;
 	}
-
 	public String getUpdate_date() {
 		return update_date;
 	}
-
 	public void setUpdate_date(String update_date) {
 		this.update_date = update_date;
 	}
-
+	public String getPlan() {
+		return plan;
+	}
+	public void setPlan(String plan) {
+		this.plan = plan;
+	}
+	public String getHope() {
+		return hope;
+	}
+	public void setHope(String hope) {
+		this.hope = hope;
+	}
 	public int getRow_count() {
 		return row_count;
 	}
-
 	public void setRow_count(int row_count) {
 		this.row_count = row_count;
 	}
+
+	
 }

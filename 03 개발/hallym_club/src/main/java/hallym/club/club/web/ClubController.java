@@ -51,6 +51,10 @@ public class ClubController {
 							 @RequestParam(value = "search", required = false, defaultValue ="") String search,
 							 @RequestParam(value = "page", required = false, defaultValue = "1") String pageNumber) {
 		HttpSession session = request.getSession();
+		
+		if(!search.isEmpty()) {
+			search = CommonUtils.getUTF8(search);
+		}
 		if(at_cd.equals("") || at_cd.equals("002"))
 			session.setAttribute("at_cd", "002");
 		else 
@@ -105,9 +109,21 @@ public class ClubController {
 		params.put("search", search);	
 		
 		clubList = clubService.getClubList(params);			
-		System.err.println(clubList);
-		System.err.println("clubListCount: " + clubListCount);
-		System.err.println("totalPage: " + totalPage);
+		System.err.println("[clubSearch.do] clubList: \n" + clubList);
+		System.err.println("[clubSearch.do] clubListCount: " + clubListCount);
+		System.err.println("[clubSearch.do] totalPage: " + totalPage);
+		
+		for(ClubVO club : clubList) {
+			Map<String, Object> cntParams = new HashMap<String, Object>();
+			cntParams.put("club_id", club.getClub_id());
+			cntParams.put("opt", 1);
+			cntParams.put("join_cd", "008001");
+			club.setCnt(clubMemberService.getClubMemberCnt(cntParams));
+			
+			Map<String, Object> presidentParams = new HashMap<String, Object>();
+			presidentParams.put("club_id", club.getClub_id());
+			club.setPresident(clubMemberService.getClubPresident(presidentParams).getName());
+		}
 		
 		mav.addObject("at_cd", at_cd);
 		mav.addObject("gb_cd", gb_cd);
@@ -147,6 +163,18 @@ public class ClubController {
 		
 		clubTopList = clubService.getTopClub(params);
 		
+		for(ClubVO club : clubTopList) {
+			Map<String, Object> cntParams = new HashMap<String, Object>();
+			cntParams.put("club_id", club.getClub_id());
+			cntParams.put("opt", 1);
+			cntParams.put("join_cd", "008001");
+			club.setCnt(clubMemberService.getClubMemberCnt(cntParams));
+			
+			Map<String, Object> presidentParams = new HashMap<String, Object>();
+			presidentParams.put("club_id", club.getClub_id());
+			club.setPresident(clubMemberService.getClubPresident(presidentParams).getName());
+		}
+		
 		mav.addObject("clubList", clubTopList);
 		mav.setViewName("hallym/topClub");
 		
@@ -182,6 +210,13 @@ public class ClubController {
 							 @RequestParam(value = "club_room", required = false, defaultValue ="") String club_room,
 							 @RequestParam(value = "open_dt", required = false, defaultValue ="") String open_dt,
 							 @RequestParam(value = "user_id", required = false, defaultValue ="") String user_id) {
+		
+	
+		club_nm = CommonUtils.getUTF8(club_nm);
+		club_aim = CommonUtils.getUTF8(club_aim);
+		club_active = CommonUtils.getUTF8(club_active);
+		club_room = CommonUtils.getUTF8(club_room);
+		
 		
 		Map<String, Object> nameCheckParams = new HashMap<String, Object>();
 		nameCheckParams.put("club_nm", club_nm);
@@ -353,6 +388,8 @@ public class ClubController {
 		
 		return null;
 	}
+	
+	
 	
 		
 }

@@ -1,9 +1,6 @@
 package hallym.club.club.vo;
 
 public class ClubVO {
-
-
-
 	private int club_id;
 	private String club_nm;
 	private String club_gb_cd;
@@ -29,6 +26,7 @@ public class ClubVO {
 	private String gb_nm;
 	private String at_nm;
 	
+	private String president;
 	
 	
 	private int row_count;
@@ -238,5 +236,13 @@ public class ClubVO {
 
 	public void setRow_count(int row_count) {
 		this.row_count = row_count;
+	}
+
+	public String getPresident() {
+		return president;
+	}
+
+	public void setPresident(String president) {
+		this.president = president;
 	}
 }
