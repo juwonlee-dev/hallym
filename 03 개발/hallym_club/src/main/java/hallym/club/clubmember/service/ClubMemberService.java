@@ -13,5 +13,7 @@ public interface ClubMemberService {
 	public List<ClubMemberVO> getClubMember(Map<String, Object> params);
 	public ClubMemberVO getClubPresident(Map<String, Object> params);
 	public int getClubMemberCnt(Map<String, Object> params);
+	public String getStaffCD(Map<String, Object> params);
+	public List<ClubMemberVO> getAllClubMember(Map<String, Object> params);
 	
 }

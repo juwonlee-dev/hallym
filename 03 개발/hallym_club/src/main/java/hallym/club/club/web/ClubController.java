@@ -21,10 +21,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-
 import hallym.club.club.service.ClubService;
 import hallym.club.club.vo.ClubVO;
 import hallym.club.clubmember.service.ClubMemberService;
+import hallym.club.clubmember.vo.ClubMemberVO;
 import hallym.club.exception.ClubExistException;
 import hallym.club.exception.UserNotExistException;
 import hallym.club.user.service.UserService;
@@ -42,6 +42,108 @@ public class ClubController {
 	
 	@Resource(name = "clubMemberService")
 	private ClubMemberService clubMemberService;
+	
+	
+	@RequestMapping(value="/clubIntro.do")
+	public ModelAndView clubIntro(HttpServletRequest request, HttpServletResponse response,
+							 ModelAndView mav,
+							 @RequestParam(value = "club_id", required = false, defaultValue ="") String club_id) {
+		HttpSession session = request.getSession();
+		UserVO userVO = (UserVO) session.getAttribute("userVO");
+		
+		if(userVO == null) {
+			CommonUtils.showAlert(response, "로그인이 필요한 서비스입니다.", "login.do");
+			return null;
+		}
+		session.setAttribute("club_id", club_id);
+		Map<String, Object> clubParams = new HashMap<String, Object>();
+		clubParams.put("club_id", club_id);
+		ClubVO clubVO = clubService.getClub(clubParams);
+		
+		Map<String, Object> presidentParams = new HashMap<String, Object>();
+		presidentParams.put("club_id", club_id);
+		clubVO.setPresident(clubMemberService.getClubPresident(presidentParams).getName());
+		
+		Map<String, Object> memberParams = new HashMap<String, Object>();
+		memberParams.put("club_id", club_id);
+		memberParams.put("id", userVO.getId());
+		String staff_cd = clubMemberService.getStaffCD(memberParams);
+
+		boolean isStaff = false;
+		if(staff_cd.equals("004001") || staff_cd.equals("004002"))
+			isStaff = true;
+		System.err.println("[clubIntro.do] Intro_save_file: " + clubVO.getIntro_save_file_nm());
+		System.err.println("[clubIntro.do] poster_save_file: " + clubVO.getPoster_save_file_nm());
+		System.err.println("[clubIntro.do] staff_cd: " + staff_cd);
+		System.err.println("[clubIntro.do] isStaff: " + isStaff);
+		
+		/* clubPlatform */
+		mav.addObject("club_id", club_id);
+		mav.addObject("club_name", clubVO.getClub_nm());
+		mav.addObject("open_dt", clubVO.getOpen_dt());
+		mav.addObject("president_nm", clubVO.getPresident());
+		mav.addObject("isStaff", isStaff);
+		mav.addObject("club_intro", clubVO.getIntro_save_file_nm());
+		mav.addObject("club_poster", clubVO.getPoster_save_file_nm());
+		
+		mav.setViewName("club/clubIntro");
+		return mav;
+	}
+	
+	
+	@RequestMapping(value="/clubMemberList.do")
+	public ModelAndView clubMemberList(HttpServletRequest request, HttpServletResponse response,
+							 ModelAndView mav,
+							 @RequestParam(value = "club_id", required = false, defaultValue ="") String club_id) {
+		HttpSession session = request.getSession();
+		UserVO userVO = (UserVO) session.getAttribute("userVO");
+		
+		if(userVO == null) {
+			CommonUtils.showAlert(response, "로그인이 필요한 서비스입니다.", "login.do");
+			return null;
+		}
+		session.setAttribute("club_id", club_id);
+		Map<String, Object> clubParams = new HashMap<String, Object>();
+		clubParams.put("club_id", club_id);
+		ClubVO clubVO = clubService.getClub(clubParams);
+		
+		Map<String, Object> presidentParams = new HashMap<String, Object>();
+		presidentParams.put("club_id", club_id);
+		clubVO.setPresident(clubMemberService.getClubPresident(presidentParams).getName());
+		
+		Map<String, Object> memberParams = new HashMap<String, Object>();
+		memberParams.put("club_id", club_id);
+		memberParams.put("id", userVO.getId());
+		String staff_cd = clubMemberService.getStaffCD(memberParams);
+
+		boolean isStaff = false;
+		if(staff_cd.equals("004001") || staff_cd.equals("004002"))
+			isStaff = true;
+		System.err.println("[clubIntro.do] Intro_save_file: " + clubVO.getIntro_save_file_nm());
+		System.err.println("[clubIntro.do] poster_save_file: " + clubVO.getPoster_save_file_nm());
+		System.err.println("[clubIntro.do] staff_cd: " + staff_cd);
+		System.err.println("[clubIntro.do] isStaff: " + isStaff);
+		
+		Map<String, Object> membersParams = new HashMap<String, Object>();
+		membersParams.put("club_id", club_id);
+		membersParams.put("join_cd", "008001");
+		List<ClubMemberVO> memberList = null;
+		memberList = clubMemberService.getAllClubMember(membersParams);
+		
+		/* clubPlatform */
+		mav.addObject("club_id", club_id);
+		mav.addObject("club_name", clubVO.getClub_nm());
+		mav.addObject("open_dt", clubVO.getOpen_dt());
+		mav.addObject("president_nm", clubVO.getPresident());
+		mav.addObject("isStaff", isStaff);
+		mav.addObject("club_intro", clubVO.getIntro_save_file_nm());
+		mav.addObject("club_poster", clubVO.getPoster_save_file_nm());
+
+		/*  clubMemberList */
+		mav.addObject("memberList", memberList);
+		mav.setViewName("club/clubMemberList");
+		return mav;
+	}
 	
 	@RequestMapping(value="/clubSearch.do")
 	public ModelAndView clubSearch(HttpServletRequest request, HttpServletResponse response,
@@ -187,7 +289,7 @@ public class ClubController {
 		UserVO userVO = (UserVO) session.getAttribute("userVO");
 		
 		if(userVO == null) {
-			CommonUtils.showAlert(response, "로그인이 필요합니다.", "login.do");
+			CommonUtils.showAlert(response, "로그인이 필요한 서비스입니다.", "login.do");
 			return null;
 		}
 		else {
@@ -210,13 +312,11 @@ public class ClubController {
 							 @RequestParam(value = "club_room", required = false, defaultValue ="") String club_room,
 							 @RequestParam(value = "open_dt", required = false, defaultValue ="") String open_dt,
 							 @RequestParam(value = "user_id", required = false, defaultValue ="") String user_id) {
-		
 	
 		club_nm = CommonUtils.getUTF8(club_nm);
 		club_aim = CommonUtils.getUTF8(club_aim);
 		club_active = CommonUtils.getUTF8(club_active);
 		club_room = CommonUtils.getUTF8(club_room);
-		
 		
 		Map<String, Object> nameCheckParams = new HashMap<String, Object>();
 		nameCheckParams.put("club_nm", club_nm);
@@ -262,10 +362,10 @@ public class ClubController {
 		String parameter = (String) fileNames.next();
 		MultipartFile mFile = multi.getFile(parameter);
 		System.err.println("[createClub.do] parmeter: " + parameter);
-		String fileName = mFile.getOriginalFilename();
+		String fileName = mFile.getOriginalFilename().toLowerCase();
 
 		System.err.println("[createClub.do] fileName: " + fileName);
-		String fileSaveName = CommonUtils.uploadFile(fileName);
+		String fileSaveName = CommonUtils.uploadFile(fileName).toLowerCase();
 		
 		/* Intro */
 		if (fileName == null || fileName.isEmpty()) {
@@ -295,9 +395,9 @@ public class ClubController {
 		parameter = (String) fileNames.next();
 		mFile = multi.getFile(parameter);
 		System.err.println("[createClub.do] parmeter2: " + parameter);
-		 fileName = mFile.getOriginalFilename();
+		fileName = mFile.getOriginalFilename().toLowerCase();
 		System.err.println("[createClub.do] fileName2: " + fileName);
-		fileSaveName = CommonUtils.uploadFile(fileName);
+		fileSaveName = CommonUtils.uploadFile(fileName).toLowerCase();
 
 		/* Poster */
 		if (fileName == null || fileName.isEmpty()) {
@@ -385,7 +485,6 @@ public class ClubController {
 		}
 			
 		CommonUtils.showAlert(response, "동아리 개설 신청 완료", "index.do");
-		
 		return null;
 	}
 	

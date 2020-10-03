@@ -129,13 +129,12 @@
    	</select>
    	
    	<select id="getClubMember" parameterType="map" resultMap="ClubMemberVOResult">
-   	    
    	    SELECT
    	    	*
    	    FROM
    	    	CLUB_MEMBER
    	    WHERE
-   	    	CLUB_ID = #{club_ID} AND
+   	    	CLUB_ID = #{club_id} AND
    	    	JOIN_CD = #{join_cd}
    	    	<if test="opt == 1">
 		   	AND STUDENT_ID = #{id}
@@ -143,6 +142,38 @@
    	    	<if test="opt2 == 1">
    	    	AND STAFF_CD = #{staff_cd}
    	    	</if>
+   	</select>
+   	<select id="getAllClubMember" parameterType="map" resultMap="ClubMemberVOResult">
+		SELECT 
+			M.NM, 
+			M.STUDENT_ID, 
+			M.GRADE, 
+			M.GENDER_CD, 
+			M.JOIN_DT,
+			M.PHONE_NO,
+			S.SO_NM AS STAFF_CD, 
+			M.MAJOR, 
+			M.PHONE_NO 
+		FROM 
+			CLUB_MEMBER M, 
+			SO_CD S
+		WHERE
+			M.CLUB_ID = #{club_id} AND 
+			M.JOIN_CD = '008001' AND
+			M.STAFF_CD = S.SO_CD
+   	    
+   	</select>
+   	
+   	
+   	<select id="getStaffCD" parameterType="map" resultType="string">
+   	    
+   	    SELECT
+   	    	STAFF_CD
+   	    FROM
+   	    	CLUB_MEMBER
+   	    WHERE
+   	    	CLUB_ID = #{club_id} AND
+		   	STUDENT_ID = #{id}
    	</select>
    	
    	<!-- 회원 수 -->

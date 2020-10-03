@@ -17,5 +17,6 @@ public interface ClubDAO {
 	public List<ClubVO> getTopClub(Map<String, Object> params);
 	public void createClub(Map<String, Object> params);
 	public String getClubName(Map<String, Object> params);
+	public ClubVO getClub(Map<String, Object> params);
 	
 }

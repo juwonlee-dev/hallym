@@ -24,6 +24,16 @@
 		 <result property="gb_nm" column="GB_NM"/>
 		 <result property="at_nm" column="AT_NM"/>
 	</resultMap>
+	
+    <select id="getClub" parameterType="map" resultMap="ClubVOResult">
+        SELECT 
+        	*
+        FROM
+        	CLUB
+        WHERE
+        	CLUB_ID = #{club_id}
+    </select>
+    
 	<select id="getClubName" parameterType="map" resultType="string">
 	    SELECT
 	    	club_nm

@@ -132,7 +132,7 @@ font {
 			</tr>
 		</table>
 
-		<div class="bottom">다음과 같은 개인정보를 해당 신청한 동아리 회장이 볼 수 있습니다. 이를 동의하며 위의 기재한 내용이 틀림없음을 확인하며 가입을 신청합니다.</div>
+		<div class="bottom">다음과 같은 개인정보를 해당 신청한 동아리 임원(회장, 부회장)이 볼 수 있습니다. 이를 동의하며 위의 기재한 내용이 틀림없음을 확인하며 가입을 신청합니다.</div>
 
 		<div class="apply">
 			신청자(학번)<font>*</font> ( <input type="text" style="width: 30%;"

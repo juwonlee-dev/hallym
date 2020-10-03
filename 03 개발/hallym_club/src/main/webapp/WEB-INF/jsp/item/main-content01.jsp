@@ -64,11 +64,11 @@
 							<div class="tit">
 							<c:choose>
 								<c:when test="${userVO eq null}">
-									<a href="club_search.do?search=${item.club_nm}">${item.club_nm}</a>
+									<a href="clubSearch.do?search=${item.club_nm}">${item.club_nm}</a>
 								</c:when>
 							    <c:otherwise>
 							    
-									<a href="club_intro.jsp?club_id=${item.club_id}">${item.club_nm}</a>
+									<a href="clubIntro.do?club_id=${item.club_id}">${item.club_nm}</a>
 								
 								<%-- 	 star	<c:when test="${ }">
 									

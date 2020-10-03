@@ -60,4 +60,14 @@ public class ClubMemberServiceImpl implements ClubMemberService{
 		return clubMemberDAO.getClubPresident(params);
 	}
 
+	@Override
+	public String getStaffCD(Map<String, Object> params) {
+		return clubMemberDAO.getStaffCD(params);
+	}
+
+	@Override
+	public List<ClubMemberVO> getAllClubMember(Map<String, Object> params) {
+		return clubMemberDAO.getAllClubMember(params);
+	}
+
 }

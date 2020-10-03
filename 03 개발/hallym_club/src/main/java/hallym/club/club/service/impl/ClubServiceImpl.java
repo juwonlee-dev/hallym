@@ -57,6 +57,11 @@ public class ClubServiceImpl implements ClubService{
 		return clubDAO.getClubName(params);
 	}
 
+	@Override
+	public ClubVO getClub(Map<String, Object> params) {
+		return clubDAO.getClub(params);
+	}
+
 	
 	
 
