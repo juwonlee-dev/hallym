@@ -93,6 +93,11 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public void updateBoard(Map<String, Object> params) {
 		boardDAO.updateBoard(params);
+	}
+
+	@Override
+	public List<BoardVO> getCalendar(Map<String, Object> params) {
+		return boardDAO.getCalendar(params);
 	} 
 	
 

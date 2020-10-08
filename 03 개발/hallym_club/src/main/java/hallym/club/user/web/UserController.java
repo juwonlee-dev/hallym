@@ -29,15 +29,23 @@ public class UserController {
 	@Resource(name = "boardService")
 	private BoardService boardService;
 	
-	//0. 로그인 화면
+	/*
+	 * 유저
+	 * 로그인 페이지
+	 * @RequestMapping(value="/loginView.do")
+	*/
 	@RequestMapping(value = "/loginView.do")
 	public ModelAndView ViewLogin(HttpServletRequest request,
 								  ModelAndView mav){
 		mav.setViewName("hallym/Login");
 		return mav;
 	}
-	
-	
+
+	/*
+	 * 유저
+	 * 로그인 페이지
+	 * @RequestMapping(value="/login.do", method = RequestMethod.GET)
+	*/
 	@RequestMapping(value="/login.do", method = RequestMethod.GET)
 	public ModelAndView loginFormSetUp(HttpServletRequest request, HttpServletResponse response,
 			  ModelAndView mav)
@@ -59,7 +67,11 @@ public class UserController {
 	}
 	
 	
-	//0. 로그인 확인
+	/*
+	 * 유저
+	 * 로그인 페이지 (동작)
+	 * @RequestMapping(value="/login.do", method = RequestMethod.POST)
+	*/
 	@RequestMapping(value="/login.do",  method=RequestMethod.POST)
 	public String loginAction(HttpServletRequest request, HttpServletResponse response,
 							 ModelAndView mav,
@@ -118,6 +130,11 @@ public class UserController {
 		return result;
 	}
 	
+	/*
+	 * 유저
+	 * 로그아웃 (동작)
+	 * @RequestMapping(value="/logout.do")
+	*/
 	@RequestMapping(value="/logout.do")
 	public ModelAndView logoutAction(HttpServletRequest request,
 							HttpServletResponse response,
@@ -137,6 +154,11 @@ public class UserController {
 		return mav;
 	}
 	
+	/*
+	 * 유저
+	 * 마이페이지 
+	 * @RequestMapping(value="/profile.do")
+	*/
 	@RequestMapping(value="/profile.do")
 	public ModelAndView myPageFormSetUp(HttpServletRequest request,
 							HttpServletResponse response,

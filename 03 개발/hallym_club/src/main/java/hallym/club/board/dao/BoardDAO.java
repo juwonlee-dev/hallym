@@ -21,5 +21,6 @@ public interface BoardDAO {
 	public void deleteBoard(Map<String, Object> params);
 	public void deleteBoardReal(Map<String, Object> params);
 	public void updateBoard(Map<String, Object> params);
+	public List<BoardVO> getCalendar(Map<String, Object> params);
 	
 }

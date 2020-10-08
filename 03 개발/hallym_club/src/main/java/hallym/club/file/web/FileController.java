@@ -32,6 +32,11 @@ public class FileController {
 	// 따라서 workspace가 C드라이브에 있다면 C드라이브에 폴더를 생성해 놓아야 한다.
 	
 	
+	/*
+	 * 게시판
+	 * 파일 다운로드
+	 * @RequestMapping(value="/FileDownload.do")
+	*/
 	@RequestMapping(value = "/FileDownload.do")
 	public void FileDownload(HttpServletRequest request, HttpServletResponse response,
 								@RequestParam(value = "num", required = false) int file_no) throws IOException

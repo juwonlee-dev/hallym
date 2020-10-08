@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hallym.club.product.dao.ProductDAO">
+    <!-- 
+    private int club_id;  // 클럽 아이디
+	private String productNM; // 아이탬 명
+	private String productCont; // 아이탬 설명
+	private int totCnt; // 아이탬 총개수
+     -->
+	<!-- ItemVO -->
+	<resultMap type="hallym.club.product.vo.ProductVO" id="productVOResult">
+	    <result property="club_id" column="CLUB_ID" />
+    	<result property="productNM" column="PRODUCT_NM" />
+       	<result property="productCont" column="PRODUCT_CONT" />
+       	<result property="totCnt" column="TOT_CNT" />
+       	
+    </resultMap>
+	
+	
+	<insert id="insertProduct" parameterType="map">
+
+		INSERT 
+			INTO PRODUCT
+				(
+					CLUB_ID,
+					SEQ_NO,
+					PRODUCT_NM,
+					PRODUCT_CONT,
+					TOT_CNT
+				)
+			VALUES
+				(
+					#{club_id},
+					#{seq_no},
+					#{product_nm},
+					#{product_cont},
+					#{tot_cnt}
+				)
+	    
+	</insert>
+	<delete id="deleteProduct" parameterType="map">
+	    DELETE
+	    
+	    FROM
+	    	PRODUCT
+	    WHERE
+	    	CLUB_ID = #{club_id}
+	    
+	</delete>
+	
+	<select id="getProducts" parameterType="map" resultMap="productVOResult">
+		SELECT 
+			CLUB_ID,
+			PRODUCT_NM,
+			PRODUCT_CONT,
+			TOT_CNT 
+		FROM
+			PRODUCT
+		
+		WHERE 
+			CLUB_ID=#{club_id} 
+		ORDER BY PRODUCT_NM
+	</select>
+	
+</mapper>

@@ -57,6 +57,24 @@
 	    
 	    
 	</select>
+
+	<select id="getCalendar" parameterType="map" resultMap="boardVOResult">
+		SELECT 
+			TITLE, 
+			START_DATE,
+			END_DATE, 
+			BOARD_NO, 
+			CLUB_ID 
+		FROM 
+			BOARD 
+		WHERE
+			CLUB_ID = #{club_id} AND
+			BOARD_CD = '007004' AND
+			START_DATE IS NOT NULL AND
+			BBSAVAILABLE = 1
+		    
+	</select>
+	
 	<select id="getBoardList" parameterType="map" resultMap="boardVOResult">
 		SELECT
 			*

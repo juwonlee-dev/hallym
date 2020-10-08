@@ -46,6 +46,11 @@ public class BoardController {
 	private FileService fileService;
 	
 	
+	/*
+	 * 게시판
+	 * 게시판 찾기
+	 * @RequestMapping(value="/BoardSearch.do")
+	*/
 	@RequestMapping(value = "/BoardSearch.do", produces="text/plain;charset=UTF-8")
 	public ModelAndView boardSearch(HttpServletRequest request, HttpServletResponse response, ModelAndView mav,
 									@RequestParam(value = "bdc", required = false) String bdc,
@@ -141,6 +146,11 @@ public class BoardController {
 		return mav;
 	}
 	
+	/*
+	 * 게시판
+	 * 게시글 폼
+	 * @RequestMapping(value="/boardReadForm.do")
+	*/
 	@RequestMapping(value = "/BoardReadForm.do")
 	public ModelAndView boardReadForm(ModelAndView mav,
 									  HttpServletRequest request, HttpServletResponse response,
@@ -238,6 +248,11 @@ public class BoardController {
 		return mav;
 	}
 	
+	/*
+	 * 게시판
+	 * 게시글 작성 폼
+	 * @RequestMapping(value="/boardWriteForm.do")
+	*/
 	@RequestMapping(value = "/BoardWriteForm.do")
 	public ModelAndView boardWriteForm(HttpServletRequest request, HttpServletResponse response, ModelAndView mav)
 	{
@@ -247,10 +262,14 @@ public class BoardController {
 	}
 	
 	
-	/* 한글 깨짐 현상  
-	 * @RequestParam으로 받은 한글이 깨진다.
-	 * */
-	// 게시판 글 추가하기
+	/*  
+	 * 한글 깨짐 현상  Error (편법 해결)
+	 * MultipartHttpServletRequest 으로 받은 한글이 깨진다.
+	 * CommonUtils.getUTF8() 사용
+	 * 게시판
+	 * 게시글 작성 (동작)
+	 * @RequestMapping(value="/BoardWriteAction.do")
+	*/
 	@RequestMapping(value = "/BoardWriteAction.do")
 	public String boardWriteAction(MultipartHttpServletRequest request,
 								   HttpServletResponse response,
@@ -264,7 +283,7 @@ public class BoardController {
 		HttpSession session = request.getSession();
 		String board_cd = (String) session.getAttribute("board_cd");
 //		String[] banList = {"007001", "007002", "007003", "007004"};
-		String[] photoBoardList = {"007002", "007003"};
+		String[] photoBoardList = {"007003"};
 //			if(Arrays.stream(banList).anyMatch(board_cd::equals)) {
 //				CommonUtils.showAlert(response, "참여 기간이 아닙니다.", "/index.do");
 //				return null;
@@ -440,7 +459,11 @@ public class BoardController {
 	}
 	
 
-	// 게시판 글수정
+	/*
+	 * 게시판
+	 * 게시글 업데이트 폼
+	 * @RequestMapping(value="/boardUpdateForm.do")
+	*/
 	@RequestMapping(value = "/BoardUpdateForm.do")
 	public ModelAndView boardUpdateForm(ModelAndView mav,
 			  							HttpServletRequest request, HttpServletResponse response,
@@ -507,7 +530,11 @@ public class BoardController {
 		return mav;
 	}
 	
-	// 게시판 수정
+	/*
+	 * 게시판
+	 * 게시글 업데이트 (동작)
+	 * @RequestMapping(value="/BoardUpdateAction.do")
+	*/
 	@RequestMapping(value = "/BoardUpdateAction.do")
 	public String BoardUpdateAction(MultipartHttpServletRequest request, HttpServletResponse response,
 									@RequestParam(value = "title",  required = false) String title,
@@ -733,7 +760,11 @@ public class BoardController {
 		return redrt;
 	}
 	
-	// 게시판 삭제
+	/*
+	 * 게시판
+	 * 게시글 삭제 (동작)
+	 * @RequestMapping(value="/boardDeleteAction.do")
+	*/
 	@RequestMapping(value = "/BoardDeleteAction.do")
 	public String boardDeleteAction(HttpServletRequest request, HttpServletResponse response,
 									@RequestParam(value = "num", required = false) int board_no)
@@ -791,11 +822,5 @@ public class BoardController {
 		}
 		return redrt;
 	}
-
-
-	
-	
-	
-	
 
 }

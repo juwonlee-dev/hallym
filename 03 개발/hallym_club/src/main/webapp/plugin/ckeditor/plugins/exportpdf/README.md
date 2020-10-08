@@ -10,7 +10,7 @@ CKEditor 4 **Export to PDF** also allows various customizations like changing th
 
 This is a premium feature. Please [contact us](https://ckeditor.com/contact/) if you would like to purchase a license. Let us know if you have any feedback or questions!
 
-![](https://c.cksource.com/a/1/img/npm/exportpdf_01.png)
+![](https://c.cksource.com/a/1/img/npm/ckeditor4-pdf-export.gif)
 
 ## Getting Started
 
@@ -43,23 +43,27 @@ You can also use the [CKEditor 4 Add-ons repository](https://ckeditor.com/cke4/a
 * [Custom build with online builder](https://ckeditor.com/cke4/builder)
 * [Manual download](https://ckeditor.com/cke4/addon/exportpdf)
 
-If you are having trouble setting up the Export to PDF plugin, please [contact us](https://ckeditor.com/contact/).
+Refer to [Export to PDF installation documentation](https://ckeditor.com/docs/ckeditor4/latest/features/exporttopdf.html#installation) for more details. If you are having trouble setting up the Export to PDF plugin, please [contact us](https://ckeditor.com/contact/).
 
 ## Features
 
-The CKEditor 4 Export to PDF plugin is really simple to use and works out-of-the-box. It does not require any additional configuration and due to its flexible nature, it covers a lot of cases internally while also providing an easy way to customize output PDF files.
+The CKEditor 4 Export to PDF plugin is really simple to use and works out-of-the-box. It does not require any additional configuration and due to its flexible nature, it covers a lot of cases internally while also providing an easy way to [customize output PDF files](https://ckeditor.com/docs/ckeditor4/latest/features/exporttopdf.html#configuration).
 
 The most important features are:
 
 *   Exporting HTML content from CKEditor 4 WYSIWYG editor to PDF with a single click.
-*   Setting a custom name for the generated PDF file.
-*   Handling relative image paths.
-*   Changing the appearance of the PDF document (like margins, text styling, custom headers and footers etc.) with custom CSS styles.
-*   Pre-processing HTML content via synchronous and asynchronous code before the generation of the PDF file.
+*   [Setting a custom name](https://ckeditor.com/docs/ckeditor4/latest/features/exporttopdf.html#setting-dynamic-file-name) for the generated PDF file.
+*   [Handling relative image paths](https://ckeditor.com/docs/ckeditor4/latest/features/exporttopdf.html#relative-vs-absolute-urls).
+*   [Changing the appearance of the PDF document](https://ckeditor.com/docs/ckeditor4/latest/features/exporttopdf.html#custom-css-rules) (like margins, text styling, custom headers and footers etc.) with custom CSS styles.
+*   [Pre-processing HTML content](https://ckeditor.com/docs/ckeditor4/latest/features/exporttopdf.html#data-preprocessing) via synchronous and asynchronous code before the generation of the PDF file.
 
 ## Browser and CKEditor 4 Support
 
 The CKEditor 4 Export to PDF plugin works in all the browsers [supported by CKEditor 4](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_browsers.html) except for Internet Explorer versions older than version 11. The plugin is compatible with CKEditor 4 versions starting from `4.6.1`.
+
+## Demo
+
+See the working ["Exporting editor content to PDF"](https://ckeditor.com/docs/ckeditor4/latest/examples/exporttopdf.html) sample that showcases printing your HTML content to a PDF file.
 
 ## License
 

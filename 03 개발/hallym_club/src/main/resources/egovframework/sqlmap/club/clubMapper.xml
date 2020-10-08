@@ -44,6 +44,10 @@
 	    
 	    
 	</select>
+	
+		
+	
+	
     <select id="getIntroClub" resultMap="ClubVOResult">
         SELECT 
         	* 

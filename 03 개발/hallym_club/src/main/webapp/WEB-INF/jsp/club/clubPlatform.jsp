@@ -101,7 +101,7 @@
 								onclick="location.href ='clubIntro.do?club_id=${club_id}';" /></li>
 							<li style="margin-left: 15px;"><input type="button"
 								value="물품목록"
-								onclick="location.href ='club_item.jsp?club_id=${club_id}';" /></li>
+								onclick="location.href ='clubProduct.do?club_id=${club_id}';" /></li>
 							<li style="margin-left: 15px;"><input type="button"
 								value="예산"
 								onclick="location.href ='club_budget.jsp?club_id=${club_id}';" /></li>
@@ -115,16 +115,16 @@
 							<li style="font-size: 13px; border-bottom: 0.5px solid #797979;">게시판</li>
 							<li style="margin-left: 15px;"><input type="button"
 								value="공지사항"
-								onclick="location.href='myClub_Board.jsp?club_id=${club_id}&board_cd=007001';" /></li>
+								onclick="location.href='clubBoardList.do?club_id=${club_id}&board_cd=007001';" /></li>
 							<li style="margin-left: 15px;"><input type="button"
 								value="자유게시판"
-								onclick="location.href='myClub_Board.jsp?club_id=${club_id}&board_cd=007002';" /></li>
+								onclick="location.href='clubBoardList.do?club_id=${club_id}&board_cd=007002';" /></li>
 							<li style="margin-left: 15px;"><input type="button"
 								value="사진"
-								onclick="location.href='myClub_Board.jsp?club_id=${club_id}&board_cd=007003';" /></li>
+								onclick="location.href='clubBoardList.do?club_id=${club_id}&board_cd=007003';" /></li>
 							<li style="margin-left: 15px;"><input type="button"
 								value="일정"
-								onclick="location.href='club_calendar.jsp?club_id=${club_id}&board_cd=007004';" />
+								onclick="location.href='clubCalendar.do?club_id=${club_id}&board_cd=007004';" />
 			
 							</li>
 							<li style="margin-left: 25px;"><input type="button"

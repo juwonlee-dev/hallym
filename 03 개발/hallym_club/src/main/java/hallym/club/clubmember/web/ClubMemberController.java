@@ -20,10 +20,14 @@ import hallym.club.utils.CommonUtils;
 @Controller
 public class ClubMemberController {
 	
-
 	@Resource(name = "clubMemberService")
 	private ClubMemberService clubMemberService;
 	
+	/*
+	 * 동아리원
+	 * 동아리 가입
+	 * @RequestMapping(value="/clubSignUpForm.do")
+	*/
 	@RequestMapping(value="/clubSignUpForm.do")
 	public ModelAndView clubSignUpForm(HttpServletRequest request, HttpServletResponse response,
 							 ModelAndView mav,
@@ -61,6 +65,11 @@ public class ClubMemberController {
 		return mav;
 	}
 	
+	/*
+	 * 동아리원
+	 * 동아리 가입 (동작)
+	 * @RequestMapping(value="/clubSignUpAction.do")
+	*/
 	@RequestMapping(value="/clubSignUpAction.do")
 	public ModelAndView clubSignUpAction(HttpServletRequest request, HttpServletResponse response,
 							 ModelAndView mav,
