@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hallym.club.budget.dao.BudgetDAO">
+    <!-- 
+    private int club_id;
+	private int seq_no;
+	private String io_gb_cd;
+	private String use_dt;
+	private String contents;
+	private int price;
+	private String input_id;
+	private String input_ip;
+	private String input_date;
+	private String update_id;
+	private String update_ip;
+	private String update_date;
+     -->
+    <resultMap id="BudgetVOResult" type="hallym.club.budget.vo.BudgetVO">
+		 <result property="club_id" column="CLUB_ID" />
+		 <result property="seq_no" column="SEQ_NO" />
+		 <result property="io_gb_cd" column="IO_GB_CD" />
+		 <result property="use_dt" column="USE_DT" />
+		 <result property="contents" column="CONTENTS" />
+		 <result property="price" column="PRICE" />
+		 <result property="input_id" column="INPUT_ID" />
+		 <result property="input_ip" column="INPUT_IP" />
+		 <result property="input_date" column="INPUT_DATE" />
+		 <result property="update_id" column="UPDATE_ID" />
+		 <result property="update_ip" column="UPDATE_IP" />
+		 <result property="update_date" column="UPDATE_DATE" />
+	</resultMap>
+	
+    <select id="getBudget" parameterType="map" resultMap="BudgetVOResult">
+		select 
+			USE_DT, 
+			CONTENTS, 
+			PRICE 
+		FROM 
+			BUDGET
+		WHERE
+			CLUB_ID = #{club_id} AND
+			IO_GB_CD LIKE #{io_gb_cd} 
+			<if test="opt==1">
+			AND USE_DT LIKE #{use_dt}
+			</if>
+		ORDER BY USE_DT
+    </select>
+    
+   	<select id="getTotal" parameterType="map" resultType="string">
+
+		SELECT 
+			NVL(SUM(PRICE),0) 
+		FROM 
+			BUDGET 
+		WHERE 
+			CLUB_ID = #{club_id} AND 
+			IO_GB_CD LIKE #{io_gb_cd}
+		<if test="opt == 1">
+		    AND USE_DT LIKE #{use_dt}
+		</if>	
+		ORDER BY USE_DT
+   	</select>	
+   	
+   	<delete id="deleteBudget" parameterType="map">
+   	    
+   	    DELETE 
+   	    FROM 
+   	    	BUDGET 
+   	    WHERE 
+   	    	CLUB_ID = #{club_id} AND 
+   	    	IO_GB_CD LIKE #{io_gb_cd} 
+   	    
+   	</delete>
+   	
+   	<insert id="insertBudget" parameterType="map">
+   	    INSERT INTO 
+   	    	BUDGET 
+   	    		(
+   	    		CLUB_ID, 
+   	    		SEQ_NO, 
+   	    		IO_GB_CD, 
+   	    		USE_DT, 
+   	    		CONTENTS, 
+   	    		PRICE
+   	    		)
+			VALUES(
+				 #{club_id},
+				 (SELECT NVL(MAX(seq_no) + 1, 1) FROM budget),
+				 #{io_gb_cd},
+				 #{use_dt}, 
+				 #{contents}, 
+				 #{price}
+				 )
+   	    
+   	</insert>
+   	
+   	
+</mapper>

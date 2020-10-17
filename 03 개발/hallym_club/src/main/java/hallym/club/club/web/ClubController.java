@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,6 +28,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import hallym.club.board.service.BoardService;
 import hallym.club.board.vo.BoardVO;
+import hallym.club.budget.service.BudgetService;
+import hallym.club.budget.vo.BudgetVO;
 import hallym.club.club.service.ClubService;
 import hallym.club.club.vo.ClubVO;
 import hallym.club.clubmember.service.ClubMemberService;
@@ -60,6 +63,10 @@ public class ClubController {
 	
 	@Resource(name = "fileService")
 	private FileService fileService;
+	
+	@Resource(name = "budgetService")
+	private BudgetService budgetService;
+
 	
 	/*
 	 * 동아리
@@ -95,6 +102,11 @@ public class ClubController {
 		memberParams.put("id", userVO.getId());
 		String staff_cd = clubMemberService.getStaffCD(memberParams);
 
+		if (staff_cd == null) {
+			CommonUtils.showAlert(response, "가입된 동아리가 아닙니다.", "index.do");
+			return null;
+		}
+		
 		boolean isStaff = false;
 		if(staff_cd.equals("004001") || staff_cd.equals("004002"))
 			isStaff = true;
@@ -147,8 +159,15 @@ public class ClubController {
 		String staff_cd = clubMemberService.getStaffCD(memberParams);
 
 		boolean isStaff = false;
+		if (staff_cd == null) {
+			CommonUtils.showAlert(response, "가입된 동아리가 아닙니다.", "index.do");
+			return null;
+		}
+		
 		if(staff_cd.equals("004001") || staff_cd.equals("004002"))
 			isStaff = true;
+		
+	
 		System.err.println("[clubIntro.do] Intro_save_file: " + clubVO.getIntro_save_file_nm());
 		System.err.println("[clubIntro.do] poster_save_file: " + clubVO.getPoster_save_file_nm());
 		System.err.println("[clubIntro.do] staff_cd: " + staff_cd);
@@ -210,6 +229,12 @@ public class ClubController {
 		String staff_cd = clubMemberService.getStaffCD(memberParams);
 
 		boolean isStaff = false;
+		
+		if (staff_cd == null) {
+			CommonUtils.showAlert(response, "가입된 동아리가 아닙니다.", "index.do");
+			return null;
+		}
+		
 		if(staff_cd.equals("004001") || staff_cd.equals("004002"))
 			isStaff = true;
 		System.err.println("[clubProduct.do] Intro_save_file: " + clubVO.getIntro_save_file_nm());
@@ -325,6 +350,11 @@ public class ClubController {
 		memberParams.put("id", userVO.getId());
 		String staff_cd = clubMemberService.getStaffCD(memberParams);
 
+		if (staff_cd == null) {
+			CommonUtils.showAlert(response, "가입된 동아리가 아닙니다.", "index.do");
+			return null;
+		}
+		
 		boolean isStaff = false;
 		if(staff_cd.equals("004001") || staff_cd.equals("004002"))
 			isStaff = true;
@@ -499,6 +529,11 @@ public class ClubController {
 			memberParams.put("id", userVO.getId());
 			String staff_cd = clubMemberService.getStaffCD(memberParams);
 
+			if (staff_cd == null) {
+				CommonUtils.showAlert(response, "가입된 동아리가 아닙니다.", "index.do");
+				return null;
+			}
+			
 			boolean isStaff = false;
 			if(staff_cd.equals("004001") || staff_cd.equals("004002"))
 				isStaff = true;
@@ -601,6 +636,11 @@ public class ClubController {
 			memberParams.put("id", userVO.getId());
 			String staff_cd = clubMemberService.getStaffCD(memberParams);
 
+			if (staff_cd == null) {
+				CommonUtils.showAlert(response, "가입된 동아리가 아닙니다.", "index.do");
+				return null;
+			}
+			
 			boolean isStaff = false;
 			if(staff_cd.equals("004001") || staff_cd.equals("004002"))
 				isStaff = true;
@@ -665,6 +705,11 @@ public class ClubController {
 		memberParams.put("id", userVO.getId());
 		String staff_cd = clubMemberService.getStaffCD(memberParams);
 
+		if (staff_cd == null) {
+			CommonUtils.showAlert(response, "가입된 동아리가 아닙니다.", "index.do");
+			return null;
+		}
+		
 		boolean isStaff = false;
 		if(staff_cd.equals("004001") || staff_cd.equals("004002"))
 			isStaff = true;
@@ -702,8 +747,8 @@ public class ClubController {
 										@RequestParam(value = "club_id", required = false) String club_id,
 										@RequestParam(value = "title",  required = false) String title,
 										@RequestParam(value = "contents", required = false) String contents,
-										@RequestParam(value = "start_date", required = false) String start_date,
-										@RequestParam(value = "end_date", required = false) String end_date,
+										@RequestParam(value = "start_date", required = false, defaultValue = "") String start_date,
+										@RequestParam(value = "end_date", required = false, defaultValue = "") String end_date,
 										@RequestParam(value = "writer", required = false, defaultValue = "") String writer,
 										@RequestParam(value = "board_cd", required = false) String board_cd) {
 		response.setContentType("text/html; charset=UTF-8");
@@ -745,6 +790,7 @@ public class ClubController {
 			params.put("end_date", today);
 		else
 			params.put("end_date", end_date);
+		
 		params.put("input_id", (writer.isEmpty()) ? userVO.getId() : writer); // 게시글을 작성한 사용자 ID
 		params.put("input_ip", CommonUtils.getClientIP(request));
 		System.err.println("[clubBoardWriteAction.do] params: " + params);
@@ -816,6 +862,11 @@ public class ClubController {
 		memberParams.put("id", userVO.getId());
 		String staff_cd = clubMemberService.getStaffCD(memberParams);
 
+		if (staff_cd == null) {
+			CommonUtils.showAlert(response, "가입된 동아리가 아닙니다.", "index.do");
+			return null;
+		}
+		
 		boolean isStaff = false;
 		if(staff_cd.equals("004001") || staff_cd.equals("004002"))
 			isStaff = true;
@@ -969,11 +1020,314 @@ public class ClubController {
 	
 	/*
 	 * 동아리
+	 * 커뮤니티 예산 
+	 * @RequestMapping(value="/clubBudget.do")
+	*/
+	@RequestMapping(value="/clubBudget.do")
+ 	public ModelAndView clubBudget(HttpServletRequest request, HttpServletResponse response,
+							 ModelAndView mav,
+							 @RequestParam(value = "club_id", required = false, defaultValue ="") String club_id,
+							 @RequestParam(value = "io_gb_cd", required = false, defaultValue ="009001") String io_gb_cd)
+	{
+		HttpSession session = request.getSession();
+		UserVO userVO = (UserVO) session.getAttribute("userVO");
+		
+		if(userVO == null || userVO.getId().isEmpty()) {
+			CommonUtils.showAlert(response, "로그인이 필요한 서비스입니다.","login.do");
+			return null;
+		}
+		
+		/* 클럽 정보 */
+		Map<String, Object> clubParams = new HashMap<String, Object>();
+		clubParams.put("club_id", club_id);
+		ClubVO clubVO = clubService.getClub(clubParams);
+
+		/* 클럽 회장 */
+		Map<String, Object> presidentParams = new HashMap<String, Object>();
+		presidentParams.put("club_id", club_id);
+		clubVO.setPresident(clubMemberService.getClubPresident(presidentParams).getName());
+		
+		/* 사용자 권한 */
+		Map<String, Object> memberParams = new HashMap<String, Object>();
+		memberParams.put("club_id", club_id);
+		memberParams.put("id", userVO.getId());
+		String staff_cd = clubMemberService.getStaffCD(memberParams);
+
+		if (staff_cd == null) {
+			CommonUtils.showAlert(response, "가입된 동아리가 아닙니다.", "index.do");
+			return null;
+		}
+		
+		boolean isStaff = false;
+		if(staff_cd.equals("004001") || staff_cd.equals("004002"))
+			isStaff = true;
+		System.err.println("[clubBudget.do] Intro_save_file: " + clubVO.getIntro_save_file_nm());
+		System.err.println("[clubBudget.do] poster_save_file: " + clubVO.getPoster_save_file_nm());
+		System.err.println("[clubBudget.do] staff_cd: " + staff_cd);
+		System.err.println("[clubBudget.do] isStaff: " + isStaff);
+		
+
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("club_id", club_id);
+		params.put("io_gb_cd", io_gb_cd);
+		params.put("opt", 0);
+		List<BudgetVO> budgetList = budgetService.getBudget(params);
+		String totalPrice = budgetService.getTotal(params);
+		System.err.println("[clubBudget.do] io_gb_cd: " + io_gb_cd);
+		for(BudgetVO budgetVO : budgetList) {
+			System.err.println("[clubBudget.do]  budgetVO.getUse_dt(): " + budgetVO.getUse_dt());
+			System.err.println("[clubBudget.do] budgetVO.getContents(): " + budgetVO.getContents());
+			System.err.println("[clubBudget.do] budgetVO.getPrice(): " + budgetVO.getPrice());
+		}
+		
+		System.err.println("[clubBudget.do] totalPrice: " + totalPrice);
+		
+		/* clubPlatform */
+		mav.addObject("club_id", club_id);
+		mav.addObject("club_name", clubVO.getClub_nm());
+		mav.addObject("open_dt", clubVO.getOpen_dt());
+		mav.addObject("president_nm", clubVO.getPresident());
+		mav.addObject("isStaff", isStaff);
+		mav.addObject("club_intro", clubVO.getIntro_save_file_nm());
+		mav.addObject("club_poster", clubVO.getPoster_save_file_nm());
+		
+		/* clubBudget */
+		session.setAttribute("budgetList", budgetList);
+		session.setAttribute("totalPrice", totalPrice);
+		mav.addObject("budgetList", budgetList);
+		mav.addObject("totalPrice", totalPrice);
+		mav.setViewName("club/clubBudget");
+		return mav;
+	}
+	
+	/*
+	 * 동아리
+	 * 커뮤니티 예산 
+	 * @RequestMapping(value="/clubBudgetAction.do")
+	*/
+	@RequestMapping(value="/clubBudgetAction.do")
+ 	public ModelAndView clubBudgetAction(HttpServletRequest request, HttpServletResponse response,
+							 ModelAndView mav,
+							 @RequestParam(value = "club_id", required = false, defaultValue ="") String club_id,
+							 @RequestParam(value = "io_gb_cd", required = false) String io_gb_cd,
+							 @RequestParam(value = "use_dt", required = false ) String[] use_dt,
+							 @RequestParam(value = "contents", required = false) String[] contents,
+							 @RequestParam(value = "price", required = false) String[] price)
+	{
+		HttpSession session = request.getSession();
+		UserVO userVO = (UserVO) session.getAttribute("userVO");
+
+		System.err.println("[clubBudgetAction.do] io_gb_cd: " + io_gb_cd);
+		if(userVO == null || userVO.getId().isEmpty()) {
+			CommonUtils.showAlert(response, "로그인이 필요한 서비스입니다.","login.do");
+			return null;
+		}
+		try {
+			Map<String, Object> params = new HashMap<String, Object>();
+			System.err.println("[clubBudgetAction.do]  use_dt.length: " + use_dt.length);
+			params.put("club_id", club_id);
+			params.put("io_gb_cd", io_gb_cd);
+			budgetService.deleteBudget(params);
+			for (int i = 0; i < use_dt.length; i++) {
+				System.err.println("[clubBudgetAction.do] use_dt["+i+"] " + use_dt[i]);
+			}
+			for (int i = 0; i < price.length - 1; i++) {
+				BudgetVO vo = new BudgetVO();
+				if (use_dt[i] == "" || use_dt[i] == null)
+					break;
+
+				use_dt[i] = use_dt[i].replaceAll("\\-", "");
+				vo.setUse_dt(use_dt[i]);
+				if(price[i] == null || price[i].trim().equals("")) {
+					break;
+				}
+				System.err.println("[clubBudgetAction.do] price["+i+"]: " + price[i]);
+				int tmp_price = Integer.parseInt(price[i].replaceAll("\\,", ""));
+				vo.setPrice(tmp_price);
+				vo.setContents(contents[i]);
+				
+				params.put("use_dt", vo.getUse_dt());
+				params.put("contents", vo.getContents());
+				params.put("price", vo.getPrice());
+				budgetService.insertBudget(params);
+
+			}
+		
+			CommonUtils.showAlert(response, "정상적으로 저장되었습니다.", "/clubBudget.do?club_id=" + club_id);
+			return null;
+		} catch (Exception e) {
+			System.err.println("[clubBudgetAction.do] SAVE ERROR: " +e.getMessage());
+			CommonUtils.showAlert(response, "저장에 실패했습니다.", "/clubBudget.do?club_id=" + club_id);
+			return null;
+		}
+	}
+	
+	/*
+	 * 동아리
+	 * 커뮤니티 예산
+	 * @RequestMapping(value="/clubBudgetTotal.do")
+	*/
+	@SuppressWarnings("static-access")
+	@RequestMapping(value="/clubBudgetTotal.do")
+ 	public ModelAndView clubBudgetTotal(HttpServletRequest request, HttpServletResponse response,
+							 ModelAndView mav,
+							 @RequestParam(value = "club_id", required = false, defaultValue ="") String club_id,
+							 @RequestParam(value = "io_gb_cd", required = false, defaultValue ="009001") String io_gb_cd,
+    						 @RequestParam(value = "year", required = false, defaultValue="-1") int year,
+							 @RequestParam(value = "month", required = false, defaultValue="-1") int month)
+	{
+		HttpSession session = request.getSession();
+		UserVO userVO = (UserVO) session.getAttribute("userVO");
+		
+		if(userVO == null || userVO.getId().isEmpty()) {
+			CommonUtils.showAlert(response, "로그인이 필요한 서비스입니다.","login.do");
+			return null;
+		}
+		Calendar cal = Calendar.getInstance();
+		if(year == -1)
+			year = cal.get(cal.YEAR);
+		if(month == -1)
+			month = cal.get(cal.MONTH) + 1;
+		String use_dt = "";
+		
+		if (year == 0)
+			use_dt = use_dt + "____";
+		else
+			use_dt = use_dt + year;
+
+		if (month == 0)
+			use_dt = use_dt + "%";
+		else {
+			if (month < 10)
+				use_dt = use_dt + "0" + month + '%';
+			else
+				use_dt = use_dt + month + "%";
+		}
+
+		/* 클럽 정보 */
+		Map<String, Object> clubParams = new HashMap<String, Object>();
+		clubParams.put("club_id", club_id);
+		ClubVO clubVO = clubService.getClub(clubParams);
+
+		/* 클럽 회장 */
+		Map<String, Object> presidentParams = new HashMap<String, Object>();
+		presidentParams.put("club_id", club_id);
+		clubVO.setPresident(clubMemberService.getClubPresident(presidentParams).getName());
+		
+		/* 사용자 권한 */
+		Map<String, Object> memberParams = new HashMap<String, Object>();
+		memberParams.put("club_id", club_id);
+		memberParams.put("id", userVO.getId());
+		String staff_cd = clubMemberService.getStaffCD(memberParams);
+
+		if (staff_cd == null) {
+			CommonUtils.showAlert(response, "가입된 동아리가 아닙니다.", "index.do");
+			return null;
+		}
+		
+		boolean isStaff = false;
+		if(staff_cd.equals("004001") || staff_cd.equals("004002"))
+			isStaff = true;
+		System.err.println("[clubBudgetTotal.do] Intro_save_file: " + clubVO.getIntro_save_file_nm());
+		System.err.println("[clubBudgetTotal.do] poster_save_file: " + clubVO.getPoster_save_file_nm());
+		System.err.println("[clubBudgetTotal.do] staff_cd: " + staff_cd);
+		System.err.println("[clubBudgetTotal.do] isStaff: " + isStaff);
+		
+		Map<String, Object> incomeParams = new HashMap<String, Object>();
+		incomeParams.put("club_id", club_id);
+		incomeParams.put("io_gb_cd", "009001");
+		incomeParams.put("opt", 1);
+		incomeParams.put("use_dt", use_dt);
+		
+		List<BudgetVO> incomeList = budgetService.getBudget(incomeParams);
+		String incomeTotalPrice = budgetService.getTotal(incomeParams);
+		
+		Map<String, Object> expenseParams = new HashMap<String, Object>();
+		expenseParams.put("club_id", club_id);
+		expenseParams.put("io_gb_cd", "009002");
+		expenseParams.put("opt", 1);
+		expenseParams.put("use_dt", use_dt);
+		
+		List<BudgetVO> expenseList = budgetService.getBudget(expenseParams);
+		String expenseTotalPrice = budgetService.getTotal(expenseParams);
+		
+		/* clubPlatform */
+		mav.addObject("club_id", club_id);
+		mav.addObject("club_name", clubVO.getClub_nm());
+		mav.addObject("open_dt", clubVO.getOpen_dt());
+		mav.addObject("president_nm", clubVO.getPresident());
+		mav.addObject("isStaff", isStaff);
+		mav.addObject("club_intro", clubVO.getIntro_save_file_nm());
+		mav.addObject("club_poster", clubVO.getPoster_save_file_nm());
+		
+		/* clubBudgetTotal */
+		session.setAttribute("incomeList", incomeList);
+		session.setAttribute("incomeTotalPrice", incomeTotalPrice);
+		
+		session.setAttribute("expenseList", expenseList);
+		session.setAttribute("expenseTotalPrice", expenseTotalPrice);
+//		mav.addObject("incomeList", incomeList);
+//		mav.addObject("incomeTotalPrice", incomeTotalPrice);
+//		mav.addObject("expenseList", expenseList);
+//		mav.addObject("expenseTotalPrice", expenseTotalPrice);
+		mav.setViewName("club/clubBudgetTotal");
+		return mav;
+	}
+	
+	/*
+	 * 동아리
+	 * 회원 탈퇴 (동작)
+	 * @RequestMapping(value="/leaveClubAction.do")
+	*/
+	@RequestMapping(value="/leaveClubAction.do")
+	public ModelAndView leaveClubAction(HttpServletRequest request, HttpServletResponse response,
+			 ModelAndView mav,
+			 @RequestParam(value = "club_id", required = false, defaultValue ="") String club_id)
+	{
+		HttpSession session = request.getSession();
+		UserVO userVO = (UserVO) session.getAttribute("userVO");
+		
+		if(userVO == null || userVO.getId().isEmpty()) {
+			CommonUtils.showAlert(response, "로그인이 필요한 서비스입니다.","login.do");
+			return null;
+		}
+		
+		
+		
+		/* 사용자 권한 */
+		Map<String, Object> memberParams = new HashMap<String, Object>();
+		memberParams.put("club_id", club_id);
+		memberParams.put("id", userVO.getId());
+		String staff_cd = clubMemberService.getStaffCD(memberParams);
+
+		if (staff_cd == null) {
+			CommonUtils.showAlert(response, "가입된 동아리가 아닙니다.", "index.do");
+			return null;
+		}
+		
+		boolean isStaff = false;
+		if(staff_cd.equals("004001")) {
+			CommonUtils.showAlert(response, "회장은 탈퇴 할 수 없습니다.", "/clubIntro.do?club_id=" + club_id);
+			return null;
+		}
+		
+		System.err.println("[leaveClubAction.do] staff_cd: " + staff_cd);
+		System.err.println("[leaveClubAction.do] isStaff: " + isStaff);
+		
+		clubMemberService.leaveClub(memberParams);
+		CommonUtils.showAlert(response, "탈퇴 되었습니다.", "/index.do");
+		return null;
+		
+	}
+	
+	/*
+	 * 동아리
 	 * 조회 및 가입
 	 * @RequestMapping(value="/clubSearch.do")
 	*/
 	@RequestMapping(value="/clubSearch.do")
-	public ModelAndView clubSearch(HttpServletRequest request, HttpServletResponse response,
+ 	public ModelAndView clubSearch(HttpServletRequest request, HttpServletResponse response,
 							 ModelAndView mav,
 							 @RequestParam(value = "gb_cd", required = false, defaultValue ="") String gb_cd,
 							 @RequestParam(value = "at_cd", required = false, defaultValue ="") String at_cd,

@@ -26,7 +26,10 @@
 #below .save-btn {margin-right:10px; background: #3b5998; width:100px; height:30px; color:white; border: 2px solid #3b5998; border-radius: 5px; cursor: pointer;}
 
 /* total_budget */
-.search-btn {text-indent: -999em;	width: 30px; height: 30px; background: url(../image/btn.gif) no-repeat 50% 50%; border: 0; cursor: pointer;}
+/* url(../image/btn.gif)  */
+/* /images/main/League_facebook.jpg */
+/* /images/club/image/btn.gif */
+.search-btn {text-indent: -999em;	width: 30px; height: 30px; background: url(/images/club/image/btn.gif) no-repeat 50% 50%; border: 0; cursor: pointer;}
 
 .total-tbl {float: left; border-top: 3px solid #168; table-layout: fixed; height:400px; display: block; overflow: auto;}
 .total-tbl th {background: #f0f6f9; color: #168; border-top: 1px solid #168;}

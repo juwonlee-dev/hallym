@@ -62,7 +62,18 @@
 		<property name="basePackage" value="hallym.club.product.dao" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionProduct" />
 	</bean>
+	
+ 	<!-- product -->
+ 	<bean id="sqlSessionBudget" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:/egovframework/sqlmap/sql-mapper-config.xml" />
+		<property name="mapperLocations" value="classpath*:/egovframework/sqlmap/budget/*.xml" />
+	</bean>
  	
+ 	<bean class="egovframework.rte.psl.dataaccess.mapper.MapperConfigurer">
+		<property name="basePackage" value="hallym.club.budget.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionBudget" />
+	</bean>
  	
  	<!-- login  -->
 	<bean id="sqlSessionLogin" class="org.mybatis.spring.SqlSessionFactoryBean">

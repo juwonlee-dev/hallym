@@ -70,4 +70,9 @@ public class ClubMemberServiceImpl implements ClubMemberService{
 		return clubMemberDAO.getAllClubMember(params);
 	}
 
+	@Override
+	public void leaveClub(Map<String, Object> params) {
+		clubMemberDAO.leaveClub(params);
+	}
+
 }

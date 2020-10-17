@@ -190,4 +190,13 @@
 			
    	</select>
    	
+   	<delete id="leaveClub" parameterType="map">
+   	    DELETE
+   	    FROM
+   	    	CLUB_MEMBER
+   	    WHERE
+   	    	STUDENT_ID = #{id} AND
+   	    	CLUB_ID = #{club_id}
+   	</delete>
+   	
 </mapper>

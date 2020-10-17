@@ -104,7 +104,7 @@
 								onclick="location.href ='clubProduct.do?club_id=${club_id}';" /></li>
 							<li style="margin-left: 15px;"><input type="button"
 								value="예산"
-								onclick="location.href ='club_budget.jsp?club_id=${club_id}';" /></li>
+								onclick="location.href ='clubBudget.do?club_id=${club_id}&io_gb_cd=009001';" /></li>
 							<li style="margin-left: 15px;"><input type="button"
 								value="회원목록"
 								onclick="location.href ='clubMemberList.do?club_id=${club_id}';" /></li>
@@ -127,7 +127,7 @@
 								onclick="location.href='clubCalendar.do?club_id=${club_id}&board_cd=007004';" />
 			
 							</li>
-							<li style="margin-left: 25px;"><input type="button"
+							<%-- <li style="margin-left: 25px;"><input type="button"
 								value="└개인 정보 동의"
 								onclick="location.href='myClub_Board.jsp?club_id=${club_id}&board_cd=007004';" /></li>
 							
@@ -137,7 +137,7 @@
 								value="└개인 정보 동의 목록"
 								onclick="location.href='club_agreeMember.jsp?club_id=${club_id}&title_no=-1';" /></li>
 							
-							</c:if>
+							</c:if> --%>
 						</ul>
 						<hr>
 						
@@ -160,9 +160,10 @@
 						</c:if>	
 			
 						<ul style="margin-top: 10px; border-bottom: 2px solid #797979;">
-							<form method="post" action="applyDeleteAction.jsp"
+							<form method="post" action="leaveClubAction.do"
 								onSubmit="return confirm('탈퇴 신청을 하시겠습니까?');">
-								<input type="hidden" name="clubNM" value="${club_name}"> <input
+								<input type="hidden" name="club_id" value="${club_id}">
+								<input
 									type="submit" value="탈퇴 하기"
 									style="background-color: transparent; border: 0px transparent solid; cursor: pointer;">
 							</form>
