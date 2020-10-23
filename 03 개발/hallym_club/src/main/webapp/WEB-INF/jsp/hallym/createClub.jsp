@@ -215,7 +215,7 @@ table.type03 td {
 					</div>
 				</div>
 				<ul class="lnb-menu jwxe-menu-ul">
-					<li class="active"><a href="/createClub.do" class="active">동아리
+					<li class="active"><a href="/createClubAction.do" class="active">동아리
 							개설 신청</a></li>
 				</ul>
 			</div>
@@ -235,7 +235,7 @@ table.type03 td {
 
 				<div class="main">
 					<h2>신규 동아리 등록</h2>
-					<form method="post" action="/createClub.do"
+					<form method="post" action="/createClubAction.do"
 						enctype="multipart/form-data" onsubmit="return check_form();">
 						<table class="type03">
 

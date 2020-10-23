@@ -56,11 +56,6 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public String checkAuth(Map<String, Object> params) {
-		return boardDAO.checkAuth(params);
-	}
-
-	@Override
 	public void increaseOpenCnt(Map<String, Object> params) {
 		boardDAO.increaseOpenCnt(params);
 	}

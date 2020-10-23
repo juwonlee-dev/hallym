@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import hallym.club.board.service.BoardService;
+import hallym.club.common.service.CommonService;
 import hallym.club.user.service.UserService;
 import hallym.club.user.vo.UserVO;
 import hallym.club.utils.CommonUtils;
@@ -28,6 +29,10 @@ public class UserController {
 	
 	@Resource(name = "boardService")
 	private BoardService boardService;
+	
+	@Resource(name = "commonService")
+	private CommonService commonService;
+	
 	
 	/*
 	 * 유저
@@ -71,6 +76,8 @@ public class UserController {
 	 * 유저
 	 * 로그인 페이지 (동작)
 	 * @RequestMapping(value="/login.do", method = RequestMethod.POST)
+	 * @RequestParam gbn(GBN), user_id(ID)
+	 * @RequestParam password(PASSWORD) chk_id
 	*/
 	@RequestMapping(value="/login.do",  method=RequestMethod.POST)
 	public String loginAction(HttpServletRequest request, HttpServletResponse response,
@@ -87,10 +94,6 @@ public class UserController {
 		
 		// 사용자 로그인 체크
 		String result = userService.checkLogin(session, params);
-		Map<String, Object> authParams = new HashMap<String, Object>();
-		authParams.put("ID", ID);
-		String auth_code = boardService.checkAuth(authParams);
-		
 //		Cookie cookie = null;
 //		if(chk_id != null && !chk_id.isEmpty() && chk_id.equalsIgnoreCase("Y")) {
 //			cookie = new Cookie("ID", ID);
@@ -110,6 +113,7 @@ public class UserController {
 //			response.addCookie(cookie);
 //		}
 		
+		String logType = (result.equalsIgnoreCase("F"))?"011003":( (result.equalsIgnoreCase("E"))?"011004":"011001");
 		if(result.equalsIgnoreCase("F")) {
 			result = "hallym/Login";
 			System.err.println("[login.do] 아이디 또는 비밀번호가 올바르지 않습니다.");
@@ -117,15 +121,23 @@ public class UserController {
 			return null;
 		} else if(result.equalsIgnoreCase("E")) {
 			result = "hallym/Login";
-
 			System.err.println("[login.do] 알 수 없는 오류가 발생했습니다.");
 			CommonUtils.showAlert(response, "알 수 없는 오류가 발생했습니다.","login.do");
 			return null;
 		} else {
-			session.setAttribute("auth_code", auth_code);
 			System.out.println("IP : " + CommonUtils.getClientIP(request));
 			System.out.println("[UserController][login.do] (session) userVO: "+ (UserVO) session.getAttribute("userVO"));
 		}
+		
+		/* 로그인 로그 남기기 */
+		Map<String, Object> params3 = new HashMap<String, Object>();
+		params3.put("IDNO", params.get("ID"));
+		params3.put("PWD", params.get("PASSWORD"));
+		params3.put("GBN", params.get("GBN"));
+		params3.put("LOG_TYPE", logType);
+		params3.put("LOG_IP", CommonUtils.getClientIP(request));
+		params3.put("REASON", "");
+		commonService.writeLog(params3);
 		
 		return result;
 	}
@@ -139,19 +151,13 @@ public class UserController {
 	public ModelAndView logoutAction(HttpServletRequest request,
 							HttpServletResponse response,
 							ModelAndView mav) throws Exception {
+		
 		HttpSession session = request.getSession();
+		session.setAttribute("LOG_TYPE", "011005"); // 직접 로그아웃(011005)
 		session.invalidate();
-		mav.setViewName("hallym/Login");
-		response.setContentType("text/html; charset=UTF-8");
-        PrintWriter out = response.getWriter();
-		out.println("<script>");
-		out.println("alert('로그아웃 되었습니다.')");
-		out.println("location.href='index.do'");
-		out.println("window.close();");
-		out.println("</script>");
-        out.flush();
-
-		return mav;
+		
+		CommonUtils.showAlert(response, "로그아웃 되었습니다.", "/index.do");
+    	return null;
 	}
 	
 	/*
@@ -165,7 +171,6 @@ public class UserController {
 							ModelAndView mav) throws Exception {
 		
 		HttpSession session = request.getSession();
-		session.invalidate();
 
 		mav.setViewName("hallym/Login");
 		

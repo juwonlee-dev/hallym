@@ -40,7 +40,8 @@
 			*
 		FROM
 			BOARD_FILE
-		WHERE 1=1
+		WHERE
+			CLUB_ID = #{club_id}
 		<choose>
 		    <when test="opt == 1"><!--  게시판 파일 조회 -->
 				AND BOARD_CD = #{board_cd}
@@ -63,7 +64,8 @@
 			COUNT(FILE_NO)
 		FROM
 			BOARD_FILE
-		WHERE 1=1
+		WHERE 
+			CLUB_ID = #{club_id}
 		<choose>
 	    <when test="opt == 1"> <!-- 게시판 파일 조회 -->
 			AND BOARD_CD = #{board_cd}
@@ -89,8 +91,9 @@
          	FROM
          		BOARD_FILE
          	WHERE
-         		BOARD_CD = #{board_cd}
-	       	    AND BOARD_NO = #{board_no}
+         		CLUB_ID = #{club_id} AND
+         		BOARD_CD = #{board_cd} AND
+	       	    BOARD_NO = #{board_no}
        	    <if test="opt != 1">
          		AND FILE_NO = #{file_no}
          	</if>
@@ -177,6 +180,7 @@
    		FROM
    			BOARD_FILE
    		WHERE 1=1
+	    AND CLUB_ID = #{club_id}
 	<choose>
 	    <when test="opt == 1"> <!-- 게시판 파일 일괄 삭제 -->
 			AND BOARD_CD = #{board_cd}

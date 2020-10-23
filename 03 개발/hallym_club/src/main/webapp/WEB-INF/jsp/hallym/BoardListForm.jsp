@@ -364,16 +364,16 @@
 												</td>
 	                                            <td>${item.open_cnt}</td>
 	                                            <td class="b-no-right">
-	                                            	<%-- <c:choose>
-									            		<c:when test='${item.ATTACH_YN eq "Y"}'>
+	                                            	<c:choose>
+									            		<c:when test='${item.attach_yn eq "Y"}'>
 									            			<div class="b-file-box">
 		                                                    	<span class="hide">첨부파일</span>
 		                                                	</div>	
-									            		</c:when> --%>
-									            		<%-- <c:otherwise> --%>
+									            		</c:when>
+									            		<c:otherwise>
 									            			<span>-</span>
-									            		<%-- </c:otherwise>
-									            	</c:choose> --%>
+									            		</c:otherwise>
+									            	</c:choose>
 	                                            </td>
 									        </tr>  
 								    	</c:forEach>

@@ -20,7 +20,8 @@
 	private String update_id;
 	private String update_ip;
 	private String update_date;
-	private String board_fix; -->
+	private String board_fix;
+	private String attach_yn; -->
 	<resultMap type="hallym.club.board.vo.BoardVO" id="boardVOResult">
 	    
 	    <result property="club_id" column="CLUB_ID" />
@@ -40,6 +41,7 @@
        	<result property="update_id" column="UPDATE_ID" />
        	<result property="update_ip" column="UPDATE_IP" />
        	<result property="update_date" column="UPDATE_DATE" />
+       	<result property="attach_yn" column="ATTACH_YN" />
     </resultMap>
     
 	<select id="getIntroNotice" resultMap="boardVOResult">
@@ -140,8 +142,10 @@
 	 	SET
 	 		OPEN_CNT = NVL(OPEN_CNT, 0) + 1
 	 	WHERE
-	 		BOARD_CD = #{board_cd}
-	 		AND BOARD_NO = #{board_no}
+	 		BOARD_CD = #{board_cd} AND 
+	 		BOARD_NO = #{board_no} AND
+	 		CLUB_ID = #{club_id}
+	 		
       
      </update>
      
@@ -158,11 +162,12 @@
          	FROM
          		BOARD
          	WHERE
+         		CLUB_ID = #{club_id} AND
          		BOARD_CD = #{board_cd}
          	<if test="opt != 1">
          	    AND BOARD_NO = #{board_no}
          	</if>
-         )
+         	)
          WHERE 1=1
          <if test="opt == 1">
          	AND RNUM = 1
@@ -195,7 +200,7 @@
          	VALUES(
          		#{club_id},
          		#{board_cd},
-         		(SELECT NVL( MAX(board_no), 0) + 1 FROM BOARD WHERE BOARD_CD = #{board_cd}),
+         		(SELECT NVL( MAX(board_no), 0) + 1 FROM BOARD WHERE CLUB_ID=#{club_id} AND BOARD_CD = #{board_cd}),
          		#{title},
          		#{contents},
          		#{fix_yn},
@@ -225,7 +230,8 @@
 			UPDATE_DATE = SYSDATE
 		WHERE
 			BOARD_CD = #{board_cd} AND 
-			BOARD_NO = #{board_no}
+			BOARD_NO = #{board_no} AND
+			CLUB_ID = #{club_id}
 			      
      </update> 
 	
@@ -238,8 +244,9 @@
      	SET
      		BBSAVAILABLE = 0
      	WHERE
-     		BOARD_CD = #{board_cd}
-     		AND BOARD_NO = #{board_no}
+     		CLUB_ID = #{club_id} AND
+     		BOARD_CD = #{board_cd} AND 
+     		BOARD_NO = #{board_no}
      	
      </update>
      
@@ -250,8 +257,9 @@
    		FROM
    			BOARD
    		WHERE
-   			BOARD_CD = #{board_cd}
-   			AND BOARD_NO = #{board_no}
+   			CLUB_ID = #{club_id} AND
+   			BOARD_CD = #{board_cd} AND
+   			BOARD_NO = #{board_no}
      	
      </delete>
      
@@ -262,6 +270,7 @@
 	    	ATTACH_YN = #{attach_yn}
 	    WHERE
 	    	CLUB_ID = #{club_id} AND
+	    	BOARD_CD = #{board_cd} AND
 	    	BOARD_NO = #{board_no}
 	    
 	</update>

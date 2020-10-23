@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import hallym.club.clubmember.service.ClubMemberService;
+import hallym.club.clubmember.vo.ClubMemberVO;
 import hallym.club.user.vo.UserVO;
 import hallym.club.utils.CommonUtils;
 
@@ -24,9 +25,10 @@ public class ClubMemberController {
 	private ClubMemberService clubMemberService;
 	
 	/*
-	 * 동아리원
-	 * 동아리 가입
+	 * 동아리
+	 * 동아리 가입 신청 양식
 	 * @RequestMapping(value="/clubSignUpForm.do")
+	 * @RequestParam club_id, club_nm
 	*/
 	@RequestMapping(value="/clubSignUpForm.do")
 	public ModelAndView clubSignUpForm(HttpServletRequest request, HttpServletResponse response,
@@ -35,12 +37,7 @@ public class ClubMemberController {
 							 @RequestParam(value = "club_nm", required = false, defaultValue ="") String club_nm) throws Exception{
 		HttpSession session = request.getSession();
 		UserVO userVO = (UserVO) session.getAttribute("userVO");
-
-		if(userVO == null) {
-			CommonUtils.showAlert(response, "로그인이 필요한 서비스입니다.", "login.do");
-			return null;
-		} 
-		club_nm = CommonUtils.getUTF8(club_nm);
+//		club_nm = CommonUtils.getUTF8(club_nm);
 		
 		System.err.println("[clubSignUpForm.do] club_id: " + club_id);
 		System.err.println("[clubSignUpForm.do] userVO.getId(): " + userVO.getId());
@@ -58,6 +55,7 @@ public class ClubMemberController {
 			return null;
 		}
 		
+		System.err.println("[clubSignUpForm.do] club_nm: " + club_nm);
 		mav.addObject("club_id", club_id);
 		mav.addObject("club_nm", club_nm);
 		mav.addObject("userVO", userVO);
@@ -66,9 +64,12 @@ public class ClubMemberController {
 	}
 	
 	/*
-	 * 동아리원
-	 * 동아리 가입 (동작)
+	 * 동아리
+	 * 동아리 가입  신청 (동작)
 	 * @RequestMapping(value="/clubSignUpAction.do")
+	 * @RequestParam club_id, major, grade, name
+	 * @RequestParam phone_no, email, plan
+	 * @RequestParam hope, user_id
 	*/
 	@RequestMapping(value="/clubSignUpAction.do")
 	public ModelAndView clubSignUpAction(HttpServletRequest request, HttpServletResponse response,
@@ -84,11 +85,6 @@ public class ClubMemberController {
 							 @RequestParam(value = "user_id", required = false, defaultValue ="") String user_id) throws Exception{
 		HttpSession session = request.getSession();
 		UserVO userVO = (UserVO) session.getAttribute("userVO");
-
-		if(userVO == null) {
-			CommonUtils.showAlert(response, "로그인이 필요한 서비스입니다.", "login.do");
-			return null;
-		} 
 		
 		System.err.println("[clubSignUpAction.do] club_id: " + club_id);
 		System.err.println("[clubSignUpAction.do] major: " + major);
@@ -120,4 +116,128 @@ public class ClubMemberController {
 		return null;
 	}
 
+	
+	/*
+	 * 동아리
+	 * 동아리 회원 정보
+	 * @RequestMapping(value="/clubMemberInfo.do")
+	 * @RequestParam club_id, student_id
+	*/
+	@RequestMapping(value="/clubMemberInfo.do")
+ 	public ModelAndView clubMemberInfo(HttpServletRequest request, HttpServletResponse response,
+							 ModelAndView mav,
+							 @RequestParam(value = "club_id", required = false, defaultValue ="0") String club_id,
+							 @RequestParam(value = "student_id", required = false, defaultValue ="") String student_id )
+	{
+		HttpSession session = request.getSession();
+		UserVO userVO = (UserVO) session.getAttribute("userVO");
+		Map<String, Object> membersParams = new HashMap<String, Object>();
+		membersParams.put("club_id", club_id);
+		membersParams.put("join_cd", "008001");
+		membersParams.put("opt", 1);
+		membersParams.put("id", student_id);
+		
+		ClubMemberVO memberInfo = clubMemberService.getClubMember(membersParams).get(0);
+		System.err.println("[clubMemberInfo.do] memberInfo: \n" + memberInfo);
+		
+		
+		if (!memberInfo.getJoin_cd().equals("008001")) {
+			CommonUtils.showAlert(response, "가입승인이 안된 동아리 입니다.", "index.do");
+			return null;
+		}
+		
+		
+		if (student_id.equals(userVO.getId())) {
+	   		CommonUtils.showAlert(response, "자신을 수정 할 수 없습니다..", "clubIntro.do?club_id=" + club_id);
+			return null;
+		} 
+		ClubMemberVO president = clubMemberService.getClubPresident(membersParams);
+		boolean isPresident = false;
+		if(userVO.getId().equals(president.getStudent_id()))
+			isPresident = true;
+		
+		membersParams.put("id", userVO.getId());
+		String staff_cd = clubMemberService.getStaffCD(membersParams);
+		
+		boolean isStaff = false;
+		if(staff_cd.equals("004001") || staff_cd.equals("004002"))
+			isStaff = true;
+		
+		if(! isStaff) {
+			CommonUtils.showAlert(response, "임원이상 이용하는한 서비스 입니다.", "clubIntro.do?club_id=" + club_id);
+			return null;
+		}
+		
+		mav.addObject("club_id", club_id);
+		session.setAttribute("join_cd",  memberInfo.getJoin_cd());
+		session.setAttribute("staff_cd",  memberInfo.getStaff_cd());
+		mav.addObject("isPresident", isPresident);
+		mav.addObject("memberInfo", memberInfo);
+		mav.setViewName("popup/clubMemberInfo");
+		return mav;
+	}
+	
+	/*
+	 * 동아리
+	 * 동아리 회원 직위 수정(동작)
+	 * @RequestMapping(value="/clubStaffUpdateAction.do")
+	 * @RequestParam club_id, student_id
+	 * @RequestParam staff(staff_cd), submit
+	*/
+	@RequestMapping(value="/clubStaffUpdateAction.do")
+ 	public ModelAndView clubStaffUpdateAction(HttpServletRequest request, HttpServletResponse response,
+							 ModelAndView mav,
+							 @RequestParam(value = "club_id", required = false, defaultValue ="0") String club_id,
+							 @RequestParam(value = "student_id", required = false, defaultValue ="") String student_id,
+							 @RequestParam(value = "staff", required = false, defaultValue ="") String staff_cd,
+							 @RequestParam(value = "submit", required = false, defaultValue ="") String submit)
+	{
+		if (club_id.equals("0")) {
+			CommonUtils.showAlertHistoryBack(response, "오류 발생");
+			return null;
+		}
+		
+		HttpSession session = request.getSession();
+		UserVO userVO = (UserVO) session.getAttribute("userVO");
+		System.err.println("[clubManageAction.do] club_id: " + club_id);
+		System.err.println("[clubManageAction.do] student_id: " + student_id);
+		System.err.println("[clubManageAction.do] staff_cd: " + staff_cd);
+		System.err.println("[clubManageAction.do] submit: " + submit);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", userVO.getId());
+		params.put("club_id", club_id);
+		String staff = clubMemberService.getStaffCD(params);
+		boolean isStaff = false;
+		if(staff.equals("004001") || staff.equals("004002"))
+			isStaff = true;
+		
+		if(! isStaff) {
+			CommonUtils.showAlert(response, "임원이상 이용하는한 서비스 입니다.", "clubIntro.do?club_id=" + club_id);
+			return null;
+		}
+		if(submit.equals("직위변경")) {
+			params.put("club_id", club_id);
+			params.put("staff_cd", staff_cd);
+			params.put("id", student_id);
+			clubMemberService.updateClubMember(params);
+			CommonUtils.showAlert(response, "정상 처리 되었습니다.", "/clubIntro.do?club_id=" + club_id);
+			return null;
+		} 
+		else if (submit.equals("회장위임")) {
+			params.put("club_id", club_id);
+			params.put("staff_cd", "004004");
+			params.put("id", userVO.getId());
+			clubMemberService.updateClubMember(params);
+			
+			params.put("staff_cd", "004001");
+			params.put("id", student_id);
+			clubMemberService.updateClubMember(params);
+			CommonUtils.showAlert(response, "정상 처리 되었습니다.", "/clubIntro.do?club_id=" + club_id);
+			return null;
+		} else {
+			CommonUtils.showAlert(response, "오류 발생.", "/clubIntro.do?club_id=" + club_id);
+			return null;
+		}
+		
+	}
 }

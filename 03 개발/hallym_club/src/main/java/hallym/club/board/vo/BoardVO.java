@@ -18,6 +18,7 @@ public class BoardVO {
 	private String update_ip;
 	private String update_date;
 	private String board_fix;
+	private String attach_yn;
 	
 
 	private int row_count;
@@ -176,6 +177,14 @@ public class BoardVO {
 
 	public void setRow_count(int row_count) {
 		this.row_count = row_count;
+	}
+
+	public String getAttach_yn() {
+		return attach_yn;
+	}
+
+	public void setAttach_yn(String attach_yn) {
+		this.attach_yn = attach_yn;
 	}
 
 	

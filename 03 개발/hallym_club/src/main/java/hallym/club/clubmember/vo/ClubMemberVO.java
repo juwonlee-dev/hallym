@@ -24,6 +24,16 @@ public class ClubMemberVO {
 	private String hope;
 	private int row_count;
 	
+	@Override
+	public String toString() {
+		return "ClubMemberVO [club_id=" + club_id + ", student_id=" + student_id + ", name=" + name + ", major=" + major
+				+ ", grade=" + grade + ", gender_cd=" + gender_cd + ", staff_cd=" + staff_cd + ", phone_no=" + phone_no
+				+ ", address=" + address + ", email=" + email + ", join_dt=" + join_dt + ", birth_dt=" + birth_dt
+				+ ", join_cd=" + join_cd + ", input_id=" + input_id + ", input_ip=" + input_ip + ", input_date="
+				+ input_date + ", update_id=" + update_id + ", update_ip=" + update_ip + ", update_date=" + update_date
+				+ ", plan=" + plan + ", hope=" + hope + ", row_count=" + row_count + "]";
+	}
+	
 	public int getClub_id() {
 		return club_id;
 	}

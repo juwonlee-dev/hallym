@@ -13,7 +13,9 @@ public interface BoardDAO {
 	public List<BoardVO> getBoardList(Map<String, Object> params);
 	public int getTotalPageCnt(Map<String, Object> params) throws Exception;
 	public int getBoardListCnt(Map<String, Object> params) throws Exception;
-	public String checkAuth(Map<String, Object> params);
+	
+//	public String checkAuth(Map<String, Object> params);
+	
 	public void increaseOpenCnt(Map<String, Object> params);
 	public BoardVO getBoard(Map<String, Object> params);
 	public void addBoard(Map<String, Object> params);

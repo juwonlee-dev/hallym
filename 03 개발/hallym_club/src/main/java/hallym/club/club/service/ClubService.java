@@ -16,4 +16,5 @@ public interface ClubService {
 	public void createClub(Map<String, Object> params);
 	public String getClubName(Map<String, Object> params);
 	public ClubVO getClub(Map<String, Object> params);
+	public void updateClub(Map<String, Object> params);
 }

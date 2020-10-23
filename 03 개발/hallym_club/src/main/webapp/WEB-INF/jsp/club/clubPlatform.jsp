@@ -148,13 +148,13 @@
 								관리</li>
 							<li style="margin-left: 15px;"><input type="button"
 								value="동아리 회원 승인"
-								onclick="location.href='manage.jsp?club_id=${club_id}';" /></li>
+								onclick="location.href='clubManage.do?club_id=${club_id}';" /></li>
 							<li style="margin-left: 15px;"><input type="button"
 								value="동아리 회원 관리"
-								onclick="location.href='manage_list.jsp?club_id=${club_id}';" /></li>
+								onclick="location.href='clubManageList.do?club_id=${club_id}';" /></li>
 							<li style="margin-left: 15px;"><input type="button"
 								value="동아리 정보 수정"
-								onclick="location.href='updateClub.jsp?club_id=${club_id}';" /></li>
+								onclick="location.href='clubUpdate.do?club_id=${club_id}';" /></li>
 						</ul>
 						<hr>
 						</c:if>	

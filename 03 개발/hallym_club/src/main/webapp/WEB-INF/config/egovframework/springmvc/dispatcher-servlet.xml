@@ -12,7 +12,8 @@
                 http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
     
    
-<!--     <mvc:resources mapping="/css/**" location="/css/" /> 
+<!--     
+	<mvc:resources mapping="/css/**" location="/css/" /> 
 	<mvc:resources mapping="/images/**" location="/images/" /> 
 	<mvc:resources mapping="/js/**" location="/js/" /> 
 	<mvc:resources mapping="/font/**" location="/font/" /> 
@@ -22,8 +23,10 @@
 		
 		
 	</mvc:annotation-driven>
-	<!-- <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
-	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" /> -->
+	<!-- 
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" /> 
+	-->
 
 	<context:component-scan
 		base-package="egovframework.example.*, hallym.club.*">
@@ -34,19 +37,65 @@
 		<context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Repository" />
 	</context:component-scan>
-	
-	 <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"> 
-		<property name="interceptors"> 
-		    <list> <ref bean="localeChangeInterceptor"/> </list> 
-		</property> 
-	</bean> 
+
+	<mvc:interceptors>
+		<!-- 사용자 로그인 체크 -->
+		<mvc:interceptor>
+			<!-- 감지 경로 지정 -->
+			<mvc:mapping path="/*.do" />
+			
+			<!-- 예외 경로 지정 -->
+			<mvc:exclude-mapping path="/index.do" />
+			
+			<mvc:exclude-mapping path="/BoardSearch.do" />
+			<mvc:exclude-mapping path="/clubSearch.do" />
+			<mvc:exclude-mapping path="/topClub.do" />
+
+			<!-- Interceptor bean -->
+			<bean class="hallym.club.user.interceptor.AuthInterceptor" />
+		</mvc:interceptor>
+
+		<!-- 약관 동의 체크 -->
+		<mvc:interceptor>
+			<!-- 감지 경로 지정 -->
+			<mvc:mapping path="/*.do" />
+
+			<!-- 예외 경로 지정 -->
+			<mvc:exclude-mapping path="/index.do" />
+			
+			<mvc:exclude-mapping path="/terms.do" />
+			<mvc:exclude-mapping path="/termsAgreeAction.do" />
+			
+			<mvc:exclude-mapping path="/login.do" />
+			<mvc:exclude-mapping path="/logout.do" />
+			
+			<mvc:exclude-mapping path="/BoardSearch.do" />
+			<mvc:exclude-mapping path="/clubSearch.do" />
+			<mvc:exclude-mapping path="/topClub.do" />
+
+			<!-- Interceptor bean -->
+			<bean class="hallym.club.common.interceptor.TermsInterceptor" />
+		</mvc:interceptor>
+		
+	</mvc:interceptors>
+
+
+	<bean
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref bean="localeChangeInterceptor" />
+			</list>
+		</property>
+	</bean>
+
 	<bean id="localeResolver"
 		class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
 	<!-- 쿠키를 이용한 Locale 이용시 <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver"/> -->
 	<bean id="localeChangeInterceptor"
 		class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
 		<property name="paramName" value="language" />
-	</bean>
+	</bean>	
 
 	<bean
 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">

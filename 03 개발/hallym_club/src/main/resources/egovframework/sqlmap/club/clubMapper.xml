@@ -45,6 +45,23 @@
 	    
 	</select>
 	
+	<update id="updateClub" parameterType="map">
+		UPDATE 
+			CLUB
+		SET 
+			<if test="opt1">
+			CLUB_GB_CD = #{gb_cd},
+			CLUB_AT_CD = #{at_cd},
+			</if>
+			CLUB_AIM = #{club_aim}, 
+			CLUB_ACTIVE = #{club_active},
+			CLUB_ROOM = #{club_room}, 
+			OPEN_DT = #{open_dt} 
+		WHERE
+			CLUB_ID = #{club_id}
+	    
+	    
+	</update>
 		
 	
 	

@@ -75,4 +75,36 @@ public class ClubMemberServiceImpl implements ClubMemberService{
 		clubMemberDAO.leaveClub(params);
 	}
 
+	@Override
+	public void updateClubMember(Map<String, Object> params) {
+		clubMemberDAO.updateClubMember(params);
+	}
+
+	@Override
+	public int getTotalPageCnt(Map<String, Object> params) {
+		int cnt = 0;
+		try {
+			cnt = clubMemberDAO.getTotalPageCnt(params);
+		} catch (Exception e) {
+			System.err.println("[getTotalPageCnt] err: " + e.getMessage());
+		}
+		return cnt;
+	}
+
+	@Override
+	public int getMemberListCnt(Map<String, Object> params) {
+		int cnt = 0;
+		try {
+			cnt = clubMemberDAO.getMemberListCnt(params);
+		} catch (Exception e) {
+			System.err.println("[getMemberListCnt] err: " + e.getMessage());
+		}
+		return cnt;
+	}
+
+	@Override
+	public List<ClubMemberVO> getClubMemberList(Map<String, Object> params) {
+		return clubMemberDAO.getClubMemberList(params);
+	}
+
 }

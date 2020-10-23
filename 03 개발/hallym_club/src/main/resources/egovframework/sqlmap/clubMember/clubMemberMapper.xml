@@ -72,6 +72,19 @@
 		)
    	</insert>
    	
+   	<update id="updateClubMember" parameterType="map">
+		UPDATE 
+			CLUB_MEMBER
+		SET 
+			JOIN_DT = SYSDATE,
+			JOIN_CD = '008001',
+			STAFF_CD = #{staff_cd} 
+		WHERE 
+			CLUB_ID = #{club_id} AND 
+			STUDENT_ID = #{id}
+   	    
+   	</update>
+   	
    	<select id="checkJoinClub" parameterType="map" resultType="string">
    	    
    	    SELECT 
@@ -128,6 +141,8 @@
    	    	STAFF_CD = '004001'
    	</select>
    	
+   	
+   	
    	<select id="getClubMember" parameterType="map" resultMap="ClubMemberVOResult">
    	    SELECT
    	    	*
@@ -176,6 +191,7 @@
 		   	STUDENT_ID = #{id}
    	</select>
    	
+   	
    	<!-- 회원 수 -->
    	<select id="getClubMemberCnt" parameterType="map" resultType="int">
    	     SELECT
@@ -187,8 +203,90 @@
 			<if test="opt==1">
 			    AND JOIN_CD = #{join_cd}
 			</if>
+			<if test="opt==2"> <!-- 검색 -->
+			    AND JOIN_CD = #{join_cd}
+			</if>
 			
    	</select>
+   	
+   	<select id="getClubMemberList" parameterType="map" resultMap="ClubMemberVOResult">
+   	    SELECT
+			*
+		FROM 
+			(
+				SELECT 
+					ROW_NUMBER() OVER 
+						(ORDER BY NM DESC)
+						RNUM, CLUB_MEMBER.*
+				FROM 
+					CLUB_MEMBER
+				WHERE 
+					CLUB_ID = #{club_id} AND 
+					JOIN_CD = #{join_cd} AND
+					<if test="category == 'name'">
+					NM LIKE '%' || #{search} || '%'
+					</if>
+			    	<if test="category == 'major'">
+					MAJOR LIKE '%' || #{search} || '%'
+					</if>
+					<if test="category == 'student_id'">
+					STUDENT_ID LIKE '%' || #{search} || '%'
+					</if>
+			)
+		WHERE 
+			RNUM BETWEEN #{startNum} AND #{endNum} ORDER BY RNUM ASC
+   	    
+   	</select>
+   	
+   	<select id="getMemberListCnt" parameterType="map" resultType="int">
+	    SELECT
+			COUNT(STUDENT_ID)
+		FROM
+			CLUB_MEMBER
+		WHERE
+			CLUB_ID = #{club_id} AND 
+			JOIN_CD = #{join_cd} AND
+			<if test="category == 'name'">
+			NM LIKE '%' || #{search} || '%'
+			</if>
+	    	<if test="category == 'major'">
+			major LIKE '%' || #{search} || '%'
+			</if>
+			<if test="category == 'student_id'">
+			student_id LIKE '%' || #{search} || '%'
+			
+			</if>
+	</select>
+   	
+   	<select id="getTotalPageCnt" parameterType="map" resultType="int">
+	    SELECT
+			distinct CEIL(
+				(
+					SELECT
+						NVL(COUNT(STUDENT_ID), 0)
+					FROM (
+						SELECT STUDENT_ID
+						FROM CLUB_MEMBER
+						WHERE
+							CLUB_ID = #{club_id} AND 
+							JOIN_CD = #{join_cd} AND
+							<if test="category == 'name'">
+							NM LIKE '%' || #{search} || '%'
+							</if>
+					    	<if test="category == 'major'">
+							major LIKE '%' || #{search} || '%'
+							</if>
+							<if test="category == 'student_id'">
+							student_id LIKE '%' || #{search} || '%'
+							</if>
+					)
+				)
+			/ #{limit} ) as page
+		FROM
+			CLUB_MEMBER
+	    
+	    
+	</select>
    	
    	<delete id="leaveClub" parameterType="map">
    	    DELETE

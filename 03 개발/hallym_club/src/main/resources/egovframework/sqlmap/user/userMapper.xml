@@ -25,6 +25,7 @@
 	 	 SELECT NF_USER_LOGIN(#{GBN}, #{ID}, #{PASSWORD}) vRESULT FROM DUAL
 		 
 		
+		
      </select>
      
      <select id="getUserVO" parameterType="map" resultMap="UserVOResult">

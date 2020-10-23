@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hallym.club.common.dao.CommonDAO">
+
+	<!-- TermsVO -->
+	<resultMap type="hallym.club.common.vo.TermsVO" id="termsVOResult">
+    	<result property="IDNO" column="IDNO" />
+       	<result property="TERMS_CD" column="TERMS_CD" />
+       	<result property="NAME" column="NAME" />
+       	<result property="AGREE_YN" column="AGREE_YN" />
+       	<result property="AGREE_DATE" column="AGREE_DATE" />
+       	<result property="AGREE_IP" column="AGREE_IP" />
+    </resultMap>
+    
+	
+	<!-- 로그인 기록 작성하기 -->
+	<insert id="writeLog" parameterType="map">
+		INSERT INTO
+        	CLUB_LOGIN_LOG(
+				SEQ_NO,
+				IDNO,
+				PWD,
+				GBN,
+				LOG_TYPE,
+				LOG_IP,
+				LOG_DATE,
+				REASON
+        	)
+         	
+         	VALUES(
+         		(SELECT NVL( MAX(SEQ_NO), 0) + 1 FROM CLUB_LOGIN_LOG),
+         		#{IDNO},
+         		#{PWD},
+         		#{GBN},
+         		#{LOG_TYPE},
+         		#{LOG_IP},
+         		SYSDATE,
+         		#{REASON}
+         	)
+	</insert>
+	
+	<!-- 약관 동의 정보 가져오기 -->
+	<select id="getTermsInfo" parameterType="map" resultMap="termsVOResult">
+		SELECT
+			IDNO,
+			TERMS_CD,
+			NAME,
+			AGREE_YN,
+			AGREE_DATE,
+			AGREE_IP
+		FROM
+			CLUB_TERMS_AGREE
+		WHERE 1=1
+			AND AGREE_YN = 'Y'
+			AND IDNO = #{IDNO}
+		<if test="opt == 1">
+	 		AND TERMS_CD = #{TERMS_CD}
+	 	</if>
+	</select>
+	
+	<!-- 약관 동의 처리하기 -->
+	<insert id="setTermsAgree" parameterType="map">
+		INSERT INTO
+        	CLUB_TERMS_AGREE(
+				IDNO,
+				TERMS_CD,
+				NAME,
+				AGREE_YN,
+				AGREE_DATE,
+				AGREE_IP
+        	)
+         	
+         	VALUES(
+         		#{IDNO},
+         		#{TERMS_CD},
+         		#{NAME},
+         		#{AGREE_YN},
+         		SYSDATE,
+         		#{AGREE_IP}
+         	)
+	</insert>
+	
+	<!-- 약관 동의 여부 수정하기 -->
+	<update id="updateTermsAgree" parameterType="map">
+	    UPDATE
+	 		CLUB_TERMS_AGREE
+	 	SET
+	 		AGREE_YN = #{AGREE_YN},
+			AGREE_DATE = SYSDATE,
+			AGREE_IP = #{AGREE_IP}
+	 	WHERE 1=1
+	 		AND IDNO = #{IDNO}
+	 		AND TERMS_CD = #{TERMS_CD}
+	</update>
+	
+	 <!-- 관리자 권한 체크(권한 코드 반환) -->
+     <select id="checkAuth" parameterType="map" resultType="String">
+
+		SELECT CK_USER_AUTH(#{ID}) vRESULT FROM DUAL
+		
+     </select>
+	
+	 <!-- 관리자 정보 갱신 -->
+     <update id="updateAuth2" parameterType="map">
+     		
+	 	UPDATE
+	 		CLUB_AUTH
+	 	SET
+	 		IDENTITYNAME = #{IDENTITYNAME},
+	 		CONDITIONNAME = #{CONDITIONNAME},
+	 		RESIDENTNO = #{RESIDENTNO},
+	 		NAME = #{NAME},
+	 		UNIVNAME = #{UNIVNAME},
+	 		DEPTNAME = #{DEPTNAME},
+	 		MAJORNAME = #{MAJORNAME},
+	 		MAJORNAME2 = #{MAJORNAME2},
+	 		GRADE = #{GRADE},
+	 		SEMESTER = #{SEMESTER},
+	 		E_MAIL = #{E_MAIL},
+	 		PHONENUMBER = #{PHONENUMBER},
+	 		GENDER = #{GENDER}
+	 	WHERE
+	 		IDNO = #{ID}
+      
+     </update>
+	
+	<!-- 관리자 정보 가져오기 -->
+	<select id="getAuthUserName" parameterType="map" resultType="String">
+	 	SELECT
+	 		NAME
+	 	FROM
+	 		CLUB_AUTH
+	 	WHERE
+	 		IDNO = #{ID}
+      
+     </select>
+	
+</mapper>
