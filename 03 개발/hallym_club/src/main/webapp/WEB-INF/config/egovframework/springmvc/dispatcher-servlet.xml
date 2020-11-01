@@ -46,7 +46,7 @@
 			
 			<!-- 예외 경로 지정 -->
 			<mvc:exclude-mapping path="/index.do" />
-			
+			<mvc:exclude-mapping path="/introView.do" />
 			<mvc:exclude-mapping path="/BoardSearch.do" />
 			<mvc:exclude-mapping path="/clubSearch.do" />
 			<mvc:exclude-mapping path="/topClub.do" />
@@ -62,6 +62,7 @@
 
 			<!-- 예외 경로 지정 -->
 			<mvc:exclude-mapping path="/index.do" />
+			<mvc:exclude-mapping path="/introView.do" />
 			
 			<mvc:exclude-mapping path="/terms.do" />
 			<mvc:exclude-mapping path="/termsAgreeAction.do" />

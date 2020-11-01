@@ -250,20 +250,30 @@
                                     </colgroup>
                                     <thead>
                                         <tr>
+                                            <!-- 
                                             <th scope="col">순위</th>
                                             <th scope="col">동아리명</th>
                                             <th scope="col">회장</th>
                                             <th scope="col">회원수</th>
                                             <th scope="col" class="b-no-right">개설년도</th>
-                                            <th scope="col">기타</th>
+                                            <th scope="col">기타</th> 
+                                            -->
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <c:forEach items='${clubList}' var="item" varStatus="status">
-									        <tr class>
+									        <tr>
 									        	<!-- 순위  -->
 									            <td class="b-num-box" id="id_${status.count}">
-									            ${status.count}
+										            ${status.count}
+										          	
+										            <!-- 사진 -->
+									            	<img class="logo"
+													src="upload/club/${item.intro_save_file_nm}"
+													onerror="this.src='images/error/error.png'" alt=""
+													style="width: 100px; height: 100px;">
+													
+													
 									            </td>
 									            <td class="b-td-right">
 	                                                <div class="b-title-box">

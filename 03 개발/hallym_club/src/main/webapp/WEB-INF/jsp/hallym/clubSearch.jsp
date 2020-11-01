@@ -287,39 +287,45 @@
                                         <col class="b-col04">
                                         <col class="b-col05">
                                         <col class="b-col06">
-                                        <col class="b-col07">
                                         
                                     </colgroup>
                                     <thead>
                                         <tr>
+                                           
+                                            <!-- 
                                             <th scope="col">사진</th>
                                             <th scope="col">동아리명</th>
                                             <th scope="col">회장</th>
                                             <th scope="col">인원</th>
                                             <th scope="col">개설년도</th>
-                                            <th scope="col" class="b-no-right">주요활동</th>
-                                            <th scope="col">기타</th>
-                                            <!-- <th scope="col" class="b-no-right">목적</th> -->
+                                            <th scope="col">기타</th> 
+                                             -->
+                                            
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <c:forEach items='${clubList}' var="item" varStatus="status">
-									        <tr class>
+									        <tr>
 									            <td class="b-num-box" id="id_${status.count}">
 									            	<!-- 사진 -->
+									            	<img class="logo"
+													src="upload/club/${item.intro_save_file_nm}"
+													onerror="this.src='images/error/error.png'" alt=""
+													style="width: 100px; height: 100px;">
+									            	
 									            </td>
 									            
 									            <td class="b-td-right">
 									           		 <!-- 동아리명 -->
+									           											           		
 	                                                <div class="b-title-box">
-	                                                	
-	                                                	
 	                                                    <a href="#" title="${item.club_nm}">
 	                                                    	${item.club_nm}
 	                                                    </a>
+	                                                    <div class="b-etc-box">
 	                                                    
-	                                                    <div class="b-etc-box"></div>
-	                                                    
+	                                                    </div>
 	                                                    <div class="b-m-con">
 	                                                    	<!-- 회장 -->
 	                                                        <span class="b-writer">
@@ -331,9 +337,9 @@
 	                                                        	 ${item.open_dt}
 	                                                        </span>
 	                                                        <span class="hit">인원 ${item.cnt} </span>
-	                                                    	<span class="b-file">첨부파일</span>
-	                                                    	
-	                                                    </div>
+															
+															<span class="b-file"> </span>
+														</div>
 	                                                    <div>
 	                                                    
 	                                                    </div>

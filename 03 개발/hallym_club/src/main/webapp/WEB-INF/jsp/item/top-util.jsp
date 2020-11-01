@@ -38,6 +38,11 @@
 			<li class="profile">
 				<a href="/profile.do" title="마이페이지 바로가기"><%=cusername%>님</a>
 			</li>
+			<% if(auth_code.equals("010001") || auth_code.equals("010002") || auth_code.equals("010003")) { %>
+				<li class="admin">
+				<a href="/admin.do" title="관리자페이지 바로가기">관리자페이지</a>
+			</li>
+			<%} %>
 			<li class="logout">
 				<a href="/logout.do" title="로그아웃 바로가기">로그아웃</a>
 			</li>

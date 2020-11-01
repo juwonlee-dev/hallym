@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="WebApp_ID" version="2.5">
 	<display-name>egov.sample</display-name>
-
+	
 	<filter>
 		<filter-name>multipart</filter-name>
 		<filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
@@ -30,7 +30,7 @@
 	</filter>
 	
 	<!--  spring security 설정 -->	
-	<!-- http://blog.naver.com/PostView.nhn?blogId=haengro&logNo=220549463106 참고 -->
+	<!-- 참고 - http://blog.naver.com/PostView.nhn?blogId=haengro&logNo=220549463106  -->
 	<!-- <filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -40,7 +40,19 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping> -->
 
-	
+	<!-- 참고 - https://stackoverrun.com/ko/q/6507414 -->
+	<context-param>  
+       <param-name>spring.profiles.active</param-name>  
+       <param-value>dev</param-value>  
+	</context-param>  
+	<context-param>  
+	       <param-name>spring.profiles.default</param-name>  
+	       <param-value>dev</param-value>  
+	</context-param>
+	<context-param>  
+	       <param-name>spring.liveBeansView.mbeanDomain</param-name>  
+	       <param-value>dev</param-value>  
+	</context-param>  
 
 
 	<filter-mapping>
@@ -118,4 +130,32 @@
 		<error-code>500</error-code>
 		<location>/common/error.jsp</location>
 	</error-page>
+	
+	<!-- HTTP 접속시 HTTPS로 리다이렉션 -->
+	<!-- local에선 주석후 실행 -->
+	<security-constraint>
+	    <web-resource-collection>
+	        <web-resource-name>SSL Forward</web-resource-name>
+	        <url-pattern>/*</url-pattern>
+	    </web-resource-collection>
+	    <user-data-constraint>
+	        <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+	    </user-data-constraint>
+	</security-constraint> 
+	
+	<!-- 특정 리소스는 HTTP, HTTPS 모두 사용 가능하도록 처리 -->
+	<!-- 
+	<security-constraint>
+	    <web-resource-collection>
+	        <web-resource-name>HTTPS or HTTP</web-resource-name>
+	        <url-pattern>/images/*</url-pattern>
+	        <url-pattern>/css/*</url-pattern>
+	    </web-resource-collection>
+	    <user-data-constraint>
+	        <transport-guarantee>NONE</transport-guarantee>
+	    </user-data-constraint>
+	</security-constraint>
+	-->
+
+
 </web-app>

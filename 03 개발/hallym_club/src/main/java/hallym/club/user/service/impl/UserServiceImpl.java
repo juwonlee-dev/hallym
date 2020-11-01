@@ -41,6 +41,10 @@ public class UserServiceImpl implements UserService{
 		
 		if(requestLogin.equalsIgnoreCase("true")) { //로그인 성공
 			UserVO userVO = this.getUserVO(params);
+			
+			if(userVO == null) 
+				return "N";
+			
 			String authUserName = commonDAO.getAuthUserName(params);
 			if(authUserName == null || authUserName.isEmpty()) {
 				Map<String, Object> params2 = new HashMap<String, Object>();

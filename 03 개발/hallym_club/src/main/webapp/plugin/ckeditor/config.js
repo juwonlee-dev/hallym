@@ -23,6 +23,11 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'insert', groups: [ 'Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak' ] }
 	];
 	
+	config.embed_provider = '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}';
 	config.removeButtons = 'Source,Templates,NewPage,Save,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Flash,Iframe,ShowBlocks,Anchor,CreateDiv';
+	
 	config.autoGrow_onStartup = true;
+	config.allowedContent = true;
+	
+	
 };

@@ -180,9 +180,15 @@
 
 
 								<tr style="text-align: center;">
-									<td colspan="2" class="bg">&nbsp;&nbsp;<input
-										type="button" value="선택삭제" id="del_btn" class="del-btn">&nbsp;&nbsp;<input
-										type="button" value="전체삭제" onclick='allDel();' class="del-btn"></td>
+									<td colspan="2" class="bg">&nbsp;&nbsp;
+									<c:if test="${isStaff eq true}">
+									<input
+										type="button" value="선택삭제" id="del_btn" class="del-btn">&nbsp;&nbsp;
+									<input
+										type="button" value="전체삭제" onclick='allDel();' class="del-btn">
+									</c:if>	
+									</td>
+
 									<td style="text-align: right" class="bg">
 										<%
 											if (io_gb_cd.equals("009001")) {
@@ -204,15 +210,14 @@
 				<div id="below">
 					<c:if test="${isStaff eq true}">
 					<input type="submit" value="저장하기" class="save-btn">
-					</c:if>
+					
 					<input type="button" class="save-btn" value="초기화"
 						onclick="location.reload();">
+					</c:if>
 				</div>
 			</form>
 		</div>
 	</div>
-
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script>
 		function numberWithCommas(x) {
 			var y = x.value;

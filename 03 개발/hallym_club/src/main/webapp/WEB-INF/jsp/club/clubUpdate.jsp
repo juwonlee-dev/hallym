@@ -98,8 +98,7 @@ table.type03 td {
 	</div>
 	
 
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
 	<script>
 		function check_form() {
 			var ck_name = document.getElementById("club_nm").value;

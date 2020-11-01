@@ -14,6 +14,6 @@ public interface FileDAO {
 	public int getFileListCnt(Map<String, Object> params);
 	public List<FileVO> getFileList(Map<String, Object> params);
 	public void deleteFile(Map<String, Object> params);
-	
+	public void deleteClubFile(Map<String, Object> params);
 
 }

@@ -21,5 +21,8 @@ public interface ClubMemberDAO {
 	public int getTotalPageCnt(Map<String, Object> params) throws Exception;
 	public int getMemberListCnt(Map<String, Object> params) throws Exception;
 	public List<ClubMemberVO> getClubMemberList(Map<String, Object> params);
-	
+	public void insertClubMember(Map<String, Object> params);
+	public String getJoinCD(Map<String, Object> params) throws Exception;
+	public void updateMyInfo(Map<String, Object> params);
+	public void deleteClubMember(Map<String, Object> params);
 }

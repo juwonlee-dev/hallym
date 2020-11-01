@@ -107,4 +107,33 @@ public class ClubMemberServiceImpl implements ClubMemberService{
 		return clubMemberDAO.getClubMemberList(params);
 	}
 
+	@Override
+	public void insertClubMember(Map<String, Object> params) {
+		clubMemberDAO.insertClubMember(params);
+	}
+
+	@Override
+	public String getJoinCD(Map<String, Object> params) {
+		String str = "";
+		try {
+			str = clubMemberDAO.getJoinCD(params);
+			if(str.isEmpty())
+				str = "";
+		} catch (Exception e) {
+			str = "";
+		}
+		return str;
+	}
+
+	@Override
+	public void updateMyInfo(Map<String, Object> params) {
+		clubMemberDAO.updateMyInfo(params);
+	}
+
+	@Override
+	public void deleteClubMember(Map<String, Object> params) {
+		clubMemberDAO.deleteClubMember(params);
+	}
+
+
 }

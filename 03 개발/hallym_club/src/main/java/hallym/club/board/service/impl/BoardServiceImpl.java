@@ -67,7 +67,11 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public void addBoard(Map<String, Object> params) {
-		boardDAO.addBoard(params);
+		try {
+			boardDAO.addBoard(params);
+		} catch (Exception e) {
+			System.err.println("[BoardServiceImpl] addBoard ERR: " + e.getMessage());
+		}
 	}
 
 	@Override
@@ -93,6 +97,11 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public List<BoardVO> getCalendar(Map<String, Object> params) {
 		return boardDAO.getCalendar(params);
+	}
+
+	@Override
+	public void deleteClubBoard(Map<String, Object> params) {
+		boardDAO.deleteClubBoard(params);
 	} 
 	
 

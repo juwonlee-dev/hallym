@@ -148,7 +148,6 @@
 	<classpathentry kind="lib" path="C:/eGovFrame-3.8.0/workspace.edu/hallym_club/lib/xmlbeans-2.6.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v8.0"/>
 	<classpathentry kind="lib" path="C:/eGovFrame-3.8.0/workspace.edu/hallym_club/lib/cos.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="lib" path="C:/eGovFrame-3.8.0/workspace.edu/hallym_club/src/main/webapp/WEB-INF/lib/json_simple-1.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

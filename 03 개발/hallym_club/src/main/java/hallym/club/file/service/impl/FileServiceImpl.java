@@ -47,4 +47,9 @@ public class FileServiceImpl implements FileService{
 		fileDAO.deleteFile(params);
 	}
 
+	@Override
+	public void deleteClubFile(Map<String, Object> params) {
+		fileDAO.deleteClubFile(params);
+	}
+
 }

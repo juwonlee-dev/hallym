@@ -1,5 +1,6 @@
 package hallym.club.clubmember.web;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,9 +26,9 @@ public class ClubMemberController {
 	private ClubMemberService clubMemberService;
 	
 	/*
+	 * @RequestMapping(value="/clubSignUpForm.do")
 	 * 동아리
 	 * 동아리 가입 신청 양식
-	 * @RequestMapping(value="/clubSignUpForm.do")
 	 * @RequestParam club_id, club_nm
 	*/
 	@RequestMapping(value="/clubSignUpForm.do")
@@ -63,10 +64,11 @@ public class ClubMemberController {
 		return mav;
 	}
 	
+	
 	/*
+	 * @RequestMapping(value="/clubSignUpAction.do")
 	 * 동아리
 	 * 동아리 가입  신청 (동작)
-	 * @RequestMapping(value="/clubSignUpAction.do")
 	 * @RequestParam club_id, major, grade, name
 	 * @RequestParam phone_no, email, plan
 	 * @RequestParam hope, user_id
@@ -110,6 +112,8 @@ public class ClubMemberController {
 		params.put("email", email);
 		params.put("plan", plan);
 		params.put("hope", hope);
+		Date today = new Date();
+		params.put("join_dt", today);
 		clubMemberService.joinApplicationClub(params);
 		
 		CommonUtils.windowClose(response, "정상처리 되었습니다.");
@@ -118,9 +122,9 @@ public class ClubMemberController {
 
 	
 	/*
+	 * @RequestMapping(value="/clubMemberInfo.do")
 	 * 동아리
 	 * 동아리 회원 정보
-	 * @RequestMapping(value="/clubMemberInfo.do")
 	 * @RequestParam club_id, student_id
 	*/
 	@RequestMapping(value="/clubMemberInfo.do")
@@ -177,10 +181,11 @@ public class ClubMemberController {
 		return mav;
 	}
 	
+	
 	/*
+	 * @RequestMapping(value="/clubStaffUpdateAction.do")
 	 * 동아리
 	 * 동아리 회원 직위 수정(동작)
-	 * @RequestMapping(value="/clubStaffUpdateAction.do")
 	 * @RequestParam club_id, student_id
 	 * @RequestParam staff(staff_cd), submit
 	*/
@@ -219,6 +224,7 @@ public class ClubMemberController {
 			params.put("club_id", club_id);
 			params.put("staff_cd", staff_cd);
 			params.put("id", student_id);
+			params.put("join_dt", new Date());
 			clubMemberService.updateClubMember(params);
 			CommonUtils.showAlert(response, "정상 처리 되었습니다.", "/clubIntro.do?club_id=" + club_id);
 			return null;
@@ -240,4 +246,6 @@ public class ClubMemberController {
 		}
 		
 	}
+
+
 }

@@ -113,7 +113,7 @@
         		sidemenu[3].classList.add('active');
         		sidemenu[3].getElementsByTagName("a")[0].classList.add("active");
         		break;
-
+        	
         	default:
         		msg = "Null";
    				msg2 = "Null";
@@ -193,24 +193,13 @@
             <div class="lnb-wrap">
                 <div class="lnb">
                     <div class="lnb-title-box">
-                        <div>
+                    	<div>
                             <h2>게시판</h2>
-                        </div>
+                       	 </div>
                     </div>
                     <ul class="lnb-menu jwxe-menu-ul">
-                    <li class="active">
-                            <a href="/BoardSearch.do?&bdc=007001" class="active">공지사항</a>
-                        </li>
-                        <!-- <li>
-                            <a href="/BoardSearch.do?&bdc=007102">Photos</a>
-                        </li>
-                        <li>
-                            <a href="/BoardSearch.do?&bdc=007103">경기영상</a>
-                        </li>
-                        <li>
-                            <a href="/BoardSearch.do?&bdc=007104">News</a>
-                        </li> -->
-                        
+                    	<li class="active"><a href="/BoardSearch.do?&bdc=007001"
+							class="active">공지사항</a></li>						
                     </ul>
                 </div>
             </div>
@@ -295,9 +284,9 @@
 	                                            </div>
 	                                        </div>
 	                                    </div>
-                                    <%
-                            		if(isAdmin) {
-		                           	%>
+	                                    <%
+	                            		if(isAdmin) {
+			                           	%>
 	                                    <div class="b-table-box type01 b-notice-box">
 						                	<div class="b-row-box">
 						                    	<div class="b-title-box ">
@@ -433,7 +422,7 @@
 	                                                    </div>
 	                                                </div>
 	                                                <c:forEach var="fnum" begin="1" end="10">
-	                                                <div class="b-file-box type03 file-list" 
+	                                                <div class="b-file-box type03 file-list"
 		                                                <c:choose>
 		                                                	<c:when test="${fnum eq 0}">
 		                                                		style="display: block;"
@@ -442,7 +431,7 @@
 		                                                		style="display: none;"
 		                                                	</c:otherwise>
 		                                                </c:choose>
-	                                                >
+	                                                	>
 	                                                    <div>
 	                                                        <div>
 	                                                            <input type="text" id="file_view${fnum}" name="wr-file-name" class="b-input" placeholder="첨부파일을 등록하세요" readonly="">  <!--  name="wr-file-name" -->

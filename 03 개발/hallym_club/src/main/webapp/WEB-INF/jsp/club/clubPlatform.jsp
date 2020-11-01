@@ -79,7 +79,7 @@
 							커뮤니티 정보&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type="button" value="나의정보"
 								style="background-color: transparent; border: 0px transparent solid;"
-								onclick="location.href ='applyMod.jsp?club_id=${club_id}';" />
+								onclick="location.href ='clubMyInfo.do?club_id=${club_id}';" />
 						</h4>
 						<ul>
 						
@@ -127,17 +127,7 @@
 								onclick="location.href='clubCalendar.do?club_id=${club_id}&board_cd=007004';" />
 			
 							</li>
-							<%-- <li style="margin-left: 25px;"><input type="button"
-								value="└개인 정보 동의"
-								onclick="location.href='myClub_Board.jsp?club_id=${club_id}&board_cd=007004';" /></li>
 							
-							<!-- 임원일 때  -->
-							<c:if test="${(isStaff eq true)}">
-							<li style="margin-left: 25px;"><input type="button"
-								value="└개인 정보 동의 목록"
-								onclick="location.href='club_agreeMember.jsp?club_id=${club_id}&title_no=-1';" /></li>
-							
-							</c:if> --%>
 						</ul>
 						<hr>
 						

@@ -20,4 +20,9 @@ public interface ClubMemberService {
 	public int getTotalPageCnt(Map<String, Object> params);
 	public int getMemberListCnt(Map<String, Object> params);
 	public List<ClubMemberVO> getClubMemberList(Map<String, Object> params);
+	public void insertClubMember(Map<String, Object> params);
+	public String getJoinCD(Map<String, Object> params);
+	public void updateMyInfo(Map<String, Object> params);
+	public void deleteClubMember(Map<String, Object> params);
+	
 }

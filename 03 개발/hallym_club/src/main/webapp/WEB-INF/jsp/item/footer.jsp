@@ -33,7 +33,7 @@
 								<span>Developer, Juwon Lee</span><span>E-Mail : <a href="mailto:juwonlee.dev@gmail.com" title="메일보내기">juwonlee.dev@gmail.com</a></span>
 							</p>
 							<p>
-								<span>Developer, JuHwan Heo</span><span>E-Mail : <a href="mailto:gjwnghks99@naver.com" title="메일보내기">gjwnghks99@naver.com</a></span>
+								<span>Developer, JuHwan Heo</span><span>E-Mail : <a href="mailto:juhwanheo.dev@gmail.com" title="메일보내기">juhwanheo.dev@gmail.com</a></span>
 							</p>
 							<p>
 								<span>Developer, SongOk Jeon</span><span>E-Mail : <a href="mailto:juwonlee.dev@gmail.com" title="메일보내기">eminem3573@gmail.com</a></span>

@@ -72,7 +72,7 @@
 				<button class="io-btn" name="io_gb_cd" value="009002"
 					onclick="move_url(this);">지출</button>
 				<button class="io-btn-select"
-					onclick="location.href = 'club_budgetTotal.jsp?club_id=<%=club_id%>';">월별
+					onclick="location.href = 'clubBudgetTotal.do?club_id=<%=club_id%>';">월별
 					보고서</button>
 			</div>
 
@@ -237,7 +237,6 @@
 			</table>
 		</div>
 	</div>
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script>
 	$('select[name=year]').on("change", function() {
 		var value = $(this).val();

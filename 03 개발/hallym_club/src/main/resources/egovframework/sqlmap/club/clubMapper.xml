@@ -34,6 +34,16 @@
         	CLUB_ID = #{club_id}
     </select>
     
+    <select id="getRegisterClub" parameterType="map" resultMap="ClubVOResult">
+        SELECT 
+        	*
+        FROM
+        	CLUB
+        WHERE
+        	REGISTER_CD = #{register_cd}
+        
+    </select>
+    
 	<select id="getClubName" parameterType="map" resultType="string">
 	    SELECT
 	    	club_nm
@@ -41,10 +51,53 @@
 	    	club
 	    WHERE
 	    	club_nm=#{club_nm}
-	    
-	    
 	</select>
 	
+		
+	<select id="getWaitRegisterClub" parameterType="map" resultMap="ClubVOResult">
+		SELECT 
+			C.* 
+		FROM 
+			CLUB C, CLUB_MEMBER M
+		WHERE 
+			C.CLUB_ID = M.CLUB_ID AND
+			M.STAFF_CD = '004001' AND 
+			M.STUDENT_ID = #{id} AND 
+			C.REGISTER_CD = #{register_cd}
+
+	</select>
+	   	<select id="getWaitJoinClub" parameterType="map" resultMap="ClubVOResult">
+			SELECT 
+				C.CLUB_NM, C.CLUB_ID 
+			FROM 
+				CLUB C, CLUB_MEMBER M 
+			WHERE 
+				C.CLUB_ID= M.CLUB_ID AND 
+				M.STUDENT_ID = #{id} AND 
+				M.JOIN_CD = #{join_cd}
+   	    
+   	</select>
+   	
+	<update id="updateTopClubYN" parameterType="map">
+	    UPDATE
+	    	CLUB
+	    SET
+	    	TOPCLUB_YN = #{topclub_yn}
+	    WHERE 
+	    	CLUB_ID = #{club_id}
+	    
+	</update>
+	   	
+	
+	<update id="updateTopClubRank" parameterType="map">
+	    UPDATE
+	    	CLUB
+	    SET
+	    	TOPCLUB_RANK = #{topclub_rank}
+	    WHERE 
+	    	CLUB_ID = #{club_id}
+	</update>
+	   	
 	<update id="updateClub" parameterType="map">
 		UPDATE 
 			CLUB
@@ -59,11 +112,40 @@
 			OPEN_DT = #{open_dt} 
 		WHERE
 			CLUB_ID = #{club_id}
+	</update>
+	
+	<update id="updateIntro" parameterType="map">
 	    
+	    UPDATE
+	    	CLUB
+	    SET
+	    	INTRO_FILE_NM = #{intro_file_nm},
+	    	INTRO_SAVE_FILE_NM = #{intro_save_file_nm}
+	    WHERE
+	    	CLUB_ID = #{club_id}
 	    
 	</update>
-		
+	<update id="updatePoster" parameterType="map">
+	    
+	    UPDATE
+	    	CLUB
+	    SET
+	    	POSTER_FILE_NM = #{poster_file_nm},
+	    	POSTER_SAVE_FILE_NM = #{poster_save_file_nm}
+	    WHERE
+	    	CLUB_ID = #{club_id}
+	    
+	</update>
 	
+	<update id="updateRegister" parameterType="map">
+	    UPDATE
+	    	CLUB
+	    SET
+	    	REGISTER_CD = ${register_cd}
+	    WHERE
+	    	CLUB_ID = ${club_id}
+	    
+	</update>
 	
     <select id="getIntroClub" resultMap="ClubVOResult">
         SELECT 
@@ -157,8 +239,6 @@
 			AND club_at_cd LIKE '%' || #{at_cd} || '%'
 			AND club_nm LIKE '%' || #{search} || '%'
 		
-		
-         
     </select>
      
    	<select id="getTotalPageCnt" parameterType="map" resultType="int">
@@ -185,7 +265,7 @@
          
     </select>
    	
-   	<select id="getTopClub" parameterType="map" resultMap="ClubVOResult">
+   	<select id="getTopClubList" parameterType="map" resultMap="ClubVOResult">
    	    SELECT *
    	    FROM club 
    	    WHERE 
@@ -235,5 +315,14 @@
 		)
    	</insert>
    	
+   	<delete id="deleteClub" parameterType="map">
+   	    
+   	    DELETE
+   	    FROM
+   	    	CLUB
+   	    WHERE 
+   	    	CLUB_ID = #{club_id}
+   	    
+   	</delete>
    	
 </mapper>

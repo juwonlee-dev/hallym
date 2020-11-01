@@ -43,8 +43,6 @@
         ,rootPath = '',locale= 'ko',localeScriptPath='${pageContext.request.contextPath}/custom/js/';
     //]]>
     </script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/plugin/ckeditor/ckeditor.js"></script>
-  	<script type="text/javascript" src="${pageContext.request.contextPath}/plugin/ckeditor/config.js"></script>
 
     <script type="text/javascript" src="${pageContext.request.contextPath}/common/cms.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/common/js/menu/menu.js"></script>	
@@ -153,7 +151,7 @@
 	        	
 	        });
  	</script>
- 	
+ 	<!-- 
  	<style>
  		/* 바깥 테두리 제거 */
 		#cke_articleText {
@@ -172,6 +170,7 @@
 		}
 		
 	</style>
+	-->
 </head>
 <body id="item_body" class="pc">
 	<%
@@ -300,7 +299,7 @@
                                             <li class="b-date-box">
                                                 <span>작성일</span>
                                                 <span>
-                                                ${searchBoard.input_date }
+                                                ${searchBoard.input_date}
                                                 	<%-- <fmt:parseDate value="${searchBoard.INPUT_DATE}" var="tmp" pattern="yy-MM-dd" scope="page" />
                                             		<fmt:formatDate value="${tmp}" pattern="yy.MM.dd" /> --%>
                                              	</span>
@@ -340,7 +339,9 @@
                             	        <p><div class="fr-view"><p>${searchBoard.contents}</p></div></p>
                                    	-->
 	                               	<p><div class="fr-view">
-	                               		<textarea id="articleText" name="contents" class="b-input b-textarea jwvalid-must-contents ceditor" rows="10" cols="30" data-editor-height="500" style="height: 0px; border: none; position: absolute; left: -99999px;">${searchBoard.contents}</textarea>
+	                               		${searchBoard.contents}
+	                               		<textarea id="articleText" name="contents" class="b-input b-textarea jwvalid-must-contents ceditor" rows="10" cols="30" data-editor-height="500" style="height: 0px; border: none; position: absolute; left: -99999px;">
+	                               		</textarea>
 	                               	</div></p>
                                 </div>
                                 
@@ -431,14 +432,14 @@
 		<div class="bottom-footer-wrap"><jsp:include page="/WEB-INF/jsp/item/footer.jsp"/></div>
 	</footer>
 </div>
-    <script type="text/javascript">
+   <!--  <script type="text/javascript">
 		CKEDITOR.replace( 'articleText', {
 			removePlugins: 'toolbar',
 			enterMode: '2',
 		    shiftEnterMode: '3',
 			readOnly: true
 		} );
-	</script>
+	</script> -->
 	<noscript><p>이 사이트는 자바스크립트를 지원하지 않으면 정상적으로 보이지 않을수 있습니다.</p></noscript>
 </body>
 </html>

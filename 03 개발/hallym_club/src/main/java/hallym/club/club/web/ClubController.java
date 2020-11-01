@@ -73,11 +73,125 @@ public class ClubController {
 	@Resource(name="commonService")
 	private CommonService commonService;
 
-	
 	/*
+	 * @RequestMapping(value="/clubMyInfo.do")
 	 * 동아리 커뮤니티
 	 * 동아리 - 소개
+	 * @RequestParam club_id
+	*/
+	@RequestMapping(value="/clubMyInfo.do")
+	public ModelAndView clubMyInfo(HttpServletRequest request, HttpServletResponse response,
+							 ModelAndView mav,
+							 @RequestParam(value = "club_id", required = false, defaultValue ="") String club_id) {
+		HttpSession session = request.getSession();
+		UserVO userVO = (UserVO) session.getAttribute("userVO");
+		session.setAttribute("club_id", club_id);
+		
+		/* 클럽 정보 */
+		Map<String, Object> clubParams = new HashMap<String, Object>();
+		clubParams.put("club_id", club_id);
+		ClubVO clubVO = clubService.getClub(clubParams);
+		
+		if (clubVO == null) {
+    		try {
+    			throw new ClubNotExistException("존재 하지 않는 동아리 입니다.");
+    		} catch (ClubNotExistException e) {
+    			CommonUtils.showAlert(response, "존재 하지 않는 동아리 입니다.", "/index.do");
+    			return null;
+    		}
+    	}
+		
+		/* 클럽 회장 */
+		Map<String, Object> presidentParams = new HashMap<String, Object>();
+		presidentParams.put("club_id", club_id);
+		clubVO.setPresident(clubMemberService.getClubPresident(presidentParams).getName());
+		
+		/* 사용자 권한 */
+		Map<String, Object> memberParams = new HashMap<String, Object>();
+		memberParams.put("club_id", club_id);
+		memberParams.put("id", userVO.getId());
+		String staff_cd = clubMemberService.getStaffCD(memberParams);
+
+		if (staff_cd == null) {
+			CommonUtils.showAlert(response, "가입된 동아리가 아닙니다.", "index.do");
+			return null;
+		}
+		
+		boolean isStaff = false;
+		if(staff_cd.equals("004001") || staff_cd.equals("004002"))
+			isStaff = true;
+
+		System.err.println("[clubMyInfo.do] Intro_save_file: " + clubVO.getIntro_save_file_nm());
+		System.err.println("[clubMyInfo.do] poster_save_file: " + clubVO.getPoster_save_file_nm());
+		System.err.println("[clubMyInfo.do] staff_cd: " + staff_cd);
+		System.err.println("[clubMyInfo.do] isStaff: " + isStaff);
+		
+		
+		memberParams.put("join_cd", "008001");
+		ClubMemberVO clubMemberVO = clubMemberService.getClubMember(memberParams).get(0);
+		
+		/* clubPlatform */
+		mav.addObject("club_id", club_id);
+		mav.addObject("club_name", clubVO.getClub_nm());
+		mav.addObject("open_dt", clubVO.getOpen_dt());
+		mav.addObject("president_nm", clubVO.getPresident());
+		mav.addObject("isStaff", isStaff);
+		mav.addObject("club_intro", clubVO.getIntro_save_file_nm());
+		mav.addObject("club_poster", clubVO.getPoster_save_file_nm());
+		
+		
+		/* clubMyInfo */
+		mav.addObject("club_nm", clubVO.getClub_nm());
+		mav.addObject("userVO", userVO);
+		mav.addObject("plan", clubMemberVO.getPlan());
+		mav.addObject("hope", clubMemberVO.getHope());
+		mav.setViewName("club/clubMyInfo");
+		return mav;
+	}
+	
+	/*
+	 * @RequestMapping(value="/clubMyInfoAction.do")
+	 * 동아리 커뮤니티
+	 * 동아리 - 소개
+	 * @RequestParam club_id, plan, hope
+	*/
+	@RequestMapping(value="/clubMyInfoAction.do")
+	public ModelAndView clubMyInfoAction(HttpServletRequest request, HttpServletResponse response,
+							 ModelAndView mav,
+							 @RequestParam(value = "club_id", required = false, defaultValue ="") String club_id,
+							 @RequestParam(value = "plan", required = false, defaultValue ="") String plan,
+							 @RequestParam(value = "hope", required = false, defaultValue ="") String hope) {
+		HttpSession session = request.getSession();
+		UserVO userVO = (UserVO) session.getAttribute("userVO");
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("club_id", club_id);
+		params.put("id", userVO.getId());
+		params.put("major", userVO.getMajor());
+		if(userVO.getGender().equals("1"))
+			params.put("gender_cd", "003001");
+		else
+			params.put("gender_cd", "003002");
+		params.put("phone_no", userVO.getPhoneNumber());
+		params.put("email", userVO.getE_mail());
+		params.put("plan", plan);
+		params.put("hope", hope);
+		
+		try {
+			clubMemberService.updateMyInfo(params);
+			CommonUtils.showAlert(response, "정상처리 되었습니다.", "clubMyInfo.do?club_id=" + club_id);
+		return null;
+		} catch (Exception e) {
+			System.err.println("[clubMyInfoAction.do] Err: " + e.getMessage());
+			CommonUtils.showAlert(response, "에러 발생", "clubMyInfo.do?club_id=" + club_id);
+			return null;
+		}
+	}
+	
+	/*
 	 * @RequestMapping(value="/clubIntro.do")
+	 * 동아리 커뮤니티
+	 * 동아리 - 소개
 	 * @RequestParam club_id
 	*/
 	@RequestMapping(value="/clubIntro.do")
@@ -140,10 +254,10 @@ public class ClubController {
 	}
 	
 	/*
+	 * @RequestMapping(value="/clubProduct.do")
 	 * 동아리 커뮤니티
 	 * 동아리 - 물품목록
 	 * 권한 - 총무 이상 이용 가능
-	 * @RequestMapping(value="/clubProduct.do")
 	 * @RequestParam club_id
 	*/
 	@RequestMapping(value="/clubProduct.do")
@@ -213,11 +327,12 @@ public class ClubController {
 		return mav;
 	}
 	
+
 	/*
+	 * @RequestMapping(value="/clubProductAction.do")
 	 * 동아리 커뮤니티
 	 * 동아리 - 물품목록 (동작)
 	 * 권한 - 총무 이상 이용 가능
-	 * @RequestMapping(value="/clubProductAction.do")
 	 * @RequestParam club_id, product_nm, tot_cnt, product_cont
 	*/
 	@RequestMapping(value="/clubProductAction.do")
@@ -279,10 +394,10 @@ public class ClubController {
 	}
 	
 	/*
+	 * @RequestMapping(value="/clubBudget.do")
 	 * 동아리 커뮤니티
 	 * 동아리 - 예산 
 	 * 권한 - 총무 이상 이용 가능
-	 * @RequestMapping(value="/clubBudget.do")
 	 * @RequestParam club_id, io_gb_cd
 	*/
 	@RequestMapping(value="/clubBudget.do")
@@ -368,10 +483,10 @@ public class ClubController {
 	}
 	
 	/*
+	 * @RequestMapping(value="/clubBudgetAction.do")
 	 * 동아리 커뮤니티
 	 * 동아리 - 예산 
 	 * 권한 - 총무 이상 이용 가능
-	 * @RequestMapping(value="/clubBudgetAction.do")
 	 * @RequestParam club_id, io_gb_cd, use_dt, contents, price
 	*/
 	@RequestMapping(value="/clubBudgetAction.do")
@@ -440,9 +555,9 @@ public class ClubController {
 	}
 	
 	/*
+	 * @RequestMapping(value="/clubBudgetTotal.do")
 	 * 동아리 커뮤니티
 	 * 동아리 - 예산
-	 * @RequestMapping(value="/clubBudgetTotal.do")
 	 * @RequestParam club_id, io_gb_cd, year, month
 	*/
 	@SuppressWarnings("static-access")
@@ -558,9 +673,9 @@ public class ClubController {
 	}
 	
 	/*
+	 * @RequestMapping(value="/clubMemberList.do")
 	 * 동아리 커뮤니티
 	 * 동아리 - 회원목록
-	 * @RequestMapping(value="/clubMemberList.do")
 	 * @RequestParam club_id, category, search, page(pageNumber)
 	*/
 	@RequestMapping(value="/clubMemberList.do")
@@ -701,11 +816,10 @@ public class ClubController {
 		return mav;
 	}
 	
-	
 	/*
+	 * @RequestMapping(value="/clubBoardList.do")
 	 * 동아리 커뮤니티
 	 * 게시판 - 리스트
-	 * @RequestMapping(value="/clubBoardList.do")
 	 * @RequestParam club_id, board_cd(bdc), page, cdn
 	*/
 	@RequestMapping(value="/clubBoardList.do")
@@ -865,11 +979,10 @@ public class ClubController {
 		return mav;
 	}
 	
-	
 	/*
+	 * @RequestMapping(value="/clubBoardReadForm.do")
 	 * 동아리 커뮤니티
 	 * 게시판 - 읽기 폼
-	 * @RequestMapping(value="/clubBoardReadForm.do")
 	 * @RequestParam club_id, board_cd, board_no
 	*/
 	@RequestMapping(value = "/clubBoardReadForm.do")
@@ -890,6 +1003,7 @@ public class ClubController {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("board_cd", board_cd);
 		params.put("board_no", board_no);
+		params.put("club_id", club_id);
 		boardService.increaseOpenCnt(params);
 		BoardVO searchBoard = boardService.getBoard(params);
 
@@ -964,11 +1078,10 @@ public class ClubController {
 		return mav;
 	}
 
-	
 	/*
+	 * @RequestMapping(value="/clubCalendar.do")
 	 * 동아리 커뮤니티
 	 * 게시판 - 일정
-	 * @RequestMapping(value="/clubCalendar.do")
 	 * @RequestParam club_id, board_cd
 	*/
 	@SuppressWarnings("unchecked")
@@ -1062,12 +1175,11 @@ public class ClubController {
 		return mav;
 	}
 	
-	
 	/*
+	 * @RequestMapping(value="/clubBoardWriteForm.do")
 	 * 동아리 커뮤니티
 	 * 게시판 - 작성 폼
 	 * 권한 - 임원 이상만 공지사항, 일정 게시판 등록 가능
-	 * @RequestMapping(value="/clubBoardWriteForm.do")
 	 * @RequestParam club_id, board_cd(bdc)
 	*/
 	@RequestMapping(value="/clubBoardWriteForm.do")
@@ -1135,12 +1247,11 @@ public class ClubController {
 		return mav;
 	}
 	
-	
 	/*
+	 * @RequestMapping(value="/clubBoardWriteAction.do")
 	 * 동아리 커뮤니티
 	 * 게시판 - 작성 (동작)
 	 * 권한 - 임원 이상만 공지사항, 일정 게시판 등록 가능
-	 * @RequestMapping(value="/clubBoardWriteAction.do")
 	 * @RequestParam club_id, title, contents, start_date, 
 	 * @RequestParam end_date, writer, board_cd
 	*/
@@ -1171,6 +1282,8 @@ public class ClubController {
         System.err.println("[clubBoardWriteAction.do] board_cd: " + board_cd);
         System.err.println("[clubBoardWriteAction.do] title: " + title);
         System.err.println("[clubBoardWriteAction.do] contents: " + contents);
+        System.err.println("[clubBoardWriteAction.do] start_date: " + start_date);
+        System.err.println("[clubBoardWriteAction.do] end_date: " + end_date);
         
 		Date today = new Date();
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -1192,10 +1305,12 @@ public class ClubController {
 		
 		params.put("input_id", (writer.isEmpty()) ? userVO.getId() : writer); // 게시글을 작성한 사용자 ID
 		params.put("input_ip", CommonUtils.getClientIP(request));
+		params.put("input_date", today);
 		System.err.println("[clubBoardWriteAction.do] params: " + params);
-		boardService.addBoard(params);
-		
+
         try {
+        	boardService.addBoard(params);
+		
         	if(! board_cd.equals("007004")) {
 				CommonUtils.showAlert(response, "정상적으로 등록되었습니다.", "/clubBoardList.do?club_id="+club_id +"&board_cd="+board_cd);
 				return null;
@@ -1205,18 +1320,17 @@ public class ClubController {
 				return null;
         	}
         } catch(Exception e) {
-			e.printStackTrace();
+			System.err.println("[clubBoardWriteAction.do] ERROR: \n" + e.getMessage());
 			CommonUtils.showAlert(response, "등록에 실패했습니다.", "/clubBoardList.do?club_id="+club_id +"&board_cd="+board_cd);
 			return null;
 		}
 	}
 	
-	
 	/*
+	 * @RequestMapping(value="/clubBoardUpdateForm.do") #
 	 * 동아리 커뮤니티
 	 * 게시판 - 게시판 수정 폼
 	 * 권한 - 임원 이상만 공지사항, 일정 게시판 수정 가능
-	 * @RequestMapping(value="/clubBoardUpdateForm.do") #
 	 * @RequestParam club_id, board_no, board_cd
 	*/
 	@RequestMapping(value = "/clubBoardUpdateForm.do")
@@ -1237,8 +1351,9 @@ public class ClubController {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("board_cd", board_cd);
 		params.put("board_no", board_no);
+		params.put("club_id", club_id);
 		boardService.increaseOpenCnt(params);
-		BoardVO searchBoard =  boardService.getBoard(params);
+		BoardVO searchBoard = boardService.getBoard(params);
 		
 		Map<String, Object> params2 = new HashMap<String, Object>();
 		params2.put("ID", searchBoard.getInput_id());
@@ -1308,12 +1423,11 @@ public class ClubController {
 		return mav;
 	}
 	
-	
 	/*
+	 * @RequestMapping(value="/clubBoardUpdateAction.do")
 	 * 동아리 커뮤니티
 	 * 게시판 - 게시판 수정 (동작)
 	 * 권한 - 임원 이상만 공지사항, 일정 게시판 수정 가능
-	 * @RequestMapping(value="/clubBoardUpdateAction.do")
 	 * @RequestParam club_id, board_no, title
 	 * @RequestParam contents, start_date, end_date, board_cd
 	*/
@@ -1339,6 +1453,7 @@ public class ClubController {
 		Date today = new Date();
 		Map<String, Object> params = new HashMap<String, Object>();
 		/* updateBoard */
+		params.put("club_id", club_id);
 		params.put("board_cd", board_cd);
 		params.put("board_no", board_no);
 		params.put("title", title);
@@ -1356,16 +1471,16 @@ public class ClubController {
 			params.put("end_date", end_date);
 		params.put("update_id", userVO.getId());
 		params.put("update_ip", CommonUtils.getClientIP(request));
+		params.put("update_date", today);
 		boardService.updateBoard(params);
 		mav.setViewName("redirect:/clubBoardReadForm.do?board_no=" + board_no + "&club_id=" + club_id + "&board_cd=" + board_cd);
 		return mav;
 	}
 	
-	
 	/*
+	 * @RequestMapping(value="/clubBoardDeleteAction.do")
 	 * 동아리 커뮤니티
 	 * 게시판 - 삭제 (동작)
-	 * @RequestMapping(value="/clubBoardDeleteAction.do")
 	 * @RequestParam club_id, board_no, board_cd
 	*/
 	@RequestMapping(value = "/clubBoardDeleteAction.do")
@@ -1379,20 +1494,27 @@ public class ClubController {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("board_cd", board_cd);
 		params.put("board_no", board_no);
+		params.put("club_id", club_id);
 
 		boardService.deleteBoard(params);
-		CommonUtils.showAlert(response, "정상적으로 삭제하였습니다.",
-				"/clubBoardList.do?club_id=" + club_id + "&board_cd=" + board_cd);
-		return null;
+		if(!board_cd.equals("007004")) {
+			CommonUtils.showAlert(response, "정상적으로 삭제하였습니다.",
+					"/clubBoardList.do?club_id=" + club_id + "&board_cd=" + board_cd);
+			return null;
+		}
+		else {
+			CommonUtils.showAlert(response, "정상적으로 삭제하였습니다.",
+					"/clubCalendar.do?club_id=" + club_id + "&board_cd=" + board_cd);
+			return null;
+		}
 
 	}
 	
-	
 	/*	
+	 * @RequestMapping(value="/clubManage.do")
 	 * 동아리 커뮤니티
 	 * 동아리 관리 - 동아리 회원 승인
 	 * 권한 - 임원 이상
-	 * @RequestMapping(value="/clubManage.do")
 	 * @RequestParam club_id, rowIndex
 	*/
 	@RequestMapping(value="/clubManage.do")
@@ -1478,12 +1600,11 @@ public class ClubController {
 		return mav;
 	}
 	
-	
 	/*	
+	 * @RequestMapping(value="/clubManageAction.do")
 	 * 동아리 커뮤니티
 	 * 동아리 관리 - 동아리 회원 승인
 	 * 권한 - 임원 이상
-	 * @RequestMapping(value="/clubManageAction.do")
 	 * @RequestParam club_id, student_id, submit
 	*/
 	@RequestMapping(value="/clubManageAction.do")
@@ -1518,6 +1639,9 @@ public class ClubController {
 			params.put("club_id", club_id);
 			params.put("staff_cd", "004004");
 			params.put("id", student_id);
+			Date today = new Date();
+			params.put("join_dt", today);
+			
 			clubMemberService.updateClubMember(params);
 			CommonUtils.showAlert(response, "정상 처리 되었습니다.", "/clubManage.do?club_id=" + club_id);
 			return null;
@@ -1557,12 +1681,11 @@ public class ClubController {
 		
 	}
 	
-	
 	/*	
+	 * @RequestMapping(value="/clubManageList.do")
 	 * 동아리 커뮤니티
 	 * 동아리 관리 - 동아리 회원 관리
 	 * 권한 - 임원 이상
-	 * @RequestMapping(value="/clubManageList.do")
 	 * @RequestParam club_id, category, search, page(pageNumber)
 	*/
 	@RequestMapping(value="/clubManageList.do")
@@ -1707,15 +1830,13 @@ public class ClubController {
 		return mav;
 	}
 	
-	
 	/*	
+	 * @RequestMapping(value="/clubUpdate.do")
 	 * 동아리 커뮤니티
 	 * 동아리 관리 - 동아리 정보 수정
 	 * 권한 - 임원 이상
-	 * @RequestMapping(value="/clubUpdate.do")
 	 * @RequestParam club_id
 	*/
-	
 	@RequestMapping(value="/clubUpdate.do")
  	public ModelAndView clubUpdate(HttpServletRequest request, HttpServletResponse response,
 							 ModelAndView mav,
@@ -1778,14 +1899,13 @@ public class ClubController {
 	}
 	
 	/*	
+	 * @RequestMapping(value="/clubUpdateAction.do")
 	 * 동아리 커뮤니티
 	 * 동아리 관리 - 동아리 정보 수정 (동작)
 	 * 권한 - 임원 이상
-	 * @RequestMapping(value="/clubUpdateAction.do")
 	 * @RequestParam club_id, club_aim, club_active
 	 * @RequestParam open_dt, club_room
 	*/
-	
 	@RequestMapping(value="/clubUpdateAction.do")
  	public ModelAndView clubUpdateAction(HttpServletRequest request, HttpServletResponse response,
 							 ModelAndView mav,
@@ -1854,12 +1974,11 @@ public class ClubController {
 		}
 	}
 	
-	
 	/*
+	 * @RequestMapping(value="/leaveClubAction.do")
 	 * 동아리 커뮤니티
 	 * 탈퇴 하기 (동작)
 	 * 회장 탈퇴 불가
-	 * @RequestMapping(value="/leaveClubAction.do")
 	 * @RequestParam club_id
 	*/
 	@RequestMapping(value="/leaveClubAction.do")
@@ -1896,11 +2015,10 @@ public class ClubController {
 		
 	}
 	
-	
 	/*
+	 * @RequestMapping(value="/clubSearch.do")
 	 * 동아리
 	 * 조회 및 가입
-	 * @RequestMapping(value="/clubSearch.do")
 	 * @RequestParam gb_cd, at_cd, search, page(pageNumber)
 	*/
 	@RequestMapping(value="/clubSearch.do")
@@ -1998,11 +2116,10 @@ public class ClubController {
 		return mav;
 	}
 	
-	
 	/*
+	 * @RequestMapping(value="/getTopClub.do")
 	 * 동아리
 	 * 우수동아리
-	 * @RequestMapping(value="/getTopClub.do")
 	 * @RequestParam gb_cd, at_cd
 	*/
 	@RequestMapping(value="/topClub.do")
@@ -2028,7 +2145,7 @@ public class ClubController {
 		params.put("gb_cd", gb_cd);
 		params.put("opt", opt);
 		
-		clubTopList = clubService.getTopClub(params);
+		clubTopList = clubService.getTopClubList(params);
 		
 		for(ClubVO club : clubTopList) {
 			Map<String, Object> cntParams = new HashMap<String, Object>();
@@ -2048,15 +2165,14 @@ public class ClubController {
 		return mav;
 	}
 	
-	
 	/*
+	 * @RequestMapping(value="/createClub.do")
 	 * 동아리
 	 * 개설
-	 * @RequestMapping(value="/createClubView.do")
 	 * 
 	*/
 	@RequestMapping(value="/createClub.do",  method = RequestMethod.GET)
-	public ModelAndView createClubView(HttpServletRequest request, HttpServletResponse response,
+	public ModelAndView createClub(HttpServletRequest request, HttpServletResponse response,
 							 ModelAndView mav) {
 		HttpSession session = request.getSession();
 		UserVO userVO = (UserVO) session.getAttribute("userVO");
@@ -2067,11 +2183,10 @@ public class ClubController {
 		return mav;
 	}
 
-	
 	/*
+	 * @RequestMapping(value="/createClubAction.do")
 	 * 동아리
 	 * 개설 (동작)
-	 * @RequestMapping(value="/createClubAction.do")
 	 * @RequestParam club_nm, club_gb_cd, club_at_cd
 	 * @RequestParam club_aim, club_active, club_room
 	 * @RequestParam open_dt, user_id
@@ -2110,6 +2225,7 @@ public class ClubController {
 		
 		Map<String, Object> userParams = new HashMap<String, Object>();
 		userParams.put("ID", user_id);	
+		System.err.println("[createClubAction.do] user_id: " + user_id);
 		UserVO userVO = userService.getUserVO(userParams);
 		
 		/* 유저 정보 확인 */
@@ -2158,7 +2274,7 @@ public class ClubController {
 				
 			} else {
 				try {
-					mFile.transferTo(new File(directory + fileSaveName));
+					mFile.transferTo(new File(directory + "/" + fileSaveName));
 				} catch (IllegalStateException | IOException e) {
 					System.err.println("[createClubAction.do] transferTo Error: " + e.getMessage());
 					CommonUtils.showAlert(response, "클럽 생성 오류", "index.do");
@@ -2176,6 +2292,7 @@ public class ClubController {
 		System.err.println("[createClubAction.do] fileName2: " + fileName);
 		fileSaveName = CommonUtils.uploadFile(fileName).toLowerCase();
 
+		
 		/* Poster */
 		if (fileName == null || fileName.isEmpty()) {
 			
@@ -2190,7 +2307,7 @@ public class ClubController {
 				return null;
 			} else {
 				try {
-					mFile.transferTo(new File(directory + fileSaveName));
+					mFile.transferTo(new File(directory + "/" + fileSaveName));
 				} catch (IllegalStateException | IOException e) {
 					System.err.println("[createClubAction.do] transferTo Error: " + e.getMessage());
 					CommonUtils.showAlert(response, "클럽 생성 오류", "index.do");
@@ -2265,4 +2382,5 @@ public class ClubController {
 		CommonUtils.showAlert(response, "동아리 개설 신청 완료", "index.do");
 		return null;
 	}
+
 }

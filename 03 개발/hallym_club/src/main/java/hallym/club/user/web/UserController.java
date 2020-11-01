@@ -1,7 +1,8 @@
 package hallym.club.user.web;
 
-import java.io.PrintWriter;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import hallym.club.board.service.BoardService;
+import hallym.club.club.service.ClubService;
+import hallym.club.club.vo.ClubVO;
+import hallym.club.clubmember.service.ClubMemberService;
 import hallym.club.common.service.CommonService;
 import hallym.club.user.service.UserService;
 import hallym.club.user.vo.UserVO;
@@ -26,6 +30,12 @@ public class UserController {
 
 	@Resource(name = "userService")
 	private UserService userService;
+
+	@Resource(name = "clubService")
+	private ClubService clubService;
+	
+	@Resource(name = "clubMemberService")
+	private ClubMemberService clubMemberService;
 	
 	@Resource(name = "boardService")
 	private BoardService boardService;
@@ -33,11 +43,10 @@ public class UserController {
 	@Resource(name = "commonService")
 	private CommonService commonService;
 	
-	
 	/*
+	 * @RequestMapping(value="/loginView.do")
 	 * 유저
 	 * 로그인 페이지
-	 * @RequestMapping(value="/loginView.do")
 	*/
 	@RequestMapping(value = "/loginView.do")
 	public ModelAndView ViewLogin(HttpServletRequest request,
@@ -47,9 +56,9 @@ public class UserController {
 	}
 
 	/*
+	 * @RequestMapping(value="/login.do", method = RequestMethod.GET)
 	 * 유저
 	 * 로그인 페이지
-	 * @RequestMapping(value="/login.do", method = RequestMethod.GET)
 	*/
 	@RequestMapping(value="/login.do", method = RequestMethod.GET)
 	public ModelAndView loginFormSetUp(HttpServletRequest request, HttpServletResponse response,
@@ -71,11 +80,10 @@ public class UserController {
 		return mav;
 	}
 	
-	
 	/*
+	 * @RequestMapping(value="/login.do", method = RequestMethod.POST)
 	 * 유저
 	 * 로그인 페이지 (동작)
-	 * @RequestMapping(value="/login.do", method = RequestMethod.POST)
 	 * @RequestParam gbn(GBN), user_id(ID)
 	 * @RequestParam password(PASSWORD) chk_id
 	*/
@@ -120,11 +128,16 @@ public class UserController {
 			CommonUtils.showAlert(response, "아이디 또는 비밀번호가 올바르지 않습니다.","login.do");
 			return null;
 		} else if(result.equalsIgnoreCase("E")) {
-			result = "hallym/Login";
 			System.err.println("[login.do] 알 수 없는 오류가 발생했습니다.");
 			CommonUtils.showAlert(response, "알 수 없는 오류가 발생했습니다.","login.do");
 			return null;
-		} else {
+		} 
+		else if(result.equalsIgnoreCase("N")) {
+			System.err.println("[login.do] 해당 학번/사번을 찾을 수 없습니다.");
+			CommonUtils.showAlert(response, "해당 학번/사번을 찾을 수 없습니다.","login.do");
+			return null;
+		}
+		else {
 			System.out.println("IP : " + CommonUtils.getClientIP(request));
 			System.out.println("[UserController][login.do] (session) userVO: "+ (UserVO) session.getAttribute("userVO"));
 		}
@@ -137,15 +150,17 @@ public class UserController {
 		params3.put("LOG_TYPE", logType);
 		params3.put("LOG_IP", CommonUtils.getClientIP(request));
 		params3.put("REASON", "");
+		Date today = new Date();
+		params3.put("input_date", today);
 		commonService.writeLog(params3);
 		
 		return result;
 	}
 	
 	/*
+	 * @RequestMapping(value="/logout.do")
 	 * 유저
 	 * 로그아웃 (동작)
-	 * @RequestMapping(value="/logout.do")
 	*/
 	@RequestMapping(value="/logout.do")
 	public ModelAndView logoutAction(HttpServletRequest request,
@@ -159,34 +174,138 @@ public class UserController {
 		CommonUtils.showAlert(response, "로그아웃 되었습니다.", "/index.do");
     	return null;
 	}
-	
+
 	/*
-	 * 유저
-	 * 마이페이지 
 	 * @RequestMapping(value="/profile.do")
+	 * 마이페이지
+	 * 마이페이지
+	 * @RequestParam agreeTerm
 	*/
 	@RequestMapping(value="/profile.do")
-	public ModelAndView myPageFormSetUp(HttpServletRequest request,
+	public ModelAndView profile(HttpServletRequest request,
 							HttpServletResponse response,
 							ModelAndView mav) throws Exception {
-		
 		HttpSession session = request.getSession();
-
-		mav.setViewName("hallym/Login");
+		UserVO userVO = (UserVO) session.getAttribute("userVO");
 		
-		response.setContentType("text/html; charset=UTF-8");
-        PrintWriter out = response.getWriter();
-		out.println("<script>");
-		out.println("alert('준비중입니다.')");
-		//out.println("location.href='index.do'");
-		out.println("history.go(-1);");
-		out.println("window.close();");
-		out.println("</script>");
-        out.flush();
+		Map<String, Object> waitJoinClubParams = new HashMap<String, Object>();
+		waitJoinClubParams.put("id", userVO.getId());
+		waitJoinClubParams.put("join_cd", "008003");
+		List<ClubVO> waitJoinClub = clubService.getWaitJoinClub(waitJoinClubParams);
+		
+		
+		Map<String, Object> waitRegisterClubParams = new HashMap<String, Object>();
+		waitRegisterClubParams.put("id", userVO.getId());
+		waitRegisterClubParams.put("register_cd", "008003");
+		List<ClubVO> waitRegisterClubList = clubService.getWaitRegisterClub(waitRegisterClubParams);
+		
+		for(ClubVO clubVO : waitRegisterClubList) {
+			switch (clubVO.getClub_gb_cd()) {
+			case "001001":
+				clubVO.setClub_gb_cd("중앙동아리");
+				break;
+			case "001002":
+				clubVO.setClub_gb_cd("과동아리");
+			}
+			
+			switch (clubVO.getClub_at_cd()) {
+			case "002001":
+				clubVO.setClub_at_cd("공연");
+				break;
+			case "002002":
+				clubVO.setClub_at_cd("학술");
+				break;
+			case "002003":
+				clubVO.setClub_at_cd("취미예술");
+				break;
+			case "002004":
+				clubVO.setClub_at_cd("종교");
+				break;
+			case "002005":
+				clubVO.setClub_at_cd("체육");
+				break;
+			case "002006":
+				clubVO.setClub_at_cd("봉사");
+				break;
+			case "002007":
+				clubVO.setClub_at_cd("기타");
+				break;
+			}
+		}
 
+		System.err.println("[profile.do] myClubParams: " + waitJoinClub);
+		System.err.println("[profile.do] myClubParams: " + waitRegisterClubList);
+		
+		/* profile */
+		
+		mav.addObject("waitJoinClub", waitJoinClub);
+		mav.addObject("waitRegisterClubList", waitRegisterClubList);
+		mav.setViewName("hallym/profile");
 		return mav;
 	}
+	
+	/*
+	 * @RequestMapping(value="/applyClubDeleteAction.do")
+	 * 마이페이지
+	 * 마이페이지 - 동아리 가입신청 취소 (동작)
+	 * @RequestParam club_id
+	*/
+	@RequestMapping(value="/applyClubDeleteAction.do")
+	public ModelAndView applyClubDeleteAction(HttpServletRequest request,
+							HttpServletResponse response,
+							ModelAndView mav, 
+							@RequestParam(value = "club_id", required = false, defaultValue ="") String club_id) {
+		HttpSession session = request.getSession();
+		UserVO userVO = (UserVO) session.getAttribute("userVO");
+		
+		Map<String, Object> leaveClubParams = new HashMap<String, Object>();
+		leaveClubParams.put("id", userVO.getId());
+		leaveClubParams.put("club_id", club_id);
+		
+		try {
+			clubMemberService.leaveClub(leaveClubParams);
+			CommonUtils.showAlert(response, "정상적으로 처리 되었습니다.", "profile.do");
+			return null;
+		} catch (Exception e) {
+			System.err.println("[applyClubDeleteAction.do] ERR: " + e.getMessage());
+			CommonUtils.showAlert(response, "오류 발생", "index.do");
+			return null;
+		}
 
+	}
+	
+	/*
+	 * @RequestMapping(value="/applyClubRegisterDeleteAction.do")
+	 * 마이페이지
+	 * 마이페이지 - 동아리 개설 신청 취소 (동작)
+	 * @RequestParam club_id
+	*/
+	@RequestMapping(value="/applyClubRegisterDeleteAction.do")
+	public ModelAndView applyClubRegisterDeleteAction(HttpServletRequest request,
+							HttpServletResponse response,
+							ModelAndView mav, 
+							@RequestParam(value = "club_id", required = false, defaultValue ="") String club_id) {
+		HttpSession session = request.getSession();
+		UserVO userVO = (UserVO) session.getAttribute("userVO");
+		
+		Map<String, Object> leaveClubParams = new HashMap<String, Object>();
+		leaveClubParams.put("id", userVO.getId());
+		leaveClubParams.put("club_id", club_id);
+		
+		try {
+			clubMemberService.leaveClub(leaveClubParams);
+			clubService.deleteClub(leaveClubParams);
+			CommonUtils.showAlert(response, "정상적으로 처리 되었습니다.", "profile.do");
+			return null;
+		} catch (Exception e) {
+			System.err.println("[applyClubRegisterDeleteAction.do] ERR: " + e.getMessage());
+			CommonUtils.showAlert(response, "오류 발생", "index.do");
+			return null;
+		}
+		
+		
 
+	}
 
+	
 }

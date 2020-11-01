@@ -34,7 +34,7 @@
          		#{GBN},
          		#{LOG_TYPE},
          		#{LOG_IP},
-         		SYSDATE,
+         		#{input_date},
          		#{REASON}
          	)
 	</insert>
@@ -75,7 +75,7 @@
          		#{TERMS_CD},
          		#{NAME},
          		#{AGREE_YN},
-         		SYSDATE,
+         		#{input_date},
          		#{AGREE_IP}
          	)
 	</insert>
@@ -86,7 +86,7 @@
 	 		CLUB_TERMS_AGREE
 	 	SET
 	 		AGREE_YN = #{AGREE_YN},
-			AGREE_DATE = SYSDATE,
+			AGREE_DATE = #{input_date},
 			AGREE_IP = #{AGREE_IP}
 	 	WHERE 1=1
 	 		AND IDNO = #{IDNO}

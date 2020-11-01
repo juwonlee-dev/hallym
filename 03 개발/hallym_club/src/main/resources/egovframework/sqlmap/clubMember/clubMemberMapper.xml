@@ -62,7 +62,7 @@
 			#{id},
 			#{staff_cd},
 			#{join_dt},
-			'008001',
+			'008001', 
 			#{name},
 			#{major},
 			#{grade},
@@ -72,11 +72,28 @@
 		)
    	</insert>
    	
+   	<update id="updateMyInfo" parameterType="map">
+   	    
+   	    UPDATE
+   	    	CLUB_MEMBER
+   	    SET
+   	    	MAJOR = #{major},
+   	    	GENDER_CD = #{gender_cd},
+   	    	PHONE_NO = #{phone_no},
+   	    	EMAIL = #{email},
+   	    	PLAN = #{plan},
+   	    	HOPE = #{hope}
+   	    WHERE
+   	    	CLUB_ID = #{club_id} AND
+   	    	STUDENT_ID = #{id}
+
+   	</update>
+   	
    	<update id="updateClubMember" parameterType="map">
 		UPDATE 
 			CLUB_MEMBER
 		SET 
-			JOIN_DT = SYSDATE,
+			JOIN_DT = #{join_dt},
 			JOIN_CD = '008001',
 			STAFF_CD = #{staff_cd} 
 		WHERE 
@@ -96,6 +113,36 @@
    	    	STUDENT_ID= #{id}  
    	    	
    	</select>
+   	
+   	<insert id="insertClubMember" parameterType="map">
+	INSERT INTO
+		club_member(
+			CLUB_ID,
+			STUDENT_ID,
+			NM,
+			MAJOR,
+			GRADE,
+			GENDER_CD,
+			PHONE_NO,
+			EMAIL,
+			JOIN_CD,
+			STAFF_CD,
+			JOIN_DT)
+		VALUES(
+			#{club_id},
+			#{id},
+			#{name},
+			#{major},
+			#{grade},
+			#{gender_cd},
+			#{phone_no},
+			#{email},
+			#{join_cd},
+			#{staff_cd},
+			#{join_dt}
+			)
+   	    
+   	</insert>
    	
    	<insert id="joinApplicationClub" parameterType="map">
 	INSERT INTO
@@ -126,9 +173,11 @@
 			#{plan},
 			#{hope},
 			'004004',
-			SYSDATE)
+			#{join_dt}
+			)
    	    
    	</insert>
+   	
    	<select id="getClubPresident" parameterType="map" resultMap="ClubMemberVOResult">
    	    
    	    SELECT
@@ -140,7 +189,6 @@
    	    	JOIN_CD = '008001' AND
    	    	STAFF_CD = '004001'
    	</select>
-   	
    	
    	
    	<select id="getClubMember" parameterType="map" resultMap="ClubMemberVOResult">
@@ -191,6 +239,16 @@
 		   	STUDENT_ID = #{id}
    	</select>
    	
+   	<select id="getJoinCD" parameterType="map" resultType="string">
+   	    SELECT 
+   	    	JOIN_CD
+   	    FROM
+   	    	CLUB_MEMBER
+   	    WHERE
+   	    	CLUB_ID = #{club_id} AND
+   	    	STUDENT_ID = #{id}
+   	    
+   	</select>
    	
    	<!-- 회원 수 -->
    	<select id="getClubMemberCnt" parameterType="map" resultType="int">
@@ -294,6 +352,14 @@
    	    	CLUB_MEMBER
    	    WHERE
    	    	STUDENT_ID = #{id} AND
+   	    	CLUB_ID = #{club_id}
+   	</delete>
+   	
+   	<delete id="deleteClubMember" parameterType="map">
+   	    DELETE
+   	    FROM
+   	    	CLUB_MEMBER
+   	    WHERE
    	    	CLUB_ID = #{club_id}
    	</delete>
    	

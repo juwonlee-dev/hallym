@@ -27,6 +27,7 @@ public class ClubVO {
 	private String at_nm;
 	
 	private String president;
+	private String president_id;
 	
 	
 	private int row_count;
@@ -244,5 +245,13 @@ public class ClubVO {
 
 	public void setPresident(String president) {
 		this.president = president;
+	}
+
+	public String getPresident_id() {
+		return president_id;
+	}
+
+	public void setPresident_id(String president_id) {
+		this.president_id = president_id;
 	}
 }

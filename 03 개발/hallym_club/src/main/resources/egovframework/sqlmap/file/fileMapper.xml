@@ -134,7 +134,7 @@
          		#{enclude_yn},
          		#{input_id},
          		#{input_ip},
-         		SYSDATE
+         		#{input_date}
          	)
        
      </insert>
@@ -195,4 +195,13 @@
 	</choose>
      	
      </delete>  
+     
+     <delete id="deleteClubFile" parameterType="map">
+     	
+   		DELETE
+   		FROM
+   			BOARD_FILE
+   		WHERE 
+	    	CLUB_ID = #{club_id}
+	  </delete>
 </mapper>

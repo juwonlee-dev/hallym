@@ -21,7 +21,7 @@ public class CommonUtils {
 
 	public static final String SAVE_PATH = "/home/club/files/upload";
 	public static final String PREFIX_URL = "/home/club/files/upload/";
-	public static final String SAVE_THUMBNAIL_PATH = "/home/league/upload/thumbnail";
+	public static final String SAVE_THUMBNAIL_PATH = "/home/club/upload/thumbnail";
 	
 	
 	public static String getUTF8(String str) {
@@ -181,6 +181,22 @@ public class CommonUtils {
 			out.println("alert('" + msg + "');");
 			out.println("location.href='" + link + "';");
 			out.println("window.close();");
+			out.println("</script>");
+	        out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void showAlertNoClose(HttpServletResponse response, String msg, String link) {
+		response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out;
+		try {
+			out = response.getWriter();
+			out.println("<script>");
+			out.println("alert('" + msg + "');");
+			out.println("location.href='" + link + "';");
 			out.println("</script>");
 	        out.flush();
 		} catch (IOException e) {

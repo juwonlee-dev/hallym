@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -27,8 +28,6 @@ import org.springframework.web.servlet.ModelAndView;
 import hallym.club.board.service.BoardService;
 import hallym.club.user.service.UserService;
 import hallym.club.board.vo.BoardVO;
-import hallym.club.clubmember.service.ClubMemberService;
-import hallym.club.common.dao.CommonDAO;
 import hallym.club.common.service.CommonService;
 import hallym.club.file.service.FileService;
 import hallym.club.file.vo.FileVO;
@@ -52,9 +51,9 @@ public class BoardController {
 	
 	
 	/*
+	 * @RequestMapping(value="/BoardSearch.do")
 	 * 게시판
 	 * 게시판 찾기
-	 * @RequestMapping(value="/BoardSearch.do")
 	 * @RequestParam bdc, page, cdn
 	*/
 	@RequestMapping(value = "/BoardSearch.do", produces="text/plain;charset=UTF-8")
@@ -135,8 +134,9 @@ public class BoardController {
 		
 		
 		
+		System.err.println("[BoardSearch.do] board_cd: " + (String) session.getAttribute("board_cd"));
 		System.err.println("[BoardSearch.do] cdn: " + cdn);
-		System.err.println("[BoardSearch.do] boardList: " + boardList);
+//		System.err.println("[BoardSearch.do] boardList: " + boardList);
 		
 		mav.addObject("board_cd", board_cd);
 		mav.addObject("condition", condition);
@@ -153,9 +153,9 @@ public class BoardController {
 	}
 	
 	/*
+	 * @RequestMapping(value="/BoardReadForm.do")
 	 * 게시판
 	 * 게시글 폼
-	 * @RequestMapping(value="/boardReadForm.do")
 	 * @RequestParam bdc, num(board_no)
 	*/
 	@RequestMapping(value = "/BoardReadForm.do")
@@ -172,6 +172,7 @@ public class BoardController {
 			session.setAttribute("board_cd", board_cd);
 		}
 		board_cd = (String) session.getAttribute("board_cd");
+		System.err.println("[BoardReadForm.do] board_cd: " + (String) session.getAttribute("board_cd"));
 		session.setAttribute("board_no", board_no);
 
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -221,6 +222,13 @@ public class BoardController {
 				}
 			}
 		}
+		
+		searchBoard.setContents(
+					searchBoard.getContents().replaceAll("&lt;", "<")
+					.replaceAll("&gt;", ">")
+					.replaceAll("&quot;", "\"")
+					.replaceAll("&nbsp;", " "));
+		
 		mav.addObject("hasThumbnail", hasThumbnail);
 		mav.addObject("thumbnailFile", thumbnailFile);
 		mav.addObject("fileList", fileList);
@@ -239,9 +247,9 @@ public class BoardController {
 	}
 	
 	/*
+	 * @RequestMapping(value="/BoardWriteForm.do")
 	 * 게시판
 	 * 게시글 작성 폼
-	 * @RequestMapping(value="/boardWriteForm.do")
 	*/
 	@RequestMapping(value = "/BoardWriteForm.do")
 	public ModelAndView boardWriteForm(HttpServletRequest request, HttpServletResponse response, ModelAndView mav)
@@ -260,12 +268,12 @@ public class BoardController {
 	}
 	
 	/*  
+	 * @RequestMapping(value="/BoardWriteAction.do")
 	 * 게시판
 	 * 게시글 작성 (동작)
 	 * 한글 깨짐 현상  Error (편법 해결)
 	 * MultipartHttpServletRequest 으로 받은 한글이 깨진다.
 	 * CommonUtils.getUTF8() 사용
-	 * @RequestMapping(value="/BoardWriteAction.do")
 	 * @RequestParam title, contents, writer, fix_yn
 	*/
 	@RequestMapping(value = "/BoardWriteAction.do")
@@ -282,9 +290,11 @@ public class BoardController {
 		String[] photoBoardList = { "007003" };
 		
 		boolean isPhotoBoard = Arrays.stream(photoBoardList).anyMatch(board_cd::equals);
-		 UserVO userVO = (UserVO) session.getAttribute("userVO");
+		UserVO userVO = (UserVO) session.getAttribute("userVO");
 		try {
-			
+			System.err.println("[BoardWriteAction.do] title: " + title);
+			System.err.println("[BoardWriteAction.do] contents: " + contents);
+
 
 			if (title == null || contents == null) {
 				CommonUtils.showAlertHistoryBack(response, "필수 입력 항목을 입력해야 합니다.");
@@ -299,10 +309,9 @@ public class BoardController {
 			contents = CommonUtils.getUTF8(contents);
 			System.err.println("[BoardWriteAction.do] title: " + title);
 			System.err.println("[BoardWriteAction.do] contents: " + contents);
-
 			Date today = new Date();
-			// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			// String today = sdf.format(dt);
+			System.err.println("[BoardWriteAction.do] today: " + today);
+
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("club_id", 1);
 			params.put("board_cd", board_cd);
@@ -314,6 +323,7 @@ public class BoardController {
 			params.put("end_date", today);
 			params.put("input_id", (writer.isEmpty()) ? userVO.getId() : writer); // 게시글을 작성한 사용자 ID
 			params.put("input_ip", CommonUtils.getClientIP(request));
+			params.put("input_date", today);
 			boardService.addBoard(params);
 
 			List<FileVO> recentFiles = new ArrayList<FileVO>();
@@ -394,6 +404,7 @@ public class BoardController {
 						fileParams.put("enclude_yn", "N");
 						fileParams.put("input_id", (writer.isEmpty()) ? userVO.getId() : writer);
 						fileParams.put("input_ip", CommonUtils.getClientIP(request));
+						fileParams.put("input_date", today);
 						fileService.addFile(fileParams);
 
 						fileParams.put("opt", 1);
@@ -438,9 +449,9 @@ public class BoardController {
 	}
 
 	/*
+	 * @RequestMapping(value="/BoardUpdateForm.do")
 	 * 게시판
 	 * 게시글 업데이트 폼
-	 * @RequestMapping(value="/boardUpdateForm.do")
 	 * @RequestParam num(board_no)
 	*/
 	@RequestMapping(value = "/BoardUpdateForm.do")
@@ -496,16 +507,17 @@ public class BoardController {
 		return mav;
 	}
 	
+	// todo attach_yn 수정이 안됨
 	/*
+	 * @RequestMapping(value="/BoardUpdateAction.do")
 	 * 게시판
 	 * 게시글 업데이트 (동작)
-	 * @RequestMapping(value="/BoardUpdateAction.do")
 	 * @RequestParam title, contents, writer
 	 * @RequestParam fix_yn, start_date, end_date
 	 * @RequestParam deleteThumail deleteAttach
 	*/
 	@RequestMapping(value = "/BoardUpdateAction.do")
-	public String BoardUpdateAction(MultipartHttpServletRequest request, HttpServletResponse response,
+	public String boardUpdateAction(MultipartHttpServletRequest request, HttpServletResponse response,
 									@RequestParam(value = "title",  required = false) String title,
 									@RequestParam(value = "contents", required = false) String contents,
 									@RequestParam(value = "writer", required = false) String writer,
@@ -522,17 +534,11 @@ public class BoardController {
 		
 		String board_cd = (String) session.getAttribute("board_cd");
 		String[] photoBoardList = {"007002", "007003"};
-//		String[] banList = {"007001", "007002", "007003", "007004", "007005", "007006", "007007", "007008", "007009", "007010"};
-//		if(Arrays.stream(banList).anyMatch(board_cd::equals)) {
-//			CommonUtils.showAlert(response, "참여 기간이 아닙니다.", "/index.do");
-//			return null;
-//		}
 		
 		int board_no = (int) session.getAttribute("board_no");
 		System.err.println("[BoardUpdateAction.do] board_no: " +  board_no);
 		boolean isPhotoBoard = Arrays.stream(photoBoardList).anyMatch(board_cd::equals);
 		UserVO userVO = (UserVO) session.getAttribute("userVO");
-		
 		
 		if(board_no==0){
 			CommonUtils.showAlert(response, "게시글 새션 종료 ", "BoardSearch.do?bdc=007001");
@@ -609,6 +615,7 @@ public class BoardController {
 					if (!dir.isDirectory() && dir.exists()) { // 파일 존재 여부 확인
 			            if(dir.delete()) {
 			            	fileService.deleteFile(params);
+			            	cnt--;
 			            } else {
 			            	CommonUtils.showAlert(response, "파일 삭제 오류", "/BoardReadForm.do?&num=" + board_no);
 			            	return null;
@@ -689,7 +696,7 @@ public class BoardController {
 	                }
 	                
                 	if(isIntegrity) { // 무결성 체크 완료
-
+                		cnt++;
 						params.put("club_id", 1);
 						params.put("file_nm", originalfileName);
 						params.put("file_save_nm", saveFileName);
@@ -697,11 +704,16 @@ public class BoardController {
 						params.put("enclude_yn", "N");
 						params.put("input_id", (writer.isEmpty())?userVO.getId():writer);
 						params.put("input_ip", CommonUtils.getClientIP(request));
+						params.put("input_date", today);
 						fileService.addFile(params);
+						
 					}
                 	mpIndex++;
 				}
 			}
+			
+			System.err.println("[BoardUpdateAction.do] cnt: " + cnt);
+			System.err.println("[BoardUpdateAction.do] today: " + today);
 			
 			params.put("club_id", 1);
 			params.put("opt", 0);
@@ -713,6 +725,7 @@ public class BoardController {
 			params.put("end_date", today);
 			params.put("update_id", (writer.isEmpty())?userVO.getId():writer);
 			params.put("update_ip", CommonUtils.getClientIP(request));
+			params.put("update_date", today);
 			boardService.updateBoard(params);
 			
 			redrt = "redirect:BoardReadForm.do?&num=" + board_no;
@@ -722,9 +735,9 @@ public class BoardController {
 	}
 	
 	/*
+	 * @RequestMapping(value="/BoardDeleteAction.do")
 	 * 게시판
 	 * 게시글 삭제 (동작)
-	 * @RequestMapping(value="/boardDeleteAction.do")
 	 * @RequestParam num(board_no)
 	*/
 	@RequestMapping(value = "/BoardDeleteAction.do")
@@ -761,4 +774,5 @@ public class BoardController {
 
 	}
 
+	
 }

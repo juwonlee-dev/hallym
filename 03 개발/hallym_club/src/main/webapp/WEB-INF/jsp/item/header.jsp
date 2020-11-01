@@ -29,23 +29,38 @@
 				<span>동아리</span>
 			</a>
 		</h1>
-		<!--
-		<div class="gnb">
-			<c:import url="/cms/menu/siteMap.do" charEncoding="utf-8">  
-				<c:param name="view" value="/_custom/${clientId}/_common/menu/gnb/pc/gnb_type04" />
-				<c:param name="depth" value="2" />
-			</c:import>            
-		</div>
-		-->
 		<div class="gnb">
 			<ul class="gnb-ul jwxe-menu-ul">
 				<li>
-				 	<a title="조회 및 가입" href="/clubSearch.do?page=1" class="">
-				 		<span>조회 및 가입</span>
+				 	<a title="소개" href="/introView.do" class="">
+				 		<span>소개</span>
 				 	</a>
 					<ul class="sub-mn" style="display: none;">
 						<li>
-							<a href="/clubSearch.do?page=1">동아리 조회 및 가입</a>
+							<a href="/introView.do?board_cd=007005">동아리 연합회 소개</a>
+						</li>
+						<li>
+							<a href="/introView.do?board_cd=007006" >동아리방 배치도 - 준비중</a>
+						</li>
+						<li>
+							<a href="/introView.do?board_cd=007007" >회칙 - 준비중</a>
+						</li>
+						<li>
+							<a href="/introView.do?board_cd=007008" >세칙 - 준비중</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+				 	<a title="활동" href="/clubSearch.do?page=1" class="">
+				 		<span>활동</span>
+				 			
+				 	</a>
+					<ul class="sub-mn" style="display: none;">
+						<li>
+							<a href="/clubSearch.do?page=1">조회 및 가입</a>
+						</li>
+						<li>
+							<a href="/createClub.do">동아리 신규 등록</a>
 						</li>
 					</ul>
 				</li>
@@ -62,17 +77,7 @@
 						</li>
 					</ul>
 				</li>
-				<li>
-				 	<a title="개설" href="/createClub.do" class="">
-				 		<span>개설</span>
-				 			
-				 	</a>
-					<ul class="sub-mn" style="display: none;">
-						<li>
-							<a href="createClub.do">동아리 개설 신청</a>
-						</li>
-					</ul>
-				</li>
+				
 				<li>
 				 	<a title="게시판" href="/BoardSearch.do?bdc=007001">
 				 		<span>게시판</span>
@@ -117,19 +122,22 @@
 		-->
 	<div class="m-gnb">
 		<ul class="dep1 jwxe-menu-ul">
-			<li><a href="/clubSearch.do">조회 및 가입</a>
+			<li><a href="/introView.do">소개</a>
 				<ul class="dep2">
-					<li><a href="/clubSearch.do">동아리 조회 및 가입</a></li>
+					<li><a href="/introView.do?board_cd=007005">동아리 연합회 소개</a></li>
+					<li><a href="/introView.do?board_cd=007006" >동아리방 배치도 - 준비중</a></li>
+					<li><a href="/introView.do?board_cd=007007">회칙 - 준비중</a></li>
+					<li><a href="/introView.do?board_cd=007008">세칙 - 준비중</a></li>
+				</ul></li>
+			<li><a href="/createClub.do">활동</a>
+				<ul class="dep2">
+					<li><a href="/clubSearch.do">조회 및 가입</a></li>
+					<li><a href="/createClub.do">동아리 신규 등록</a></li>
 				</ul></li>
 			<li><a href="/topClub.do">우수 동아리</a>
 				<ul class="dep2">
 					<li><a href="/topClub.do?at_cd=002001">공연</a></li>
 					<li><a href="/topClub.do?at_cd=002002">비공연</a></li>
-				</ul></li>
-		
-			<li><a href="/createClub.do">개설</a>
-				<ul class="dep2">
-					<li><a href="/createClub.do">동아리 개설 신청</a></li>
 				</ul></li>
 			<li><a href="/BoardSearch.do?bdc=007001">게시판</a>
 				<ul class="dep2">
@@ -150,10 +158,24 @@
 		-->
 			<ul>
 				<li id="menu_4137" class="depth_1 first"><a
-					href="/clubSearch.do" class="depth_1 ">조회 및 가입</a>
+					href="/introView.do" class="depth_1 ">소개</a>
 					<ul class="depth_2">
 						<li id="menu_4142" class="depth_2 first"><a
-							href="/clubSearch.do" class="depth_2 ">동아리 조회 및 가입</a></li>
+							href="/introView.do?board_cd=007005" class="depth_2 ">동아리 연합회 소개</a></li>
+						<li id="menu_4142" class="depth_2 first"><a
+							href="/introView.do?board_cd=007006" class="depth_2 ">동아리방 배치도 - 준비중</a></li>
+						<li id="menu_4142" class="depth_2 first"><a
+							href="/introView.do?board_cd=007007" class="depth_2 ">회칙 - 준비중</a></li>
+						<li id="menu_4142" class="depth_2 first"><a
+							href="/introView.do?board_cd=007008" class="depth_2 ">세칙 - 준비중</a></li>
+					</ul></li>
+				<li id="menu_4141" class="depth_1"><a
+					href="/clubSearch.do" class="depth_1 ">활동</a>
+					<ul class="depth_2">
+					<li id="menu_4157" class="depth_2 first"><a
+							href="/clubSearch.do" class="depth_2 ">조회 및 가입</a></li>
+						<li id="menu_4157" class="depth_2 first"><a
+							href="/createClub.do" class="depth_2 ">동아리 신규 등록</a></li>
 					</ul></li>
 				<li id="menu_4138" class="depth_1"><a
 					href="/topClub.do" class="depth_1 ">우수동아리</a>
@@ -163,12 +185,7 @@
 						<li id="menu_4435" class="depth_2"><a
 							href="/topClub.do?at_cd=002002" class="depth_2 ">비공연</a></li>
 					</ul></li>
-				<li id="menu_4141" class="depth_1"><a
-					href="/createClub.do" class="depth_1 ">개설</a>
-					<ul class="depth_2">
-						<li id="menu_4157" class="depth_2 first"><a
-							href="/createClub.do" class="depth_2 ">동아리 개설 신청</a></li>
-					</ul></li>
+				
 				<li id="menu_4138" class="depth_1"><a
 					href="/BoardSearch.do?bdc=007001" class="depth_1 ">게시판</a>
 					<ul class="depth_2">

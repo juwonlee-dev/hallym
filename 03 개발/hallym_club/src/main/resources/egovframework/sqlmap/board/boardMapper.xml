@@ -205,11 +205,22 @@
          		#{contents},
          		#{fix_yn},
          		#{attach_yn}, 
+         		<!-- <choose>
+         		    <when test="board_cd == 007004">
+         		        TO_DATE(#{start_date}, 'YYYY-MM-DD HH24:MI:SS'),
+         				TO_DATE(#{end_date}, 'YYYY-MM-DD HH24:MI:SS'),
+         		    </when>
+         		    <otherwise>
+         		        #{start_date},
+         		        #{end_date},
+         		    </otherwise>
+         		</choose> -->
          		#{start_date},
          		#{end_date},
          		#{input_id},
          		#{input_ip},
-         		SYSDATE
+         		#{input_date}
+         		<!-- TO_DATE(#{input_date},'YYYY-MM-DD HH24:MI:SS') -->
          	)
          	
      </insert>
@@ -223,11 +234,21 @@
 			CONTENTS = #{contents},
 			BOARD_FIX = #{fix_yn},
 			ATTACH_YN = #{attach_yn},
-			START_DATE = #{start_date},
-			END_DATE = #{end_date},
+			<!-- <choose>
+       		    <when test="board_cd == 007004">
+       		        START_DATE = TO_DATE(#{start_date}, 'YYYY-MM-DD HH24:MI:SS'),
+       				END_DATE = TO_DATE(#{end_date}, 'YYYY-MM-DD HH24:MI:SS'),
+       		    </when>
+       		    <otherwise>
+       		        START_DATE = #{start_date},
+       		        END_DATE = #{end_date},
+       		    </otherwise>
+       		</choose> -->
+       		START_DATE = #{start_date},
+       		END_DATE = #{end_date},
 			UPDATE_ID = #{update_id},
 			UPDATE_IP = #{update_ip},
-			UPDATE_DATE = SYSDATE
+			UPDATE_DATE = #{update_date}
 		WHERE
 			BOARD_CD = #{board_cd} AND 
 			BOARD_NO = #{board_no} AND
@@ -263,7 +284,7 @@
      	
      </delete>
      
-	<update id="updateAttach" parameterType="map">
+     <update id="updateAttach" parameterType="map">
 	    UPDATE
 	    	BOARD
 	    SET
@@ -273,6 +294,22 @@
 	    	BOARD_CD = #{board_cd} AND
 	    	BOARD_NO = #{board_no}
 	    
-	</update>
+	 </update>
+	
+     
+     
+	 <delete id="deleteClubBoard" parameterType="map">
+	    DELETE
+	    FROM 
+	    	BOARD
+	    WHERE
+	    	CLUB_ID = #{club_id} 
+	    	
+	    	<!-- AND BOARD_CD = #{board_cd}
+	    	<if test="opt == 1">
+	    	    AND BOARD_NO = #{board_no}
+	    	</if> -->
+	    
+	 </delete>
      
 </mapper>
