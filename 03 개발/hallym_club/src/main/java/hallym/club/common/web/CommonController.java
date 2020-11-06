@@ -574,12 +574,9 @@ public class CommonController {
 			@RequestParam(value = "club_id", required = false, defaultValue ="") String club_id,
 			@RequestParam(value = "submit", required = false, defaultValue ="") String submit)
 	{
-		submit = CommonUtils.getUTF8(submit);
 		System.err.println("[clubPhotoChangeAction.do] submit: " + submit);
 		
 		if (submit.equals("업로드")) {
-			
-		
 			ClubVO clubVO = new ClubVO();
 			// https://cofs.tistory.com/40 참고
 			// https://powerku.tistory.com/12 참고
@@ -609,14 +606,14 @@ public class CommonController {
 			} else {
 				if (!fileName.toLowerCase().endsWith(".jpg") && !fileName.toLowerCase().endsWith(".png") && !fileName.toLowerCase().endsWith(".gif")
 						&& !fileName.endsWith(".bmp")) {
-					File file = new File(directory + fileSaveName);
+					File file = new File(directory + "/"+ fileSaveName);
 					file.delete();
 					CommonUtils.showAlertNoClose(response, "업로드할 수 없는 확장자입니다.", "clubInfo.do?club_id=" + club_id);
 					return null;
 					
 				} else {
 					try {
-						mFile.transferTo(new File(directory + fileSaveName));
+						mFile.transferTo(new File(directory + "/" + fileSaveName));
 					} catch (IllegalStateException | IOException e) {
 						System.err.println("[clubPhotoChangeAction.do] transferTo Error: " + e.getMessage());
 						CommonUtils.showAlertNoClose(response, "업로드 오류", "clubInfo.do?club_id=" + club_id);
@@ -647,7 +644,7 @@ public class CommonController {
 					return null;
 				} else {
 					try {
-						mFile.transferTo(new File(directory + fileSaveName));
+						mFile.transferTo(new File(directory + "/" + fileSaveName));
 					} catch (IllegalStateException | IOException e) {
 						System.err.println("[clubPhotoChangeAction.do] transferTo Error: " + e.getMessage());
 						CommonUtils.showAlertNoClose(response, "업로드 오류", "clubInfo.do?club_id=" + club_id);
@@ -902,15 +899,6 @@ public class CommonController {
 		if(boardVO == null) boardVO = new BoardVO();
 		
 		mav.addObject("board_cd", board_cd);
-	
-		String contents = boardVO.getContents();
-		
-		String html = contents.replaceAll("&lt;", "<")
-			.replaceAll("&gt;", ">")
-			.replaceAll("&quot;", "\"")
-			.replaceAll("&nbsp;", " ");
-		
-		mav.addObject("html", html);
 		mav.addObject("boardVO", boardVO);
 		mav.addObject("isAdmin", isAdmin);
 		mav.setViewName("/hallym/intro");
@@ -967,7 +955,7 @@ public class CommonController {
 	 * 동아리 연합회 소개 
 	*/
 	@RequestMapping(value = "/introUpdateAction.do")
-	public ModelAndView introUpdateAction(HttpServletRequest request, HttpServletResponse response, 
+	public ModelAndView introUpdateAction(MultipartHttpServletRequest request, HttpServletResponse response, 
 			ModelAndView mav,
 			@RequestParam(value = "contents", required = false, defaultValue ="") String contents,
 			@RequestParam(value = "board_cd", required = false, defaultValue ="") String board_cd)
@@ -1025,4 +1013,19 @@ public class CommonController {
 		return null;
 	}
 	
+	
+	/*
+	 * @RequestMapping(value="/error.do")
+	 * 에러 
+	 *  
+	*/
+	@RequestMapping(value = "/error.do")
+	public ModelAndView errorView(HttpServletRequest request,
+							HttpServletResponse response,
+							ModelAndView mav)
+	{
+		
+		CommonUtils.showAlertNoClose(response, "요류가 발생했습니다. \n하단 메일에 문의 주세요", "/index.do");
+		return null;
+	}
 }

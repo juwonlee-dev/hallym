@@ -38,7 +38,6 @@ public class ClubMemberController {
 							 @RequestParam(value = "club_nm", required = false, defaultValue ="") String club_nm) throws Exception{
 		HttpSession session = request.getSession();
 		UserVO userVO = (UserVO) session.getAttribute("userVO");
-//		club_nm = CommonUtils.getUTF8(club_nm);
 		
 		System.err.println("[clubSignUpForm.do] club_id: " + club_id);
 		System.err.println("[clubSignUpForm.do] userVO.getId(): " + userVO.getId());

@@ -24,16 +24,16 @@ public class CommonUtils {
 	public static final String SAVE_THUMBNAIL_PATH = "/home/club/upload/thumbnail";
 	
 	
-	public static String getUTF8(String str) {
-		
-		try {
-			str = new String(str.getBytes("ISO-8859-1"), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			System.err.println("[CommonUtils.java] str Error: " + e.getMessage());
-		} 
-		return str;
-		
-	}
+//	public static String getUTF8(String str) {
+//		
+//		try {
+//			str = new String(str.getBytes("ISO-8859-1"), "UTF-8");
+//		} catch (UnsupportedEncodingException e) {
+//			System.err.println("[CommonUtils.java] str Error: " + e.getMessage());
+//		} 
+//		return str;
+//		
+//	}
 	
 	public static String getRandomString() {
 		return UUID.randomUUID().toString().replaceAll("-", "");

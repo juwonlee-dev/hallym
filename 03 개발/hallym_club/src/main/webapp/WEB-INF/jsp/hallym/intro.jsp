@@ -11,7 +11,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<title>intro</title>
+	<title>소개</title>
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -57,7 +57,6 @@
 
 </head>
 <body id="item_body" class="pc">
-<p>${isAdmin}</p>
 	<ul id="go_main">
 		<li><a href="#jwxe_main_content" >본문 바로가기</a></li>
 		<li><a href="#jwxe_main_menu" >주메뉴 바로가기</a></li>
@@ -108,14 +107,12 @@
 							<a href="/introView.do?board_cd=007005">동아리 연합회 소개</a>
 						</li>
 						<li>
-							<a href="/introView.do?board_cd=007006" >동아리방 배치도 - 준비중</a>
+							<a href="/introView.do?board_cd=007006" >동아리방 배치도</a>
 						</li>
 						<li>
-							<a href="/introView.do?board_cd=007007" >회칙 - 준비중</a>
+							<a href="/introView.do?board_cd=007007" >회칙</a>
 						</li>
-						<li>
-							<a href="/introView.do?board_cd=007008" >세칙 - 준비중</a>
-						</li>
+						
 					</ul>
 				</div>
 			</div>
@@ -161,13 +158,8 @@
 						                       	</c:when>
 						                     </c:choose>
 								        	<div class="border-box bg-gray">  
-								        		${html}
-												
-											
-												 
-
+												${boardVO.contents}
 						                       	<textarea id="articleText" 
-						            
 						                       				name="contents" 
 						                       				rows="10" 
 						                       				cols="30" 

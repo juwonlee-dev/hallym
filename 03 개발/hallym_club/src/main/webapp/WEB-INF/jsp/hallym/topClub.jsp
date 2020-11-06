@@ -168,17 +168,9 @@
                         </div>
                     </div>
                     <ul class="lnb-menu jwxe-menu-ul">
-                    
-<%--                     <c:choose>
-                    	<c:when test="${(at_cd eq '002001') or (at_cd eq '002002') or (at_cd eq '002003') or (at_cd eq '002004') 
-                    	or (at_cd eq '002005') or (at_cd eq '002006') or (at_cd eq '002007')}">
---%>	                        
+                              
 						<li class="active"><a href="/topClub.do?at_cd=002001" class="active">공연</a></li>
                         <li><a href="/topClub.do?at_cd=002002">비공연</a></li>
-                      
-                        
-                        <%-- </c:when>
-                   </c:choose> --%>
                     </ul>
                 </div>
             </div>
@@ -202,35 +194,6 @@
                     </script>
                     <div class="ko board list co-board type01">
                         <div class="common">
-                            <!--검색창-->
-                            <!-- <div class="bn-search01 type01">
-                                <form method="post" action="/clubSearch.do" name="clubForm" enctype="multipart/form-data">
-                                    <fieldset class="b-search-wrap">
-                                        <legend class="hide">게시글 검색</legend>
-                                        <div class="b-sel-box b-cate-basic" style="z-index: 0;">
-                                        	<select class="b-sel-title" name="gb_cd">
-                                        		<option class=searchOption value="0">전체</option>
-								                <option class=searchOption value="001001">증앙동아리</option>
-								                <option class=searchOption value="001002">과동아리</option>
-								            </select>
-								        </div>
-                                        <div class="b-sel-box b-cate-basic" style="z-index: 0;">
-                                        	<select class="b-sel-title" name="at_cd">
-								                <option class=searchOption value="002">전체</option>
-                                        		<option class=searchOption value="002001">공연</option>
-								                <option class=searchOption value="002002">학술</option>
-								                <option class=searchOption value="002003">취미예술</option>
-								                <option class=searchOption value="002004">종교</option>
-								                <option class=searchOption value="002005">체육</option>
-								                <option class=searchOption value="002006">봉사</option>
-								                <option class=searchOption value="002007">기타</option>
-								            </select>
-                                        </div>
-                                        <label for="search_val" class="b-sel-label"><span>검색어</span></label>
-                                        <input type="text" id="search_val" name="search" value placeholder="검색어를 입력해 주세요">
-                                        <button type="submit" class="b-sel-btn">검색</button>
-                                    </fieldset>
-                                </form> -->
                             </div>
                             <!--검색창-->
 
@@ -265,7 +228,7 @@
 									        <tr>
 									        	<!-- 순위  -->
 									            <td class="b-num-box" id="id_${status.count}">
-										            ${status.count}
+										           <%--  ${status.count} --%>
 										          	
 										            <!-- 사진 -->
 									            	<img class="logo"
@@ -273,29 +236,46 @@
 													onerror="this.src='images/error/error.png'" alt=""
 													style="width: 100px; height: 100px;">
 													
-													
 									            </td>
 									            <td class="b-td-right">
+									           		 <!-- 동아리명 -->
+									           		<a href="#" title="${item.club_nm}"> 
+		                                                    	${item.club_nm}
+		                                             </a> 									            		
 	                                                <div class="b-title-box">
-	                                                
-	                                            		
-	                                            		<!-- 동아리명 -->
-	                                                    <a href="#" title="${item.club_nm}">
-	                                                    	${item.club_nm}
-	                                                    </a>
-	                                                    <div class="b-etc-box"></div>
-	                                                    <div class="b-m-con">
+	                                                   	<div class="b-m-con">
+		                                                   	<span class="b-writer">
+		                                                    	<img class="logo" 
+																src="upload/club/${item.intro_save_file_nm}"
+																onerror="this.src='images/error/error.png'" alt=""
+																style="width: 100px; height: 100px;">
+		                                                    </span>
+		                                                   <%--<span class="b-writer">
+		                                                    	<a href="#" title="${item.club_nm}"> 
+		                                                    	${item.club_nm}
+		                                                   		</a>
+		                                                    </span> --%>
 	                                                    	<!-- 회장 -->
 	                                                        <span class="b-writer">
 	                                                        ${item.president}
-	                                                        <%-- 	${item.cnt} --%>
 	                                                        </span>
 	                                                        <!-- 개설년도 -->
 	                                                        <span class="b-date">
 	                                                        	 ${item.open_dt}
 	                                                        </span>
-	                                                        <span class="hit">인원  ${item.cnt}</span>
-	                                                        
+	                                                        <span class="hit">인원: ${item.cnt}명</span>
+													
+															<span class="hit">  
+																<form method="post" action="/clubSignUpForm.do"
+			                                                	target="w" onsubmit="return postPopUp();">
+			                                                	<input type="hidden" name="club_id" value="${item.club_id}">
+																<input type="hidden" name="club_nm" value="${item.club_nm}">
+					                                            <input type="submit" value="가입신청" class="b-sel-btn">
+													            </form>
+															 </span>
+														</div>
+	                                                    <div>
+	                                                    
 	                                                    </div>
 	                                                </div>
 	                                            </td>

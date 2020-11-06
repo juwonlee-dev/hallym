@@ -10,25 +10,27 @@
 		<div>
 			<div class="main-visual-carousel-box carousel-wrap">
 				<div class="main-visual-carousel owl-carousel owl-theme">
-					<div class="item">
+					<%-- <div class="item">
 						<div class="main-visual-img-box">
 							<img src="${pageContext.request.contextPath}/images/attach/sItnBVShRLiwaeuPOgUf.jpg"
 								alt="총장님 시상식">
 						</div>
-					</div>
+					</div> --%>
+					
 					<div class="item">
 						<div class="main-visual-img-box">
-							<img src="${pageContext.request.contextPath}/images/attach/thumb_main_banner2.jpg"
-								alt="스포츠리그">
+							<img src="${pageContext.request.contextPath}/images/attach/main_banner_group_photo.jpg"
+								alt="동연단체사진">
 						</div>
 					</div>
 					<div class="item">
 						<div class="main-visual-img-box">
-							<img src="${pageContext.request.contextPath}/images/attach/thumb_main_banner3.jpg"
-								alt="스포츠리그">
+							<img src="${pageContext.request.contextPath}/images/attach/main_banner_poster.jpg"
+								alt="동연포스터">
 						</div>
 					</div>
-				</div>
+					
+				</div> 
 				<div class="control-wrap">
 					<a class="prev" href="#"><span class="hide">prev</span></a>
 					<a class="next" href="#"><span class="hide">next</span></a>

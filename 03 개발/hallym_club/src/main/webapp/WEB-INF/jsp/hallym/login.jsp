@@ -89,8 +89,8 @@
         </div>
         <!--로그인-->
 		<div class="sub-container">	
-			<!--게시판 메뉴-->
-			<div class="lnb-wrap">
+			<!--게시판 메뉴--> 
+			<!-- <div class="lnb-wrap">
 				<div class="lnb">
 					<div class="lnb-title-box">
 						<div>			
@@ -103,7 +103,7 @@
 						</li>
 					</ul>
 				</div>
-			</div>
+			</div> -->
 	              
             <div class="content-wrap">
                 <div class="title">

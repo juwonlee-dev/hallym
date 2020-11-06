@@ -327,7 +327,6 @@ public class ClubController {
 		return mav;
 	}
 	
-
 	/*
 	 * @RequestMapping(value="/clubProductAction.do")
 	 * 동아리 커뮤니티
@@ -899,7 +898,6 @@ public class ClubController {
 		}
 		
 		board_cd = (String) session.getAttribute("board_cd");
-		cdn = CommonUtils.getUTF8(cdn);
 		String condition = cdn; // title
 		
 		int boardListCount = 1;
@@ -2030,9 +2028,6 @@ public class ClubController {
 							 @RequestParam(value = "page", required = false, defaultValue = "1") String pageNumber) {
 		HttpSession session = request.getSession();
 		
-		if(!search.isEmpty()) {
-			search = CommonUtils.getUTF8(search);
-		}
 		if(at_cd.equals("") || at_cd.equals("002"))
 			session.setAttribute("at_cd", "002");
 		else 
@@ -2204,11 +2199,6 @@ public class ClubController {
 							 @RequestParam(value = "open_dt", required = false, defaultValue ="") String open_dt,
 							 @RequestParam(value = "user_id", required = false, defaultValue ="") String user_id) {
 	
-		club_nm = CommonUtils.getUTF8(club_nm);
-		club_aim = CommonUtils.getUTF8(club_aim);
-		club_active = CommonUtils.getUTF8(club_active);
-		club_room = CommonUtils.getUTF8(club_room);
-		
 		Map<String, Object> nameCheckParams = new HashMap<String, Object>();
 		nameCheckParams.put("club_nm", club_nm);
 

@@ -203,11 +203,7 @@
                         </div>
                     </div>
                     <ul class="lnb-menu jwxe-menu-ul">
-                    
-<%--                     <c:choose>
-                    	<c:when test="${(at_cd eq '002001') or (at_cd eq '002002') or (at_cd eq '002003') or (at_cd eq '002004') 
-                    	or (at_cd eq '002005') or (at_cd eq '002006') or (at_cd eq '002007')}">
---%>	                        
+                     
 						<li class="active"><a href="/clubSearch.do?at_cd=002" class="active">전체</a></li>
                         <li><a href="/clubSearch.do?at_cd=002001">공연</a></li>
                         <li><a href="/clubSearch.do?at_cd=002002">학술</a></li>
@@ -216,9 +212,7 @@
                         <li><a href="/clubSearch.do?at_cd=002005">체육</a></li>
                         <li><a href="/clubSearch.do?at_cd=002006">봉사</a></li>
                         <li><a href="/clubSearch.do?at_cd=002007">기타</a></li>
-                        
-                        <%-- </c:when>
-                   </c:choose> --%>
+                    
                     </ul>
                 </div>
             </div>
@@ -318,27 +312,40 @@
 									            
 									            <td class="b-td-right">
 									           		 <!-- 동아리명 -->
-									           											           		
+									           		<a href="#" title="${item.club_nm}"> 
+		                                                    	${item.club_nm}
+		                                             </a> 									            		
 	                                                <div class="b-title-box">
-	                                                    <a href="#" title="${item.club_nm}">
-	                                                    	${item.club_nm}
-	                                                    </a>
-	                                                    <div class="b-etc-box">
-	                                                    
-	                                                    </div>
-	                                                    <div class="b-m-con">
+	                                                   	<div class="b-m-con">
+		                                                   	<span class="b-writer">
+		                                                    	<img class="logo" 
+																src="upload/club/${item.intro_save_file_nm}"
+																onerror="this.src='images/error/error.png'" alt=""
+																style="width: 100px; height: 100px;">
+		                                                    </span>
+		                                                   <%--<span class="b-writer">
+		                                                    	<a href="#" title="${item.club_nm}"> 
+		                                                    	${item.club_nm}
+		                                                   		</a>
+		                                                    </span> --%>
 	                                                    	<!-- 회장 -->
 	                                                        <span class="b-writer">
 	                                                        ${item.president}
-	                                                        <%-- 	${item.cnt} --%>
 	                                                        </span>
 	                                                        <!-- 개설년도 -->
 	                                                        <span class="b-date">
 	                                                        	 ${item.open_dt}
 	                                                        </span>
-	                                                        <span class="hit">인원 ${item.cnt} </span>
-															
-															<span class="b-file"> </span>
+	                                                        <span class="hit">인원: ${item.cnt}명</span>
+													
+															<span class="hit">  
+																<form method="post" action="/clubSignUpForm.do"
+			                                                	target="w" onsubmit="return postPopUp();">
+			                                                	<input type="hidden" name="club_id" value="${item.club_id}">
+																<input type="hidden" name="club_nm" value="${item.club_nm}">
+					                                            <input type="submit" value="가입신청" class="b-sel-btn">
+													            </form>
+															 </span>
 														</div>
 	                                                    <div>
 	                                                    
@@ -424,26 +431,7 @@
                             </div>
                             <!--공지사항2-->
                             <div class="b-btn-wrap">
-                       		<%-- <%
-                           	if (cuserId != null) {
-                           		String board_cd = (String) pageContext.getAttribute("board_cd");
-                           		String[] bList = {"007101", "007102", "007103", "007104"};
-                           		String[] allowAuth = {"010001", "010002", "010003"};
-                           		//System.out.println(auth_code);
-                           		System.out.println(board_cd);
-                        		if(Arrays.asList(bList).contains(board_cd)) {
-                            		if(Arrays.asList(allowAuth).contains(auth_code)) {
-                           	%>
-                            	<a class="b-btn-type01 b-btn-c-blue" href="javascript:writeForm();">등록</a>
-                            <%
-                            		}
-                        		} else {
-                        	%>
-                        		<a class="b-btn-type01 b-btn-c-blue" href="javascript:writeForm();">등록</a>
-                        	<%
-                        		}
-                            }
-                            %> --%>
+                       		
                             </div>
                             <form name=admin-form method=post action="">
                                 <input type="hidden" name="method">

@@ -6,15 +6,6 @@
 	id="WebApp_ID" version="2.5">
 	<display-name>egov.sample</display-name>
 	
-	<filter>
-		<filter-name>multipart</filter-name>
-		<filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>multipart</filter-name>
-		<url-pattern>*.do</url-pattern>
-	</filter-mapping>
-	
 	<!-- 한글인코딩 설정 -->	
 	<filter>
 		<filter-name>encodingFilter</filter-name>
@@ -28,19 +19,7 @@
 			<param-value>true</param-value>
 		</init-param>
 	</filter>
-	
-	<!--  spring security 설정 -->	
-	<!-- 참고 - http://blog.naver.com/PostView.nhn?blogId=haengro&logNo=220549463106  -->
-	<!-- <filter>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping> -->
 
-	<!-- 참고 - https://stackoverrun.com/ko/q/6507414 -->
 	<context-param>  
        <param-name>spring.profiles.active</param-name>  
        <param-value>dev</param-value>  
@@ -69,7 +48,6 @@
 		<filter-name>HTMLTagFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
-	
 	
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -133,7 +111,7 @@
 	
 	<!-- HTTP 접속시 HTTPS로 리다이렉션 -->
 	<!-- local에선 주석후 실행 -->
-	<security-constraint>
+	<!-- <security-constraint>
 	    <web-resource-collection>
 	        <web-resource-name>SSL Forward</web-resource-name>
 	        <url-pattern>/*</url-pattern>
@@ -141,7 +119,7 @@
 	    <user-data-constraint>
 	        <transport-guarantee>CONFIDENTIAL</transport-guarantee>
 	    </user-data-constraint>
-	</security-constraint> 
+	</security-constraint>  -->
 	
 	<!-- 특정 리소스는 HTTP, HTTPS 모두 사용 가능하도록 처리 -->
 	<!-- 

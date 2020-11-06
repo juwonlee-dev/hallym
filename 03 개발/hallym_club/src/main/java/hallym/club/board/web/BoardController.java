@@ -83,7 +83,6 @@ public class BoardController {
 		}
 		
 		board_cd = (String) session.getAttribute("board_cd");
-		cdn = CommonUtils.getUTF8(cdn);
 		String condition = cdn; // title
 		
 		int boardListCount = 1;
@@ -271,9 +270,6 @@ public class BoardController {
 	 * @RequestMapping(value="/BoardWriteAction.do")
 	 * 게시판
 	 * 게시글 작성 (동작)
-	 * 한글 깨짐 현상  Error (편법 해결)
-	 * MultipartHttpServletRequest 으로 받은 한글이 깨진다.
-	 * CommonUtils.getUTF8() 사용
 	 * @RequestParam title, contents, writer, fix_yn
 	*/
 	@RequestMapping(value = "/BoardWriteAction.do")
@@ -304,11 +300,6 @@ public class BoardController {
 				CommonUtils.showAlertHistoryBack(response, "필수 입력 항목은 빈칸으로 둘 수 없습니다.");
 				return null;
 			}
-
-			title = CommonUtils.getUTF8(title);
-			contents = CommonUtils.getUTF8(contents);
-			System.err.println("[BoardWriteAction.do] title: " + title);
-			System.err.println("[BoardWriteAction.do] contents: " + contents);
 			Date today = new Date();
 			System.err.println("[BoardWriteAction.do] today: " + today);
 
@@ -554,9 +545,6 @@ public class BoardController {
 	        	CommonUtils.showAlertHistoryBack(response, "필수 입력 항목은 빈칸으로 둘 수 없습니다.");
 	        	return null;
 	        }
-	        
-	        title = CommonUtils.getUTF8(title);
-	        contents = CommonUtils.getUTF8(contents);
 	        
 			Date today = new Date();
 			

@@ -215,14 +215,11 @@
 							<a href="/introView.do?board_cd=007005">동아리 연합회 소개</a>
 						</li>
 						<li>
-							<a href="/introView.do?board_cd=007006" >동아리방 배치도 - 준비중</a>
+							<a href="/introView.do?board_cd=007006" >동아리방 배치도</a>
 						</li>
 						<li>
-							<a href="/introView.do?board_cd=007007" >회칙 - 준비중</a>
+							<a href="/introView.do?board_cd=007007" >회칙</a>
 						</li>
-						<li>
-							<a href="/introView.do?board_cd=007008" >세칙 - 준비중</a>
-						</li>					
                     </ul>
                 </div>
             </div>
@@ -260,7 +257,7 @@
                     <div class="ko board write co-board type01">
 	                    <div class="bn-write-common01 type01">
 	                        <!-- 사용여부를  게시판 수정시 기타 설정에서 선택할수 있는 필드  -->
-	                        <form method="post" action="/introUpdateAction.do" name="boardForm">
+	                        <form method="post" action="/introUpdateAction.do" name="boardForm" enctype="multipart/form-data">
 	                            <fieldset>
 	                            	<c:choose>
 				                       	<c:when test="${board_cd eq '007005'}">
@@ -313,22 +310,7 @@
 			<div class="bottom-footer-wrap"><jsp:include page="/WEB-INF/jsp/item/footer.jsp"/></div>
 		</footer>
 	</div>
-	<!-- <script>
-		function checkForm() {
-			var ck_title = document.getElementById("articleTitle").value;
-			//var ck_contents = document.getElementById("articleText").value;
-			if (ck_title.trim() == "") {
-				alert("제목을 입력해주세요");
-				document.getElementById("articleTitle").focus();
-				return false;
-			}
-			/* if (ck_contents.trim() == "") {
-				alert("내용을 입력해주세요");
-				document.getElementById("articleText").focus();
-				return false;
-			} */
-		}
-	</script> -->
+	
 	<script type="text/javascript">
 		var editor = CKEDITOR.replace( 'articleText', {
 			enterMode: '2',

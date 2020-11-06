@@ -40,14 +40,12 @@
 							<a href="/introView.do?board_cd=007005">동아리 연합회 소개</a>
 						</li>
 						<li>
-							<a href="/introView.do?board_cd=007006" >동아리방 배치도 - 준비중</a>
+							<a href="/introView.do?board_cd=007006" >동아리방 배치도</a>
 						</li>
 						<li>
-							<a href="/introView.do?board_cd=007007" >회칙 - 준비중</a>
+							<a href="/introView.do?board_cd=007007" >회칙</a>
 						</li>
-						<li>
-							<a href="/introView.do?board_cd=007008" >세칙 - 준비중</a>
-						</li>
+						
 					</ul>
 				</li>
 				<li>
@@ -125,9 +123,8 @@
 			<li><a href="/introView.do">소개</a>
 				<ul class="dep2">
 					<li><a href="/introView.do?board_cd=007005">동아리 연합회 소개</a></li>
-					<li><a href="/introView.do?board_cd=007006" >동아리방 배치도 - 준비중</a></li>
-					<li><a href="/introView.do?board_cd=007007">회칙 - 준비중</a></li>
-					<li><a href="/introView.do?board_cd=007008">세칙 - 준비중</a></li>
+					<li><a href="/introView.do?board_cd=007006" >동아리방 배치도</a></li>
+					<li><a href="/introView.do?board_cd=007007">회칙</a></li>
 				</ul></li>
 			<li><a href="/createClub.do">활동</a>
 				<ul class="dep2">
@@ -163,11 +160,10 @@
 						<li id="menu_4142" class="depth_2 first"><a
 							href="/introView.do?board_cd=007005" class="depth_2 ">동아리 연합회 소개</a></li>
 						<li id="menu_4142" class="depth_2 first"><a
-							href="/introView.do?board_cd=007006" class="depth_2 ">동아리방 배치도 - 준비중</a></li>
+							href="/introView.do?board_cd=007006" class="depth_2 ">동아리방 배치도</a></li>
 						<li id="menu_4142" class="depth_2 first"><a
-							href="/introView.do?board_cd=007007" class="depth_2 ">회칙 - 준비중</a></li>
-						<li id="menu_4142" class="depth_2 first"><a
-							href="/introView.do?board_cd=007008" class="depth_2 ">세칙 - 준비중</a></li>
+							href="/introView.do?board_cd=007007" class="depth_2 ">회칙 </a></li>
+						
 					</ul></li>
 				<li id="menu_4141" class="depth_1"><a
 					href="/clubSearch.do" class="depth_1 ">활동</a>

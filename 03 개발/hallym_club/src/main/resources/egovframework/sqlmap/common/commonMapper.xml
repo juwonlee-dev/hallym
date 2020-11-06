@@ -96,7 +96,7 @@
 	 <!-- 관리자 권한 체크(권한 코드 반환) -->
      <select id="checkAuth" parameterType="map" resultType="String">
 
-		SELECT CK_USER_AUTH(#{ID}) vRESULT FROM DUAL
+		SELECT CK_CLUB_USER_AUTH(#{ID}) vRESULT FROM DUAL
 		
      </select>
 	
