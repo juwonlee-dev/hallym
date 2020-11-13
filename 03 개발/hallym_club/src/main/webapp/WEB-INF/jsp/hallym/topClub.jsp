@@ -75,7 +75,9 @@
         
         $(document).ready(function() {
         	var at_cd = "<%=session.getAttribute("at_cd") %>"
-        	<%System.err.println("[topClub.jsp]: " + session.getAttribute("at_cd")); %>
+        	year = "<%=session.getAttribute("year") %>"
+        	<%System.err.println("[topClub.jsp]: at_cd" + session.getAttribute("at_cd")); %>
+        	<%System.err.println("[topClub.jsp]: year" + session.getAttribute("year")); %>
         	var sidemenu = document.querySelector("#item_body > div > div.sub-container > div.lnb-wrap > div > ul").getElementsByTagName('li');
         	var activeNum = 0;
         	<%System.err.println("[topClub.jsp] at_cd: " +session.getAttribute("at_cd")); %>
@@ -108,8 +110,8 @@
            		break;
         	
         	default:
-        		msg = "비공연22";
-   				msg2 = "우수동아리22";
+        		msg = "비공연";
+   				msg2 = "우수동아리";
    				sidemenu[0].classList.add('active');
            		sidemenu[0].getElementsByTagName("a")[0].classList.add("active");
         		break;
@@ -120,7 +122,25 @@
         	document.querySelector("#item_body > div > div.path-wrap > div > div > ul > li:nth-child(3)").innerText = msg;
         	document.querySelector("#item_body > div > div.sub-container > div.content-wrap > div.title > div > h3").innerText = msg;
         	
+        	switch(year){
+        	case "2019":
+        		$('#selectYear option[value=2019]').attr('selected','selected');
+        		break;
+        	case "2018":
+        		$('#selectYear option[value=2018]').attr('selected','selected');
+        		break;
+        	case "2017":
+        		$('#selectYear option[value=2017]').attr('selected','selected');
+        		break;
+        	default:
+        		$('#selectYear option[value=2019]').attr('selected','selected');
+        		break;
+        	}
+        	
+        	
         });
+        
+     
 
     </script>
 	<!--style-->
@@ -179,7 +199,7 @@
             <div class="content-wrap">
                 <div class="title">
                     <div class="jwxe_mnu_template jw-relative page-title">
-                        <h3>우수동아리</h3>
+                        <h3>${year}년도 우수동아리</h3>
                     </div>
                 </div>
                 
@@ -196,8 +216,26 @@
                         <div class="common">
                             </div>
                             <!--검색창-->
-
-                            <!--공지사항1-->
+							<div class="bn-search01 type01">
+								<form method="post" action="/topClub.do" name="clubForm"
+									enctype="multipart/form-data">
+									<fieldset class="b-search-wrap">
+										<legend class="hide">게시글 검색</legend>
+										<div class="b-sel-box b-cate-basic" style="z-index: 0;">
+											<select id="selectYear" class="b-sel-title" name="year" onchange="changeSelect('${gb_cd}','${at_cd}');">
+												<option class=searchOption value="2019"
+												>2019</option>
+												<option class=searchOption value="2018">2018</option>
+												<option class=searchOption value="2017">2017</option>
+											</select>
+										</div>
+										<input type="hidden" name="at_cd" value="${at_cd}">
+										<input type="hidden" name="gb_cd" value="${gb_cd}">
+										
+									</fieldset>
+								</form>
+							</div> 
+							<!--공지사항1-->
                             <div class="bn-list-common01 type01 bn-common bn-common">
                                 <div class="b-top-info-wrap">
                                 </div>
@@ -316,70 +354,13 @@
                             <div class="b-paging01 type03">
                                 <div class="b-paging01 type01">
                                     <div class="b-paging-wrap">
-										<%-- <ul>
-											<c:if test="${totalPage > 1 and currPage ne prevPage}">
-												<li class="first pager">
-													<a href="javascript:getPage(1,'${gb_cd}','${at_cd}','${search}');" title="첫 페이지로 이동하기">
-														<span class="hide">첫 페이지로 이동하기</span>
-													</a>
-												</li>
-												<li class="prev pager">
-													<a href="javascript:getPage(${prevPage},'${gb_cd}','${at_cd}','${search}');" title="이전 페이지로 이동하기">
-														<span class="hide">이전 페이지로 이동하기</span>
-													</a>
-												</li>
-											</c:if>
-											<c:forEach var="i" begin="1" end="${totalPage}">
-												<li>
-													<c:choose>
-							                        	<c:when test="${i eq currPage}">
-							                        		<a class="active" href="javascript:getPage(${i},'${gb_cd}','${at_cd}','${search}');">${i}</a>
-							                        	</c:when>
-							                        	<c:otherwise>
-							                        		<a class href="javascript:getPage(${i},'${gb_cd}','${at_cd}','${search}');">${i}</a>
-							                        	</c:otherwise>
-							                        </c:choose>
-						                        </li>
-											</c:forEach>
-											<c:if test="${totalPage > 1 and currPage ne nextPage}">
-												<li class="next pager">
-													<a href="javascript:getPage(${nextPage},'${gb_cd}','${at_cd}','${search}');" title="다음 페이지로 이동하기">
-														<span class="hide">다음 페이지로 이동하기</span>
-													</a>
-												</li>
-												<li class="last pager">
-													<a href="javascript:getPage(${totalPage},'${gb_cd}','${at_cd}','${search}');" title="마지막 페이지로 이동하기">
-														<span class="hide">마지막 페이지로 이동하기</span>
-													</a>
-												</li>
-											</c:if>
-											
-										</ul> --%>
+									
 									</div>
                                 </div>
                             </div>
                             <!--공지사항2-->
                             <div class="b-btn-wrap">
-                       		<%-- <%
-                           	if (cuserId != null) {
-                           		String board_cd = (String) pageContext.getAttribute("board_cd");
-                           		String[] bList = {"007101", "007102", "007103", "007104"};
-                           		String[] allowAuth = {"010001", "010002", "010003"};
-                           		//System.out.println(auth_code);
-                           		System.out.println(board_cd);
-                        		if(Arrays.asList(bList).contains(board_cd)) {
-                            		if(Arrays.asList(allowAuth).contains(auth_code)) {
-                           	%>
-                            	<a class="b-btn-type01 b-btn-c-blue" href="javascript:writeForm();">등록</a>
-                            <%
-                            		}
-                        		} else {
-                        	%>
-                        		<a class="b-btn-type01 b-btn-c-blue" href="javascript:writeForm();">등록</a>
-                        	<%
-                        		}
-                            }
-                            %> --%>
+                       		
                             </div>
                             <form name=admin-form method=post action="">
                                 <input type="hidden" name="method">
@@ -398,7 +379,7 @@
 			<div class="top-footer-wrap"><jsp:include page="/WEB-INF/jsp/item/footer-top.jsp"/></div>
 			<div class="bottom-footer-wrap"><jsp:include page="/WEB-INF/jsp/item/footer.jsp"/></div>
 	</footer>
-		<script>
+<script>
 	var winRef;
 	function postPopUp() {
 	<%if (cuserId == null) {%>
@@ -422,6 +403,13 @@
 	}
 	<%}%>
 	}
+	
+	function changeSelect(gb_cd, at_cd){
+		var select = document.getElementById("selectYear");
+		var selectValue = select.options[select.selectedIndex].value;
+		location.href = "/topClub.do?at_cd="+at_cd+"&year="+selectValue;
+	}
+	
 </script>
 </body>
 </html>

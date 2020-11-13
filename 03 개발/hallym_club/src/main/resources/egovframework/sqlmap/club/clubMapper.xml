@@ -23,6 +23,8 @@
 		 <result property="topClub_rank" column="TOPCLUB_RANK" />
 		 <result property="gb_nm" column="GB_NM"/>
 		 <result property="at_nm" column="AT_NM"/>
+		 <result property="year" column="YEAR"/>
+		 <result property="rank" column="RANK"/>
 	</resultMap>
 	
     <select id="getClub" parameterType="map" resultMap="ClubVOResult">
@@ -77,6 +79,67 @@
 				M.JOIN_CD = #{join_cd}
    	    
    	</select>
+   	
+	<select id="getRegisterClubList" parameterType="map" resultMap="ClubVOResult">
+		SELECT
+			*
+		FROM
+			(
+			SELECT
+				ROW_NUMBER() OVER
+				(ORDER BY club_id ASC)
+				RNUM, club.*
+			FROM
+				club
+			WHERE
+				register_cd = #{register_cd} AND
+				club_gb_cd LIKE '%' || #{gb_cd} || '%'AND 
+				club_at_cd LIKE '%' || #{at_cd} || '%' AND 
+				club_nm LIKE '%'|| #{search} ||'%'
+			)
+		WHERE
+			RNUM BETWEEN #{startNum} AND #{endNum} ORDER BY RNUM ASC
+
+	</select>
+	
+	<select id="getRegisterClubListCnt" parameterType="map" resultType="int">
+     	
+		SELECT
+			COUNT(club_id)
+		FROM
+			club
+		WHERE
+			register_cd = #{register_cd}
+		 	AND club_gb_cd LIKE '%' || #{gb_cd} || '%'
+			AND club_at_cd LIKE '%' || #{at_cd} || '%' 
+			AND club_nm LIKE '%' || #{search} || '%'
+		
+    </select>
+     
+   	<select id="getRegisterTotalPageCnt" parameterType="map" resultType="int">
+
+		SELECT
+			distinct CEIL(
+				(
+					SELECT
+						NVL(COUNT(club_id), 0)
+						
+					FROM (
+						SELECT club_id
+						FROM club
+						where
+							register_cd = #{register_cd}
+							AND club_gb_cd LIKE '%' || #{gb_cd} || '%'
+							AND club_at_cd LIKE '%' || #{at_cd} || '%' 
+							AND club_nm LIKE '%' || #{search} || '%'
+					)
+				)
+			/ #{limit} ) as page
+		FROM
+			club
+         
+    </select>
+	
    	
 	<update id="updateTopClubYN" parameterType="map">
 	    UPDATE
@@ -141,9 +204,9 @@
 	    UPDATE
 	    	CLUB
 	    SET
-	    	REGISTER_CD = ${register_cd}
+	    	REGISTER_CD = #{register_cd}
 	    WHERE
-	    	CLUB_ID = ${club_id}
+	    	CLUB_ID = #{club_id}
 	    
 	</update>
 	
@@ -266,7 +329,7 @@
     </select>
    	
    	<select id="getTopClubList" parameterType="map" resultMap="ClubVOResult">
-   	    SELECT *
+   	    <!-- SELECT *
    	    FROM club 
    	    WHERE 
    	    	club_gb_cd=#{gb_cd}
@@ -277,7 +340,18 @@
    	    	AND club_at_cd != '002001'
    	    	</if>
    	    	AND topclub_yn='Y' 
-   	    ORDER BY topclub_rank ASC
+   	    ORDER BY topclub_rank ASC -->
+
+		SELECT
+			*
+		FROM
+			club c, topclub t
+		WHERE
+			c.club_id = t.club_id and
+			c.register_cd='008001' and
+			c.club_gb_cd= #{gb_cd} and
+			c.club_at_cd = #{at_cd} and
+			t.year = #{year}
    	</select>
    	
    	<insert id="createClub" parameterType="map">

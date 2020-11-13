@@ -295,6 +295,191 @@ public class CommonController {
 	}
 	
 	/*
+	 * @RequestMapping(value="/clubManagement.do")
+	 * 관리자
+	 * 관리자 페이지 
+	 * 권한 - 관리자, 학생처, 동아리연합회
+	*/
+	@RequestMapping(value = "/clubManagement.do")
+	public ModelAndView clubManagement(HttpServletRequest request, HttpServletResponse response, 
+			ModelAndView mav,
+			@RequestParam(value = "gb_cd", required = false, defaultValue ="001001") String gb_cd,
+			@RequestParam(value = "at_cd", required = false, defaultValue ="002") String at_cd,
+			@RequestParam(value = "page_cd", required = false, defaultValue = "013001") String page_cd,
+			@RequestParam(value = "page", required = false, defaultValue = "1") String page,
+			@RequestParam(value = "search", required = false, defaultValue = "") String cdn)
+	{
+		HttpSession session = request.getSession();
+		String auth_code = (String) session.getAttribute("auth_code");
+		response.setContentType("text/html; charset=UTF-8");
+        
+		System.err.println("[admin.do] auth_code: " + auth_code);
+		if(! (auth_code.equals("010001") || auth_code.equals("010002") || auth_code.equals("010003"))) {
+			CommonUtils.showAlert(response, "관리자 권한이 필요한 서비스입니다.","index.do");
+			return null;
+		} 
+		
+		
+		session.setAttribute("page_cd", page_cd);
+		
+		String condition = cdn; // title
+		
+		String register_cd = null;
+		if (page_cd.equals("013001"))
+			register_cd = "008003";
+		else if (page_cd.equals("013002"))
+			register_cd = "008001";
+		else if (page_cd.equals("013003"))
+			register_cd = "008004";
+		int clubListCount = 1;
+		int limit = 5;
+		int currPage = Integer.parseInt(page);
+		currPage = (currPage < 1)?1:currPage;
+		int prevPage = 1;
+		int nextPage = 1;
+		int totalPage = 1;
+		int startNum = 1; // 범위 시작
+		int endNum = 1; // 범위 끝	
+		
+		
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("gb_cd", gb_cd);
+		params.put("at_cd", at_cd);
+		params.put("search", condition);
+		params.put("limit", limit);
+		params.put("register_cd", register_cd);
+		
+		
+		try{ clubListCount = clubService.getRegisterClubListCnt(params); }
+		catch (Exception e) { clubListCount=0; }
+		try { totalPage = clubService.getRegisterTotalPageCnt(params); }
+		catch (Exception e) { totalPage=0; }
+		
+		/* 페이지 번호에 따른 가져올 게시글 범위 */
+		if(totalPage <= 1) {
+			startNum = 1;
+			endNum = (clubListCount < limit) ? clubListCount:limit;
+			currPage = 1;
+			prevPage = currPage;
+			nextPage = currPage;
+		} else {
+			startNum = (currPage * limit) - limit + 1;
+			endNum = currPage * limit;
+			prevPage = currPage - 1;
+			prevPage = (prevPage < 1) ? 1: prevPage;
+			nextPage = (clubListCount > endNum) ? (currPage+1):currPage;
+		}
+		
+		params.put("startNum", startNum);
+		params.put("endNum", endNum);
+		
+		
+		
+		List<ClubVO> clubList = clubService.getRegisterClubList(params);
+			
+		
+		System.err.println("[clubManagement.do] page_cd: " + (String) session.getAttribute("board_cd"));
+		System.err.println("[clubManagement.do] cdn: " + cdn);
+		if(register_cd.equals("008003")) {
+			for(ClubVO clubVO : clubList) {
+				switch (clubVO.getClub_gb_cd()) {
+				case "001001":
+					clubVO.setClub_gb_cd("중앙동아리");
+					break;
+				case "001002":
+					clubVO.setClub_gb_cd("과동아리");
+				}
+				
+				switch (clubVO.getClub_at_cd()) {
+				case "002001":
+					clubVO.setClub_at_cd("공연");
+					break;
+				case "002002":
+					clubVO.setClub_at_cd("학술");
+					break;
+				case "002003":
+					clubVO.setClub_at_cd("취미예술");
+					break;
+				case "002004":
+					clubVO.setClub_at_cd("종교");
+					break;
+				case "002005":
+					clubVO.setClub_at_cd("체육");
+					break;
+				case "002006":
+					clubVO.setClub_at_cd("봉사");
+					break;
+				case "002007":
+					clubVO.setClub_at_cd("기타");
+					break;
+				}
+				params.put("club_id", clubVO.getClub_id());
+				ClubMemberVO clubMemberVO = clubMemberService.getClubPresident(params);
+				clubVO.setPresident(clubMemberVO.getName());
+				clubVO.setPresident_id(clubMemberVO.getStudent_id());
+				
+			}
+		} else if(register_cd.equals("008001") || register_cd.equals("008004")) {
+		
+			for(ClubVO clubVO : clubList) {
+				switch (clubVO.getClub_gb_cd()) {
+				case "001001":
+					clubVO.setClub_gb_cd("중앙동아리");
+					break;
+				case "001002":
+					clubVO.setClub_gb_cd("과동아리");
+				}
+				
+				switch (clubVO.getClub_at_cd()) {
+				case "002001":
+					clubVO.setClub_at_cd("공연");
+					break;
+				case "002002":
+					clubVO.setClub_at_cd("학술");
+					break;
+				case "002003":
+					clubVO.setClub_at_cd("취미예술");
+					break;
+				case "002004":
+					clubVO.setClub_at_cd("종교");
+					break;
+				case "002005":
+					clubVO.setClub_at_cd("체육");
+					break;
+				case "002006":
+					clubVO.setClub_at_cd("봉사");
+					break;
+				case "002007":
+					clubVO.setClub_at_cd("기타");
+					break;
+				}
+				params.put("club_id", clubVO.getClub_id());
+				ClubMemberVO clubMemberVO = clubMemberService.getClubPresident(params);
+				
+				if(clubMemberVO != null) {
+					clubVO.setPresident(clubMemberVO.getName());
+					clubVO.setPresident_id(clubMemberVO.getStudent_id());
+				} else {
+					clubVO.setPresident("");
+					clubVO.setPresident_id("");
+				}
+			}
+		} 
+		mav.addObject("page_cd", page_cd);
+		mav.addObject("search", condition);
+		mav.addObject("condition", condition);
+		mav.addObject("totalPage", totalPage);
+		mav.addObject("prevPage", prevPage);
+		mav.addObject("currPage", currPage);
+		mav.addObject("nextPage", nextPage);
+		mav.addObject("clubListCount", clubListCount);
+		mav.addObject("clubList", clubList);
+		mav.setViewName("hallym/clubManagement");
+		return mav;
+	}
+	
+	/*
 	 * @RequestMapping(value="/clubInfo.do")
 	 * 관리자
 	 * 동아리 관리 페이지 
@@ -366,9 +551,9 @@ public class CommonController {
 		
 		if (submit.equals("수락")) {
 			try {
-				params.put("register_cd", "'008001'");
+				params.put("register_cd", "008001");
 				clubService.updateRegister(params);
-				CommonUtils.showAlert(response, "정상적으로 처리 되었습니다..","admin.do");
+				CommonUtils.showAlert(response, "정상적으로 처리 되었습니다..","clubManagement.do?page_cd=013001");
 				return null;
 			} catch (Exception e) {
 				System.err.println("[registerUpdateAction.do] Err: " + e.getMessage());
@@ -381,7 +566,7 @@ public class CommonController {
 				params.put("id", userVO.getId());
 				clubMemberService.leaveClub(params);
 				clubService.deleteClub(params);
-				CommonUtils.showAlert(response, "정상적으로 처리 되었습니다.","admin.do");
+				CommonUtils.showAlert(response, "정상적으로 처리 되었습니다.","clubManagement.do?page_cd=013001");
 				return null;
 			}catch (Exception e) {
 				System.err.println("[registerUpdateAction.do] Err: " + e.getMessage());
@@ -397,11 +582,99 @@ public class CommonController {
 		
 	}
 	
+	
+	/*
+	 * @RequestMapping(value="/clubReOpenAction.do")
+	 * 관리자
+	 * 동아리 삭제(숨김) 취소 (동작)
+	 * 권한 - 관리자, 학생처, 동아리연합회
+	*/
+	@RequestMapping(value = "/clubReOpenAction.do")
+	public ModelAndView clubReOpenAction(HttpServletRequest request, HttpServletResponse response, 
+			ModelAndView mav,
+			@RequestParam(value = "club_id", required = false, defaultValue ="") String club_id,
+			@RequestParam(value = "submit", required = false, defaultValue ="") String submit)
+	{
+		HttpSession session = request.getSession();
+		String auth_code = (String) session.getAttribute("auth_code");
+		response.setContentType("text/html; charset=UTF-8");
+        
+		System.err.println("[clubHideAction] auth_code: " + auth_code);
+		if(! (auth_code.equals("010001") || auth_code.equals("010002") || auth_code.equals("010003"))) {
+			CommonUtils.showAlert(response, "관리자 권한이 필요한 서비스입니다.","index.do");
+			return null;
+		} 
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("club_id", club_id);
+		params.put("register_cd", "008001");
+		if (submit.equals("취소")) {
+			try {
+				clubService.updateRegister(params);
+				CommonUtils.showAlert(response, "정상적으로 처리 되었습니다.","clubManagement.do?page_cd=013003");
+				return null;
+			}catch (Exception e) {
+				System.err.println("[clubHideAction.do] Err: " + e.getMessage());
+				CommonUtils.showAlert(response, "에러 발생", "clubManagement.do?page_cd=013003");
+				return null;
+			}
+			
+		} else {
+			System.err.println("[clubHideAction.do] Err: else");
+			CommonUtils.showAlert(response, "에러 발생","index.do");
+			return null;
+		}
+		
+	}
+
+	/*
+	 * @RequestMapping(value="/clubHideAction.do")
+	 * 관리자
+	 * 동아리 삭제 [숨김] 완전 삭제 x (동작)
+	 * 권한 - 관리자, 학생처, 동아리연합회
+	*/
+	@RequestMapping(value = "/clubHideAction.do")
+	public ModelAndView clubHideAction(HttpServletRequest request, HttpServletResponse response, 
+			ModelAndView mav,
+			@RequestParam(value = "club_id", required = false, defaultValue ="") String club_id,
+			@RequestParam(value = "submit", required = false, defaultValue ="") String submit)
+	{
+		HttpSession session = request.getSession();
+		String auth_code = (String) session.getAttribute("auth_code");
+		response.setContentType("text/html; charset=UTF-8");
+        
+		System.err.println("[clubHideAction] auth_code: " + auth_code);
+		if(! (auth_code.equals("010001") || auth_code.equals("010002") || auth_code.equals("010003"))) {
+			CommonUtils.showAlert(response, "관리자 권한이 필요한 서비스입니다.","index.do");
+			return null;
+		} 
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("club_id", club_id);
+		params.put("register_cd", "008004");
+		if (submit.equals("삭제")) {
+			try {
+				clubService.updateRegister(params);
+				CommonUtils.showAlert(response, "정상적으로 처리 되었습니다.","clubManagement.do?page_cd=013002");
+				return null;
+			}catch (Exception e) {
+				System.err.println("[clubHideAction.do] Err: " + e.getMessage());
+				CommonUtils.showAlert(response, "에러 발생", "clubManagement.do?page_cd=013002");
+				return null;
+			}
+			
+		} else {
+			System.err.println("[clubHideAction.do] Err: else");
+			CommonUtils.showAlert(response, "에러 발생","index.do");
+			return null;
+		}
+		
+	}
+	
 	/*
 	 * @RequestMapping(value="/clubDeleteAction.do")
 	 * 관리자
 	 * 동아리 삭제 (동작)
 	 * 권한 - 관리자, 학생처, 동아리연합회
+	 * TODO TOPCLUB 테이블도 같이 삭제 해줘여함
 	*/
 	@RequestMapping(value = "/clubDeleteAction.do")
 	public ModelAndView clubDeleteAction(HttpServletRequest request, HttpServletResponse response, 
@@ -435,11 +708,11 @@ public class CommonController {
 				productService.deleteProduct(params);
 				clubService.deleteClub(params);
 				
-				CommonUtils.showAlert(response, "정상적으로 처리 되었습니다.","admin.do");
+				CommonUtils.showAlert(response, "정상적으로 처리 되었습니다.","clubManagement.do?page_cd=013003");
 				return null;
 			}catch (Exception e) {
 				System.err.println("[clubDeleteAction.do] Err: " + e.getMessage());
-				CommonUtils.showAlert(response, "에러 발생", "admin.do");
+				CommonUtils.showAlert(response, "에러 발생", "clubManagement.do?page_cd=013003");
 				return null;
 			}
 			
@@ -482,7 +755,7 @@ public class CommonController {
 			try {
 				params.put("topclub_yn", "Y");
 				clubService.updateTopClubYN(params);
-				CommonUtils.showAlert(response, "정상적으로 처리 되었습니다.","admin.do");
+				CommonUtils.showAlert(response, "정상적으로 처리 되었습니다.","clubManagement.do?page_cd=013002");
 				return null;
 			}catch (Exception e) {
 				System.err.println("[topClubAction.do] Err: " + e.getMessage());
@@ -495,7 +768,7 @@ public class CommonController {
 			try {
 				params.put("topclub_yn", "N");
 				clubService.updateTopClubYN(params);
-				CommonUtils.showAlert(response, "정상적으로 처리 되었습니다.","admin.do");
+				CommonUtils.showAlert(response, "정상적으로 처리 되었습니다.","clubManagement.do?page_cd=013002");
 				return null;
 			}catch (Exception e) {
 				System.err.println("[topClubAction.do] Err: " + e.getMessage());
@@ -581,7 +854,8 @@ public class CommonController {
 			// https://cofs.tistory.com/40 참고
 			// https://powerku.tistory.com/12 참고
 			// https://m.blog.naver.com/PostView.nhn?blogId=jxs2&logNo=110177957010&proxyReferer=https:%2F%2Fwww.google.com%2F 참고
-			String directory = multi.getSession().getServletContext().getRealPath("/upload/club/");
+//			String directory = multi.getSession().getServletContext().getRealPath("/upload/club/");
+			String directory = CommonUtils.SAVE_PATH;
 			System.err.println("[clubPhotoChangeAction.do] directory: " + directory);
 			File upDir = new File(directory);
 			if (!upDir.exists()) {
@@ -866,7 +1140,6 @@ public class CommonController {
 		}
 	}
 	
-
 	/*
 	 * @RequestMapping(value="/introView.do")
 	 * 동아리 연합회 소개
@@ -919,7 +1192,7 @@ public class CommonController {
 		HttpSession session = request.getSession();
 		response.setContentType("text/html; charset=UTF-8");
 		String auth_code = (String) session.getAttribute("auth_code");
-		System.err.println("[introView.do] auth_code: " + auth_code);
+		System.err.println("[introUpdateForm.do] auth_code: " + auth_code);
 		System.err.println("[introUpdateForm.do] board_cd: " + board_cd);
 
 		if(auth_code == null) auth_code = "0";
@@ -1012,7 +1285,6 @@ public class CommonController {
 		}
 		return null;
 	}
-	
 	
 	/*
 	 * @RequestMapping(value="/error.do")

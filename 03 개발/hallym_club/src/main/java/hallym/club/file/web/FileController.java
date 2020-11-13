@@ -106,7 +106,8 @@ public class FileController {
 		String savePath = "";
 		
 		/* 업로드할 폴더 체크 */
-		String path =  request.getSession().getServletContext().getRealPath("/upload/club/files/");
+//		String path =  request.getSession().getServletContext().getRealPath("/upload/club/files/");
+		String path = CommonUtils.SAVE_PATH + CommonUtils.getTimeBasePath();
 		File dir = new File(path);
         if (!dir.isDirectory()) { // 폴더가 없다면 생성
             dir.mkdirs(); // 폴더 생성

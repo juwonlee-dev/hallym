@@ -17,7 +17,6 @@
 <style>
 </style>
 </head>
-<p>isStaff: ${isStaff}</p>
 <body>
 
 	<%

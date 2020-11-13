@@ -19,9 +19,9 @@ import org.imgscalr.Scalr;
 
 public class CommonUtils {
 
-	public static final String SAVE_PATH = "/home/club/files/upload";
-	public static final String PREFIX_URL = "/home/club/files/upload/";
-	public static final String SAVE_THUMBNAIL_PATH = "/home/club/upload/thumbnail";
+	public static final String SAVE_PATH = "/home/club/files/upload/club/";
+	public static final String PREFIX_URL = "/home/club/files/upload/club/";
+	public static final String SAVE_THUMBNAIL_PATH = "/home/club/upload/club//thumbnail";
 	
 	
 //	public static String getUTF8(String str) {

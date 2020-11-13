@@ -343,8 +343,7 @@ public class BoardController {
 						continue;
 					}
 
-					// String path = CommonUtils.SAVE_PATH;
-					String path = request.getSession().getServletContext().getRealPath("/upload/club/files/");
+					String path = CommonUtils.SAVE_PATH;
 
 					System.err.println("[BoardWriteAction.do] path: " + path);
 					String thumbPrefix = "";
@@ -646,14 +645,14 @@ public class BoardController {
 						continue;
 					}
 					
-//					String path = CommonUtils.SAVE_PATH;
-					String path = request.getSession().getServletContext().getRealPath("/upload/club/files/");
+					String path = CommonUtils.SAVE_PATH;
+//					String path = request.getSession().getServletContext().getRealPath("/upload/club/files/");
 
 					String thumbPrefix = "";
 					if(isPhotoBoard && mpIndex == 0 && isExistThumbnail) {
 						thumbPrefix = "thumbnail_";
-//						path = CommonUtils.SAVE_THUMBNAIL_PATH;
-						path = request.getSession().getServletContext().getRealPath("/upload/club/thumbnail/");
+						path = CommonUtils.SAVE_THUMBNAIL_PATH;
+//						path = request.getSession().getServletContext().getRealPath("/upload/club/thumbnail/");
 					}
 					path += CommonUtils.getTimeBasePath();
 					

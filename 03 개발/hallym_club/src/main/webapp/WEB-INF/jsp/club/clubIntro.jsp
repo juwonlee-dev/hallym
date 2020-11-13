@@ -12,7 +12,7 @@
 </head>
 <body>
 	<%-- upload/club/${item.intro_save_file_nm} --%>
-	<p>${isStaff}</p>
+
 	<jsp:include page="clubPlatform.jsp"></jsp:include>
 	<div class="main">
 		<img width="980" height="700" src="upload/club/${club_poster}"

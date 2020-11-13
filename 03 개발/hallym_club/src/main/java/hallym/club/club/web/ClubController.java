@@ -254,6 +254,199 @@ public class ClubController {
 	}
 	
 	/*
+	 * @RequestMapping(value="/clubIntroView.do")
+	 * 동아리 커뮤니티
+	 * 동아리 - 소개
+	 * @RequestParam club_id, board_cd
+	*/
+	@RequestMapping(value="/clubIntroView.do")
+	public ModelAndView clubIntroView(HttpServletRequest request, HttpServletResponse response,
+							 ModelAndView mav,
+							 @RequestParam(value = "club_id", required = false, defaultValue ="") String club_id,
+							 @RequestParam(value = "board_cd", required = false, defaultValue ="") String board_cd){
+		HttpSession session = request.getSession();
+		response.setContentType("text/html; charset=UTF-8");
+		UserVO userVO = (UserVO) session.getAttribute("userVO");
+		System.err.println("[clubIntroView.do] board_cd: " + board_cd);
+		if(board_cd == "" || board_cd.isEmpty()) board_cd = "007005";
+		
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("club_id", club_id);
+		ClubVO clubVO = clubService.getClub(params);
+		
+		params.put("join_cd", "008001");
+		params.put("id", userVO.getId());
+		params.put("opt", 1);
+		String staff_cd = clubMemberService.getClubMember(params).get(0).getStaff_cd();
+		
+		params.put("board_no", 1);
+		params.put("board_cd", board_cd);
+		BoardVO boardVO = boardService.getBoard(params);
+		if(boardVO == null) boardVO = new BoardVO();
+		
+		
+		boolean isStaff = false;
+		if((staff_cd.equals("004001") || staff_cd.equals("004002") )) {
+			isStaff = true;
+		} 
+		System.err.println("[clubIntroView.do] staff_cd: " + isStaff);
+		
+		mav.addObject("clubVO", clubVO);
+		mav.addObject("board_cd", board_cd);
+		mav.addObject("boardVO", boardVO);
+		mav.addObject("isStaff", isStaff);
+		mav.setViewName("/club/clubIntroView");
+		return mav;
+	}
+	
+	/*
+	 * @RequestMapping(value="/clubIntroUpdateForm.do")
+	 * 동아리  소개
+	 * 동아리  소개 
+	 * @RequestParam club_id, board_cd
+	*/
+	@RequestMapping(value = "/clubIntroUpdateForm.do")
+	public ModelAndView introUpdateForm(HttpServletRequest request, HttpServletResponse response, 
+			ModelAndView mav,
+			@RequestParam(value = "club_id", required = false, defaultValue ="") String club_id,
+			@RequestParam(value = "board_cd", required = false, defaultValue ="") String board_cd)
+	{
+		
+		HttpSession session = request.getSession();
+		response.setContentType("text/html; charset=UTF-8");
+		UserVO userVO = (UserVO) session.getAttribute("userVO");
+		System.err.println("[clubIntroUpdateForm.do] board_cd: " + board_cd);
+		
+		Map<String, Object> params1 = new HashMap<String, Object>();
+		params1.put("club_id", club_id);	
+		ClubVO clubVO = clubService.getClub(params1);
+		
+		params1.put("join_cd", "008001");
+		params1.put("id", userVO.getId());
+		params1.put("opt", 1);
+		String staff_cd = clubMemberService.getClubMember(params1).get(0).getStaff_cd();
+
+		if(board_cd == "") board_cd = "007005";
+		boolean isStaff = false;
+		if((staff_cd.equals("004001") || staff_cd.equals("004002") )) {
+			isStaff = true;
+		} 
+		else {
+			CommonUtils.showAlertNoClose(response, "회장/부회장 권한이 필요합니다.", "/clubIntroView.do?club_id=" + club_id);
+			return null;
+		}
+		session.setAttribute("board_cd", board_cd);
+		System.err.println("[clubIntroUpdateForm.do] isStaff: " + isStaff);
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("club_id", club_id);
+		params.put("board_no", 1);
+		params.put("board_cd", board_cd);
+		BoardVO boardVO = boardService.getBoard(params);
+		if(boardVO == null) boardVO = new BoardVO();
+		
+		mav.addObject("board_cd", board_cd);
+		mav.addObject("boardVO", boardVO);
+		mav.addObject("clubVO", clubVO);
+		mav.addObject("club_id", club_id);
+		mav.addObject("isStaff", isStaff);
+		mav.setViewName("/club/clubIntroUpdateForm");
+		return mav;
+	}
+	
+	/*
+	 * @RequestMapping(value="/clubIntroUpdateAction.do")
+	 * 동아리  소개
+	 * 동아리  소개 
+	 * @RequestParam club_id, board_cd
+	*/
+	@RequestMapping(value = "/clubIntroUpdateAction.do")
+	public ModelAndView introUpdateAction(MultipartHttpServletRequest request, HttpServletResponse response, 
+			ModelAndView mav,
+			@RequestParam(value = "club_id", required = false, defaultValue ="") String club_id,
+			@RequestParam(value = "contents", required = false, defaultValue ="") String contents)
+	{
+		
+		HttpSession session = request.getSession();
+		response.setContentType("text/html; charset=UTF-8");
+		UserVO userVO = (UserVO) session.getAttribute("userVO");
+		Map<String, Object> params1 = new HashMap<String, Object>();
+		params1.put("club_id", club_id);		
+		params1.put("join_cd", "008001");
+		params1.put("id", userVO.getId());
+		params1.put("opt", 1);
+		String staff_cd = clubMemberService.getClubMember(params1).get(0).getStaff_cd();
+
+		boolean isStaff = false;
+		if((staff_cd.equals("004001") || staff_cd.equals("004002") )) {
+			isStaff = true;
+		} 
+		else {
+			CommonUtils.showAlertNoClose(response, "회장/부회장 권한이 필요합니다.","/clubIntroView.do?club_id=" + club_id);
+			return null;
+		}
+		System.err.println("[clubIntroUpdateAction.do] isStaff: " + isStaff);
+		System.err.println("[clubIntroUpdateAction.do] contents: \n" + contents);
+		
+		Map<String, Object> checkParams = new HashMap<String, Object>();
+		checkParams.put("club_id", club_id);
+		checkParams.put("board_no", 1);
+		checkParams.put("board_cd", "007005");
+		BoardVO boardVO = boardService.getBoard(checkParams);
+		
+		Date today = new Date();
+		Map<String, Object> params = new HashMap<String, Object>();
+//		if(board_cd.equals("007005"))
+//			params.put("title", "동아리  소개");
+//		else if(board_cd.equals("007006"))
+//			params.put("title", "동아리방 배치도");
+//		else if(board_cd.equals("007007"))
+//			params.put("title", "동아리 회칙");
+//		else if(board_cd.equals("007008"))
+//			params.put("title", "동아리 세칙");
+//		else
+//			params.put("title", "동아리  소개");
+		params.put("title", "동아리  소개");
+		params.put("contents", contents);
+		params.put("fix_yn", "N");
+		params.put("attach_yn", "N");
+		params.put("start_date", today);
+		params.put("end_date", today);
+		
+		params.put("club_id", club_id);
+		params.put("board_no", 1);
+		params.put("board_cd", "007005");
+		if (boardVO == null) {
+			params.put("input_id", userVO.getId());
+			params.put("input_ip", CommonUtils.getClientIP(request));
+			params.put("input_date", today);
+			try {
+				System.err.println("[clubIntroUpdateAction.do] boardVO: null");
+				boardService.addBoard(params);
+				CommonUtils.showAlertNoClose(response, "정상처리 되었습니다.", "/clubIntroView.do?club_id=" + club_id);
+			} catch (Exception e) {
+				System.err.println("[clubIntroUpdateAction.do] ERR: \n" + e.getMessage());
+				CommonUtils.showAlertNoClose(response, "요류가 발생했습니다.", "/clubIntroView.do?club_id=" + club_id);
+			}
+
+		} else {
+			params.put("update_id", userVO.getId());
+			params.put("update_ip", CommonUtils.getClientIP(request));
+			params.put("update_date", today);
+			try {
+				System.err.println("[clubIntroUpdateAction.do] boardVO: Not null");
+				boardService.updateBoard(params);
+				CommonUtils.showAlertNoClose(response, "정상처리 되었습니다.", "/clubIntroView.do?club_id=" + club_id);
+			} catch (Exception e) {
+				System.err.println("[clubIntroUpdateAction.do] ERR: \n" + e.getMessage());
+				CommonUtils.showAlertNoClose(response, "요류가 발생했습니다.", "/clubIntroView.do?club_id=" + club_id);
+			}
+		}
+		return null;
+	}
+	
+	/*
 	 * @RequestMapping(value="/clubProduct.do")
 	 * 동아리 커뮤니티
 	 * 동아리 - 물품목록
@@ -2116,29 +2309,30 @@ public class ClubController {
 	 * 동아리
 	 * 우수동아리
 	 * @RequestParam gb_cd, at_cd
+	 * TODO topClub 입력 방식 변경 필요
 	*/
 	@RequestMapping(value="/topClub.do")
 	public ModelAndView getTopClub(HttpServletRequest request, HttpServletResponse response,
 							 ModelAndView mav,
 							 @RequestParam(value = "gb_cd", required = false, defaultValue ="") String gb_cd,
-							 @RequestParam(value = "at_cd", required = false, defaultValue ="") String at_cd) {
+							 @RequestParam(value = "at_cd", required = false, defaultValue ="") String at_cd,
+							 @RequestParam(value = "year", required = false, defaultValue ="2019") String year) {
 		HttpSession session = request.getSession();
+		session.setAttribute("year", year);
 		if(at_cd.equals("") || at_cd.equals("002"))
 			session.setAttribute("at_cd", "002001");
 		else 
 			session.setAttribute("at_cd", at_cd);
 		List<ClubVO> clubTopList = null;
+
 		
-		int opt  = 1;
-		if(at_cd.equals("002002")) 
-			opt = 2;
-		
-		if( gb_cd.equals(""))
+		if(gb_cd.equals(""))
 			gb_cd="001001";
 	
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("gb_cd", gb_cd);
-		params.put("opt", opt);
+		params.put("at_cd", at_cd);
+		params.put("year", year);
 		
 		clubTopList = clubService.getTopClubList(params);
 		
@@ -2154,6 +2348,9 @@ public class ClubController {
 			club.setPresident(clubMemberService.getClubPresident(presidentParams).getName());
 		}
 		
+		mav.addObject("at_cd", at_cd);
+		mav.addObject("gb_cd", gb_cd);
+		mav.addObject("year", year);
 		mav.addObject("clubList", clubTopList);
 		mav.setViewName("hallym/topClub");
 		
@@ -2233,7 +2430,8 @@ public class ClubController {
 		// https://cofs.tistory.com/40 참고
 		// https://powerku.tistory.com/12 참고
 		// https://m.blog.naver.com/PostView.nhn?blogId=jxs2&logNo=110177957010&proxyReferer=https:%2F%2Fwww.google.com%2F 참고
-		String directory = multi.getSession().getServletContext().getRealPath("/upload/club/");
+//		String directory = multi.getSession().getServletContext().getRealPath("/upload/club/");
+		String directory = CommonUtils.SAVE_PATH;
 		System.err.println("[createClubAction.do] directory: " + directory);
 		File upDir = new File(directory);
 		if (!upDir.exists()) {

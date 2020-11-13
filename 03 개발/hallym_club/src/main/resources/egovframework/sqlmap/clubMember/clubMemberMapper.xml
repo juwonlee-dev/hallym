@@ -261,9 +261,6 @@
 			<if test="opt==1">
 			    AND JOIN_CD = #{join_cd}
 			</if>
-			<if test="opt==2"> <!-- 검색 -->
-			    AND JOIN_CD = #{join_cd}
-			</if>
 			
    	</select>
    	

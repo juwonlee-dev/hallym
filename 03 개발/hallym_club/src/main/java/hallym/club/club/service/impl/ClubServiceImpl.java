@@ -113,6 +113,21 @@ public class ClubServiceImpl implements ClubService{
 		clubDAO.updatePoster(params);
 	}
 
+	@Override
+	public List<ClubVO> getRegisterClubList(Map<String, Object> params) {
+		return clubDAO.getRegisterClubList(params);
+	}
+
+	@Override
+	public int getRegisterClubListCnt(Map<String, Object> params) {
+		return clubDAO.getRegisterClubListCnt(params);
+	}
+
+	@Override
+	public int getRegisterTotalPageCnt(Map<String, Object> params) {
+		return clubDAO.getRegisterTotalPageCnt(params);
+	}
+
 
 
 }

@@ -25,7 +25,9 @@ public class ClubVO {
 	
 	private String gb_nm;
 	private String at_nm;
-	
+
+	private String year;
+	private int rank;
 	private String president;
 	private String president_id;
 	
@@ -42,6 +44,22 @@ public class ClubVO {
 				+ poster_save_file_nm + ", register_cd=" + register_cd + ", topClub_YN=" + topClub_YN
 				+ ", topClub_rank=" + topClub_rank + ", gb_nm=" + gb_nm + ", at_nm=" + at_nm + ", row_count="
 				+ row_count + "]";
+	}
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+	public int getRank() {
+		return rank;
+	}
+
+	public void setRank(int rank) {
+		this.rank = rank;
 	}
 
 	public String getGb_nm() {
