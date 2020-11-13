@@ -38,5 +38,6 @@
  * [2020-10-23]( https://github.com/juwonlee-dev/hallym/blob/master/00%20%EA%B4%80%EB%A6%AC/changeLog/2020.10.23.md )
  * [2020-10-30]( https://github.com/juwonlee-dev/hallym/blob/master/00%20%EA%B4%80%EB%A6%AC/changeLog/2020.10.30.md )
  * [2020-11-06]( https://github.com/juwonlee-dev/hallym/blob/master/00%20%EA%B4%80%EB%A6%AC/changeLog/2020.11.06.md )
+ * [2020-11-13]( https://github.com/juwonlee-dev/hallym/blob/master/00%20%EA%B4%80%EB%A6%AC/changeLog/2020.11.13.md )
 ## 회의록
 * [링크]( https://github.com/juwonlee-dev/hallym/tree/master/00%20%EA%B4%80%EB%A6%AC/%ED%9A%8C%EC%9D%98%EB%A1%9D/ )  
