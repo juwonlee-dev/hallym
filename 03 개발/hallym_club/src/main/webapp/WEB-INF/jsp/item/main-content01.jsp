@@ -39,8 +39,9 @@
 									${item.title}
 								</span></p></a>
 								<span class="mini-date">
-									<%-- <fmt:formatDate value="${item.input_date}"/> --%>
-									${item.input_date}
+									<fmt:parseDate value="${item.input_date}" var="tmp" pattern="yyyy-MM-dd HH:mm:ss.SSS"/>
+									<fmt:formatDate value="${tmp}" var="inputDate" pattern="yyyy.MM.dd"/>
+									${inputDate}
                             	</span>
 							</li>
 						</c:forEach>

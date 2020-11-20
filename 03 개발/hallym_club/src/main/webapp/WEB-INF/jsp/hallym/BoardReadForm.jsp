@@ -299,12 +299,11 @@
                                             <li class="b-date-box">
                                                 <span>작성일</span>
                                                 <span>
-                                                ${searchBoard.input_date}
-                                                	<%-- <fmt:parseDate value="${searchBoard.INPUT_DATE}" var="tmp" pattern="yy-MM-dd" scope="page" />
-                                            		<fmt:formatDate value="${tmp}" pattern="yy.MM.dd" /> --%>
+                                                	<fmt:parseDate value="${searchBoard.input_date}" var="tmp" pattern="yyyy-MM-dd HH:mm:ss.SSS"/>
+                                                   	<fmt:formatDate value="${tmp}" pattern="yyyy.MM.dd"/>
                                              	</span>
                                             </li>
-                                       	<%-- <c:if test='${not empty searchBoard.UPDATE_ID}'>
+                                       	<c:if test='${not empty searchBoard.update_id}'>
                                             <li class="b-writer-box">
                                                 <span>수정자</span>
                                                 <span>
@@ -325,13 +324,12 @@
                                             <li class="b-date-box">
                                                 <span>수정일</span>
                                                 <span>
-                                                	-
-                                                	<fmt:parseDate value="${searchBoard.UPDATE_DATE}" var="tmp2" pattern="yy-MM-dd" scope="page" />
-                                            		<fmt:formatDate value="${tmp2}" pattern="yy.MM.dd" />
+                                                	<fmt:parseDate value="${searchBoard.update_date}" var="tmp" pattern="yyyy-MM-dd HH:mm:ss.SSS"/>
+                                                   	<fmt:formatDate value="${tmp}" pattern="yyyy.MM.dd"/>
                                              	</span>
                                             </li>
                                         </c:if>
-                                        </ul> --%>
+                                        </ul>
                                     </div>
                                 </div>
                                 <div class="b-content-box">

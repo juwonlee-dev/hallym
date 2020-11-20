@@ -22,7 +22,9 @@
      <select id="checkLogin" parameterType="map" resultType="String">
          
          <!-- local Only -->
-	 	SELECT NF_USER_LOGIN(#{GBN}, #{ID}, #{PASSWORD}) vRESULT FROM DUAL
+	 	 SELECT NF_USER_LOGIN(#{GBN}, #{ID}, #{PASSWORD}) vRESULT FROM DUAL
+		 
+		
 		 
 		
      </select>

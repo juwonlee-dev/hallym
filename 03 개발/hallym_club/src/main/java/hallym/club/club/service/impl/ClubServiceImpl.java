@@ -128,6 +128,16 @@ public class ClubServiceImpl implements ClubService{
 		return clubDAO.getRegisterTotalPageCnt(params);
 	}
 
+	@Override
+	public void deleteTopClub(Map<String, Object> params) {
+		clubDAO.deleteTopClub(params);
+	}
+
+	@Override
+	public void insertTopClub(Map<String, Object> params) {
+		clubDAO.insertTopClub(params);
+	}
+
 
 
 }

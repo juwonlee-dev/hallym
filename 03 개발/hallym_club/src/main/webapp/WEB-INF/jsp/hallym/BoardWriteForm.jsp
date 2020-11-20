@@ -5,7 +5,7 @@
 <%@page import="hallym.club.user.vo.UserVO"%>
 <%@page import="java.util.Arrays"%>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
     <title>게시판 - 글쓰기</title>
@@ -30,8 +30,10 @@
 	<link type="text/css" rel="stylesheet" charset="UTF-8" href="https://translate.googleapis.com/translate_static/css/translateelement.css">
        
     <!--js-->
+    
     <script type="text/javascript" src="${pageContext.request.contextPath}/common/js/jquery/jquery-1.9.1.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/common/js/jquery/jquery-ui-1.11.4.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/test/common/bootstrap/js/bootstrap.min.js"></script>
     
     <script defer="" type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script type="text/javascript" charset="UTF-8" src="https://translate.googleapis.com/translate_static/js/element/main_ko.js"></script>
@@ -39,7 +41,7 @@
     <script type="text/javascript">
        //<![CDATA[
 		var _thisHost = location.protocol+'//'+location.host, _thisUrl = document.location.href,_so_ = false
-		,_cur_menu_cd = '4146',_edit_content = false,front_page_edit = true,zooInOutMode = 'font',_reouscePath = '/_res/league/'
+		,_cur_menu_cd = '4146',_edit_content = false,front_page_edit = true,zooInOutMode = 'font',_reouscePath = '/res/league/'
 		,editorVendor = '',sslYN = 'N',sslPort = '8443',servicePort = '',developMode = false,device='pc',isMobile=false
 		,_cfgUseDevMode = false,_siteId = 'league',printSelector = '#jwxe_main_content',ctx = '',rootPath = '',locale= 'ko'
 		,localeScriptPath='${pageContext.request.contextPath}/custom/js/';
@@ -58,7 +60,6 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/test/common/js/jquery-plugin/tag/tag-it.min.2.0.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/test/common/js/jquery-plugin/tag/jquery.autosize.input.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/test/custom/js/board.write.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/test/common/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/res/board/js/board.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/res/league/js/user.js"></script>
 	<script type="text/javascript" charset="UTF-8" src="https://translate.googleapis.com/translate_static/js/element/main_ko.js"></script>
@@ -115,7 +116,6 @@
         		sidemenu[3].classList.add('active');
         		sidemenu[3].getElementsByTagName("a")[0].classList.add("active");
         		break;
-
         	default:
         		msg = "Null";
    				msg2 = "Null";
@@ -127,9 +127,9 @@
         	document.querySelector("#item_body > div > div.sub-container > div.content-wrap > div.title > div > h3").innerText = msg;
         	
         });
-
         
     </script>
+    
     <style>
     /*
 		.ck-editor__editable {
@@ -508,14 +508,16 @@
 			<div class="bottom-footer-wrap"><jsp:include page="/WEB-INF/jsp/item/footer.jsp"/></div>
 		</footer>
 	</div>
+	<%} %>
+	
 	<script type="text/javascript">
 		CKEDITOR.replace( 'articleText', {
 			enterMode: '2',
 		    shiftEnterMode: '3',
 			filebrowserUploadUrl: '/ImageUpload.do'
-		} );
+		});
 	</script>
-	<%} %>
+	
 	<script>
 		function checkForm() {
 			var ck_title = document.getElementById("articleTitle").value;
@@ -532,10 +534,6 @@
 			} */
 		}
 	</script>
-	
-	
-	
-	
 </body>
 
 </html>

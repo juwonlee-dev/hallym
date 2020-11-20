@@ -91,7 +91,7 @@
 					</div>
 					<ul class="lnb-menu jwxe-menu-ul">
 						<li>
-							<a href="/clubIntroView.do?club_id=${club_id}">${clubVO.club_nm}  소개</a>
+							<a href="/clubIntroView.do?club_id=${clubVO.club_id}">${clubVO.club_nm}  소개</a>
 						</li>
 						
 					</ul>
@@ -130,11 +130,11 @@
 							</div>
 							<div class="con-box no-pd"><br></div>
 							<div class="bn-login01 type01">
-								 <c:if test="${isStaff eq true}">
-								 	<input type="hidden" name="club_id" value="${club_id}">
-									<input type="hidden" name="board_cd" value="${board_cd}">
-									<button type="submit" class="b-btn-login" value="수정하기">수정하기</button>
-								 </c:if>
+						 	<input type="hidden" name="club_id" value="${clubVO.club_id}">
+							<input type="hidden" name="board_cd" value="${board_cd}">
+							 <c:if test="${isStaff eq true}">
+								<button type="submit" class="b-btn-login" value="수정하기">수정하기</button>
+							 </c:if>
 					    	</div>
 						</form>
 					</div>

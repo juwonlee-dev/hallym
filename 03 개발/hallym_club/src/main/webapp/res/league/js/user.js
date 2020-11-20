@@ -4,7 +4,7 @@ $(document).ready(function () {
 		$("html").removeClass("no-js");
 	}, 10);
 
-	App.Common.init(); 
+	App.Common.init();  
 	App.SelectBox2.init();
 	
 	//----------------------------------

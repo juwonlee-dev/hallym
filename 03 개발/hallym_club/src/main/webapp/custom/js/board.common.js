@@ -713,6 +713,12 @@ App.board.Common = function() {
 				self.changeAttachCount( $(this).val() );	
 			
 			});
+			self.changeAttachCount( $('#attachCntNew').val() );
+			$('#attachCntNew').change(function() {
+				
+				self.changeAttachCount( $(this).val() );	
+			
+			});
 			//exhibition 유형 사용시 :사용법 및 매뉴얼
 			self.changeAttachCount2( $('#attachCnt2').val() );
 			$('#attachCnt2').change(function() {

@@ -191,8 +191,9 @@ public class FileController {
 			// local
 //			json.addProperty("url", "http://localhost:8098/upload/club/files/" + saveFileName);
 			// server
-			json.addProperty("url", "https://hclub.hallym.ac.kr:1443/upload/club/files/" + saveFileName);
-			
+			json.addProperty("url", "https://hclub.hallym.ac.kr:1443/upload/club/" +
+					CommonUtils.getTimeBasePath()+ "/" +saveFileName);
+			System.err.println("[ImageUpload.do] URL" + CommonUtils.getTimeBasePath()+ "/" +saveFileName);
 		} else if(uploaded == 0) {
 			JsonArray jsonArray = new JsonArray();
 			JsonObject tmp = new JsonObject();

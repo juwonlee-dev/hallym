@@ -125,24 +125,34 @@
 	   
         
         function getPage(data1, data2, data3, data4) {
-            var urlpaging = "/clubManagement.do?";
-        	var page = data1; /* 페이지 번호 */
-        	var opt = data2; /* page_cd*/
-        	var opt2 = data3; /* search */
-        	var link = urlpaging + "&page=" + page;
-        	
-        	if(opt != null) {
-        		link += "&page_cd=" + opt;
+        	var page_cd = "<%=session.getAttribute("page_cd") %>"
+        	var urlpaging = "/clubManagement.do?";
+        	if(page_cd == "013004" || page_cd == "013005") {
+        		
+            	var opt = data1; /* year */
+            	var link = urlpaging + "&page_cd=" + page_cd + "&year="+opt;
+        		location.href = link; 
+        	} else {
+        		var page = data1; /* 페이지 번호 */
+            	var opt = data2; /* page_cd*/
+            	var opt2 = data3; /* search */
+            	var link = urlpaging + "&page=" + page;
+            	
+            	if(opt != null) {
+            		link += "&page_cd=" + opt;
+            	}
+            	if(opt2 != null) {
+            		link += "&search=" + opt2;
+            	}
+            	
+            	location.href = link; 
         	}
-        	if(opt2 != null) {
-        		link += "&search=" + opt2;
-        	}
+            
         	
-        	location.href = link; 
         }
         
         $(document).ready(function() {
-        	var at_cd = "<%=session.getAttribute("page_cd") %>"
+        	var page_cd = "<%=session.getAttribute("page_cd") %>"
         	var sidemenu = document.querySelector("#item_body > div > div.sub-container > div.lnb-wrap > div > ul").getElementsByTagName('li');
         	var activeNum = 0;
         	<%System.err.println("[clubManagement.jsp] page_cd: " +session.getAttribute("page_cd")); %>
@@ -154,7 +164,6 @@
         	}
         	var msg = "";
         	var msg2 = "";
-        	var code = 0;
         	
     		sidemenu[activeNum].classList.remove('active');
     		sidemenu[activeNum].getElementsByTagName("a")[0].classList.remove("active");
@@ -162,27 +171,35 @@
         	case "013001":
         		msg = "등록요청한 동아리";
         		msg2 = "관리자 페이지";
-        		//code = 1;
         		sidemenu[0].classList.add('active');
         		sidemenu[0].getElementsByTagName("a")[0].classList.add("active");
         		break;
         	case "013002":
         		msg = "등록된 동아리";
         		msg2 = "관리자 페이지";
-        		//code = 2;
-        		sidemenu[0].classList.add('active');
-        		sidemenu[0].getElementsByTagName("a")[0].classList.add("active");
+        		sidemenu[1].classList.add('active');
+        		sidemenu[1].getElementsByTagName("a")[0].classList.add("active");
         		break;
         	
         	case "013003":
         		msg = "삭제처리된 동아리";
         		msg2 = "관리자 페이지";
-        		//code = 3;
-        		sidemenu[0].classList.add('active');
-        		sidemenu[0].getElementsByTagName("a")[0].classList.add("active");
+        		sidemenu[2].classList.add('active');
+        		sidemenu[2].getElementsByTagName("a")[0].classList.add("active");
         		break;
         	
-        		
+        	case "013004":
+        		msg = "우수동아리 순위 지정(공연)";
+        		msg2 = "관리자 페이지";
+        		sidemenu[3].classList.add('active');
+        		sidemenu[3].getElementsByTagName("a")[0].classList.add("active");
+        		break;
+        	case "013005":
+        		msg = "우수동아리 순위 지정(비공연)";
+        		msg2 = "관리자 페이지";
+        		sidemenu[4].classList.add('active');
+        		sidemenu[4].getElementsByTagName("a")[0].classList.add("active");
+        		break;
         	default:
         		msg = "디폴트";
         		msg2 = "관리자 페이지";
@@ -192,6 +209,7 @@
         	document.querySelector("#item_body > div > div.path-wrap > div > div > ul > li:nth-child(2)").innerText = msg2;
         	document.querySelector("#item_body > div > div.path-wrap > div > div > ul > li:nth-child(3)").innerText = msg;
         	document.querySelector("#item_body > div > div.sub-container > div.content-wrap > div.title > div > h3").innerText = msg;
+        	
         	
         });
 
@@ -246,6 +264,8 @@
 						<li class="active"><a href="/clubManagement.do?page_cd=013001" class="active">등록요청한 동아리</a></li>
                         <li><a href="/clubManagement.do?page_cd=013002">등록된 동아리</a></li>
                         <li><a href="/clubManagement.do?page_cd=013003">삭제처리된 동아리</a></li>
+                        <li><a href="/clubManagement.do?page_cd=013004">우수동아리 순위 지정(공연)</a></li>
+                        <li><a href="/clubManagement.do?page_cd=013005">우수동아리 순위 지정(비공연)</a></li>
                     
                     </ul>
                 </div>
@@ -273,8 +293,35 @@
                             <!--검색창-->
                             <div class="bn-search01 type01">
                                 <form method="post" action="/clubManagement.do" name="clubForm" enctype="multipart/form-data">
+                                    <c:choose>
+                                    <c:when test="${page_cd eq '013004' || page_cd eq '013005'}">
                                     <fieldset class="b-search-wrap">
-                                        <legend class="hide">게시글 검색</legend>
+										<legend class="hide">게시글 검색</legend>
+										<div class="b-sel-box b-cate-basic" style="z-index: 0;">
+											<select id="selectYear" class="b-sel-title" name="year" onchange="changeSelect('${page_cd}','${gb_cd}','${at_cd}');">
+												<option class=searchOption value="2019"
+												>2019</option>
+												<option class=searchOption value="2018">2018</option>
+												<option class=searchOption value="2017">2017</option>
+											</select>
+										</div>
+										
+										<c:choose>
+										<c:when test="${page_cd eq '013004'}">
+										<input type="hidden" name="at_cd" value="002001">
+										</c:when>
+										<c:otherwise>
+										<input type="hidden" name="at_cd" value="002002">
+										</c:otherwise>
+										</c:choose>
+										<input type="hidden" name="page_cd" value="${page_cd}">
+										<input type="hidden" name="gb_cd" value="${gb_cd}">
+										
+									</fieldset>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <fieldset class="b-search-wrap">
+                                        <legend class="hide">동아리 검색</legend>
                                         <input type="hidden" name="page_cd" value="${page_cd}">
                                         <div class="b-sel-box b-cate-basic" style="z-index: 0;">
                                         	<select class="b-sel-title" name="gb_cd">
@@ -299,6 +346,9 @@
                                         <input type="text" id="search_val" name="search" value placeholder="검색어를 입력해 주세요">
                                         <button type="submit" class="b-sel-btn">검색</button>
                                     </fieldset>
+                                    </c:otherwise>
+                                    </c:choose>
+                                    
                                 </form>
                             </div>
                             <!--검색창-->
@@ -413,15 +463,7 @@
 												<input type="submit" value="삭제" name="submit" class="manage-btn"
 												onclick="return confirm('${item.club_nm}(${item.club_id}) 삭제하겠습니까?');"> 
 											</form>
-											<form name="form" method="post" action="topClubAction.do">
-												<input type="hidden" name="club_id" value="${item.club_id}">
-												<input type="hidden" name="at_cd" value="${item.club_at_cd}">
-												<input type="hidden" name="gb_cd" value="${item.club_gb_cd}">
-												<input type="submit" value="top in" name="submit" class="manage-btn"
-												onclick="return confirm('${item.club_nm}(${item.club_id}) 우수 동아리로 등록 하겠습니까?');">
-												<input type="submit" value="top out" name="submit" class="manage-btn"
-												onclick="return confirm('${item.club_nm}(${item.club_id}) 우수 동아리를 해지 하겠습니까?');">
-											</form>
+											
 										</td>
 										
 										</tr>
@@ -480,6 +522,92 @@
 								</c:choose>
 								</table>
 								</c:when>
+								
+								<c:when test="${page_cd eq '013004'}">
+								<table id="myTable" class="type04" border="1" style="table-layout: fixed;">
+								<th style="font-size: 25px; width: 200px;">우수동아리 순위 지정 (공연)</th>
+								<th style="font-size: 12px; width: 100px;">총 ${clubListCount} 개의 동아리</th>
+								<th style="font-size: 12px; width: 100px;">${year}년도</th>
+								<tr>
+									<th style="font-size: 20px; width: 160px;">동아리 명</th>
+									<th style="font-size: 20px; width: 100px;">구분</th>
+									<th style="font-size: 20px; width: 50px;">분야</th>
+									<th style="font-size: 20px; width: 70px;">순위</th>
+									<th style="font-size: 20px; width: 125px;">기타</th>
+								</tr>
+							
+							
+								<c:choose>
+									<c:when test="${not empty clubList }">
+										<c:forEach items='${clubList}' var="item" varStatus="status">
+										<tr>
+										<form name="form" method="post" action="">
+											<td class="club_manage" onclick="topPopup(${item.club_id}, ${year},${item.rank})">${item.club_nm}</td>
+											<input type="hidden" name="club_id" value="${item.club_id}">
+											<input type="hidden" name="year" value="${year}">
+										</form>
+										<td>${item.club_gb_cd}</td>
+										<td>${item.club_at_cd}</td>
+										<td>${item.rank}</td>
+										<td>
+											<form name="form" method="post" action="topClubAction.do">
+												<input type="hidden" name="club_id" value="${item.club_id}">
+												<input type="hidden" name="year" value="${year}">
+												<input type="hidden" name="page_cd" value="${page_cd}">
+												<input type="submit" value="제외" name="submit" class="manage-btn"
+												onclick="return confirm('${item.club_nm}(${item.club_id}) 우수동아리에서 제외 시키겠습니까?');"> 
+											</form>
+										</td>
+										
+										</tr>
+										</c:forEach>
+									</c:when>
+								</c:choose>
+								</table>
+								</c:when>
+								<c:when test="${page_cd eq '013005'}">
+								<table id="myTable" class="type04" border="1" style="table-layout: fixed;">
+								<th style="font-size: 25px; width: 200px;">우수동아리 순위 지정 (비공연)</th>
+								<th style="font-size: 12px; width: 100px;">총 ${clubListCount} 개의 동아리</th>
+								<th style="font-size: 12px; width: 100px;">${year}년도</th>
+								<tr>
+									<th style="font-size: 20px; width: 160px;">동아리 명</th>
+									<th style="font-size: 20px; width: 100px;">구분</th>
+									<th style="font-size: 20px; width: 50px;">분야</th>
+									<th style="font-size: 20px; width: 70px;">순위</th>
+									<th style="font-size: 20px; width: 125px;">기타</th>
+								</tr>
+							
+							
+								<c:choose>
+									<c:when test="${not empty clubList }">
+										<c:forEach items='${clubList}' var="item" varStatus="status">
+										<tr>
+										<form name="form" method="post" action="topClubAction.do">
+											<td class="club_manage" onclick="topPopup(${item.club_id},${year}, ${item.rank})">${item.club_nm}</td>
+											<input type="hidden" name="club_id" value="${item.club_id}">
+											<input type="hidden" name="year" value="${year}">
+											<input type="hidden" name="page_cd" value="${page_cd}">
+										</form>
+										<td>${item.club_gb_cd}</td>
+										<td>${item.club_at_cd}</td>
+										<td>${item.rank}</td>
+										<td>
+											<form name="form" method="post" action="topClubAction.do">
+												<input type="hidden" name="club_id" value="${item.club_id}">
+												<input type="hidden" name="year" value="${year}">
+												<input type="hidden" name="page_cd" value="${page_cd}">
+												<input type="submit" value="제외" name="submit" class="manage-btn"
+												onclick="return confirm('${item.club_nm}(${item.club_id}) 우수동아리에서 제외 시키겠습니까?');"> 
+											</form> 
+										</td>
+										
+										</tr>
+										</c:forEach>
+									</c:when>
+								</c:choose>
+								</table>
+								</c:when>
 								<c:otherwise>
 									ERROR
 								</c:otherwise>
@@ -493,7 +621,12 @@
                             <div class="b-paging01 type03">
                                 <div class="b-paging01 type01">
                                     <div class="b-paging-wrap">
-										<ul>
+                                    	<c:choose>
+                                    	<c:when test="${page_cd eq '013004' || page_cd eq '013005'}">
+                                    	
+                                    	</c:when>
+                                    	<c:otherwise>
+                                    	<ul>
 											<c:if test="${totalPage > 1 and currPage ne prevPage}">
 												<li class="first pager">
 													<a href="javascript:getPage(1,'${page_cd}','${search}');" title="첫 페이지로 이동하기">
@@ -532,6 +665,9 @@
 											</c:if>
 											
 										</ul>
+                                    	</c:otherwise>
+                                    	</c:choose>
+										
 									</div>
                                 </div>
                             </div>
@@ -557,25 +693,50 @@
 			<div class="bottom-footer-wrap"><jsp:include page="/WEB-INF/jsp/item/footer.jsp"/></div>
 		</footer>
 	</div>
-	<script>
-		var winRef;
-		function popup(frm) {
-			var status = "toolbar=no,directories=no,scrollbars=no,resizable=no,status=no,menubar=no,width=1200, height=500, top=50,left=20";
-			if(winRef == null){
+<script>
+	var winRef;
+	function popup(frm) {
+		var status = "toolbar=no,directories=no,scrollbars=no,resizable=no,status=no,menubar=no,width=1200, height=500, top=50,left=20";
+		if(winRef == null){
+			winRef = window.open("/clubInfo.do?club_id="+frm, 'w', status);
+			return true;
+			
+		} else {
+			if(winRef.closed == false){
+				winRef.focus();
+				return true;
+			}
+			else {
 				winRef = window.open("/clubInfo.do?club_id="+frm, 'w', status);
 				return true;
-				
-			} else {
-				if(winRef.closed == false){
-					winRef.focus();
-					return true;
-				}
-				else {
-					winRef = window.open("/clubInfo.do?club_id="+frm, 'w', status);
-					return true;
-				}
 			}
 		}
-	</script>
+	}
+	function topPopup(frm, year, curRank) {
+		var status = "toolbar=no,directories=no,scrollbars=no,resizable=no,status=no,menubar=no,width=1200, height=500, top=50,left=20";
+		if(winRef == null){
+			winRef = window.open("/topClubInfo.do?club_id="+frm+"&year="+year+"&curRank="+curRank, 'w', status);
+			return true;
+			
+		} else {
+			if(winRef.closed == false){
+				winRef.focus();
+				return true;
+			}
+			else {
+				winRef = window.open("/topClubInfo.do?club_id="+frm+"&year="+year+"&curRank="+curRank, 'w', status);
+				return true;
+			}
+		}
+	}
+	
+	function changeSelect(page_cd,gb_cd, at_cd){
+		var select = document.getElementById("selectYear");
+		var selectValue = select.options[select.selectedIndex].value;
+		location.href = "/clubManagement.do?page_cd="+page_cd+"&year="+selectValue;
+	}
+	
+</script>
+	
 </body>
 </html>

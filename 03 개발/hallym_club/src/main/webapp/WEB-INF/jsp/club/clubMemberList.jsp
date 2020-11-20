@@ -58,7 +58,6 @@
 					<th scope="col" style="width: 20%;">이름</th>
 					<th scope="col" style="width: 20%;">직위</th>
 					<th scope="col" style="width: 20%;">전공</th>
-					<th scope="col" style="width: 22%;">전화번호</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -68,7 +67,6 @@
 					<td><strong>${item.getName()}</strong></td>
 					<td>${item.getStaff_cd()} </td>
 					<td>${item.getMajor()}</td>
-					<td>${item.getPhone_no()}</td>
 				</tr>
 				
 				</c:forEach>

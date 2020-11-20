@@ -40,7 +40,7 @@
 			</li>
 			<% if(auth_code.equals("010001") || auth_code.equals("010002") || auth_code.equals("010003")) { %>
 				<li class="admin">
-				<a href="/admin.do" title="관리자페이지 바로가기">관리자페이지</a>
+				<a href="/clubManagement.do" title="관리자페이지 바로가기">관리자페이지</a>
 			</li>
 			<%} %>
 			<li class="logout">

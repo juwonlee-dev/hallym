@@ -21,7 +21,7 @@ public class CommonUtils {
 
 	public static final String SAVE_PATH = "/home/club/files/upload/club/";
 	public static final String PREFIX_URL = "/home/club/files/upload/club/";
-	public static final String SAVE_THUMBNAIL_PATH = "/home/club/upload/club//thumbnail";
+	public static final String SAVE_THUMBNAIL_PATH = "/home/club/upload/club/thumbnail";
 	
 	
 //	public static String getUTF8(String str) {
@@ -69,7 +69,7 @@ public class CommonUtils {
 //		str += calendar.get(Calendar.MILLISECOND);
 //		str += "/";
 
-		str = "/" + year + "/" + month + "/" + day;
+		str =  year + "/" + month + "/" + day;
 		System.err.println("[CommonUtils] year: " + year);
 		System.err.println("[CommonUtils] month: " + month);
 		System.err.println("[CommonUtils] day: " + day);

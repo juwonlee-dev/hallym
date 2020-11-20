@@ -30,5 +30,7 @@ public interface ClubService {
 	public void updateTopClubRank(Map<String, Object> params);
 	public void updateIntro(Map<String, Object> params);
 	public void updatePoster(Map<String, Object> params);
+	public void deleteTopClub(Map<String, Object> params);
+	public void insertTopClub(Map<String, Object> params);
 	
 }

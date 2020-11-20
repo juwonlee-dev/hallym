@@ -312,15 +312,15 @@
 	                                                        	</c:forEach>
 	                                                        </span>
 	                                                        <span class="b-date">
-	                                                        ${item.input_date}
-	                                                        	<%-- <c:choose>
+	                                                        	<c:choose>
 	                                                        		<c:when test='${empty item.update_date}'>
-	                                                        			<fmt:formatDate value="${item.input_date}" pattern="yy.MM.dd" />
+	                                                        			<fmt:parseDate value="${item.input_date}" var="tmp" pattern="yyyy-MM-dd HH:mm:ss.SSS"/>
 	                                                        		</c:when>
 	                                                        		<c:otherwise>
-	                                                        			<fmt:formatDate value="${item.update_date}" pattern="yy.MM.dd" />
+	                                                        			<fmt:parseDate value="${item.update_date}" var="tmp" pattern="yyyy-MM-dd HH:mm:ss.SSS"/>
 	                                                        		</c:otherwise>
-	                                                        	</c:choose> --%>
+	                                                        	</c:choose>
+	                                                        	<fmt:formatDate value="${tmp}" pattern="yyyy.MM.dd"/>
 	                                                        </span>
 	                                                        <span class="hit">조회수 ${item.open_cnt}</span>
 	                                                    	<span class="b-file">첨부파일</span>
@@ -352,15 +352,15 @@
                                                    	</c:forEach>
 	                                            </td>
 	                                            <td>
-	                                            ${item.input_date}
-													<%-- <c:choose>
+                                                   	<c:choose>
                                                    		<c:when test='${empty item.update_date}'>
-                                                   			<fmt:formatDate value="${item.input_date}" pattern="yy.MM.dd" />
+                                                   			<fmt:parseDate value="${item.input_date}" var="tmp" pattern="yyyy-MM-dd HH:mm:ss.SSS"/>
                                                    		</c:when>
                                                    		<c:otherwise>
-                                                   			<fmt:formatDate value="${item.update_date}" pattern="yy.MM.dd" />
-	                                                    </c:otherwise>
-                                                   	</c:choose> --%>
+                                                   			<fmt:parseDate value="${item.update_date}" var="tmp" pattern="yyyy-MM-dd HH:mm:ss.SSS"/>
+                                                   		</c:otherwise>
+                                                   	</c:choose>
+                                                   	<fmt:formatDate value="${tmp}" pattern="yyyy.MM.dd"/>
 												</td>
 	                                            <td>${item.open_cnt}</td>
 	                                            <td class="b-no-right">

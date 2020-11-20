@@ -5,7 +5,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>  
 
 <%@page import="hallym.club.user.vo.UserVO"%>
+<%@page import="hallym.club.club.vo.ClubVO"%>
 <%@page import="java.util.Arrays"%>
+<%@page import="java.util.List"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -50,6 +54,8 @@
 	<script type = "text/javascript" src="${pageContext.request.contextPath}/custom/js/board.common.js"></script>
 	<script type = "text/javascript" src="${pageContext.request.contextPath}/res/board/js/board.js"></script>
 	<script type = "text/javascript" src="${pageContext.request.contextPath}/res/league/js/user.js"></script>
+    <script type = "text/javascript" src="${pageContext.request.contextPath}/res/board/js/hclubDesign.js" defer></script>
+	<script type = "text/javascript" src="${pageContext.request.contextPath}/common/js/datepicker/datepicker.js"></script>
 	
 	<script type="text/javascript">	        
 	   
@@ -77,6 +83,7 @@
         
         $(document).ready(function() {
         	var at_cd = "<%=session.getAttribute("at_cd") %>"
+        	var searchFilter2 = document.querySelector("#jwxe_main_content > div > div > div.bn-search01.type01 > form > fieldset > div:nth-child(3) > select").getElementsByTagName('option');
         	var sidemenu = document.querySelector("#item_body > div > div.sub-container > div.lnb-wrap > div > ul").getElementsByTagName('li');
         	var activeNum = 0;
         	<%System.err.println("[clubSearch.jsp] at_cd: " +session.getAttribute("at_cd")); %>
@@ -86,74 +93,78 @@
         			break;
         		}
         	}
-        	var msg = "";
-        	var msg2 = "";
-        	var code = 0;
-        	
+
     		sidemenu[activeNum].classList.remove('active');
     		sidemenu[activeNum].getElementsByTagName("a")[0].classList.remove("active");
+    		
+        	var msg = "";
+        	var msg2 = "";
+        	
         	switch(at_cd) {
         	case "002001":
         		msg = "공연";
         		msg2 = "조회 및 가입";
-        		//code = 1;
-        		sidemenu[0].classList.add('active');
-        		sidemenu[0].getElementsByTagName("a")[0].classList.add("active");
+        		sidemenu[1].classList.add('active');
+        		sidemenu[1].getElementsByTagName("a")[0].classList.add("active");
+        		searchFilter2[1].selected = true;
         		break;
         	case "002002":
         		msg = "학술";
         		msg2 = "조회 및 가입";
-        		//code = 2;
-        		sidemenu[0].classList.add('active');
-        		sidemenu[0].getElementsByTagName("a")[0].classList.add("active");
+        		sidemenu[2].classList.add('active');
+        		sidemenu[2].getElementsByTagName("a")[0].classList.add("active");
+        		searchFilter2[2].selected = true;
         		break;
         	
         	case "002003":
         		msg = "취미예술";
         		msg2 = "조회 및 가입";
-        		//code = 3;
-        		sidemenu[0].classList.add('active');
-        		sidemenu[0].getElementsByTagName("a")[0].classList.add("active");
+        		sidemenu[3].classList.add('active');
+        		sidemenu[3].getElementsByTagName("a")[0].classList.add("active");
+        		searchFilter2[3].selected = true;
         		break;
         	case "002004":
         		msg = "종교";
         		msg2 = "조회 및 가입";
-        		//code = 3;
-        		sidemenu[1].classList.add('active');
-        		sidemenu[1].getElementsByTagName("a")[0].classList.add("active");
+        		sidemenu[4].classList.add('active');
+        		sidemenu[4].getElementsByTagName("a")[0].classList.add("active");
+        		searchFilter2[4].selected = true;
         		break;
         	case "002005":
         		msg = "체육";
         		msg2 = "조회 및 가입";
-        		//code = 3;
-        		sidemenu[1].classList.add('active');
-        		sidemenu[1].getElementsByTagName("a")[0].classList.add("active");
+        		sidemenu[5].classList.add('active');
+        		sidemenu[5].getElementsByTagName("a")[0].classList.add("active");
+        		searchFilter2[5].selected = true;
         		break;
         	case "002006":
         		msg = "봉사";
         		msg2 = "조회 및 가입";
-        		//code = 3;
-        		sidemenu[1].classList.add('active');
-        		sidemenu[1].getElementsByTagName("a")[0].classList.add("active");
+        		sidemenu[6].classList.add('active');
+        		sidemenu[6].getElementsByTagName("a")[0].classList.add("active");
+        		searchFilter2[6].selected = true;
         		break;
         	case "002007":
         		msg = "기타";
         		msg2 = "조회 및 가입";
-        		//code = 3;
-        		sidemenu[1].classList.add('active');
-        		sidemenu[1].getElementsByTagName("a")[0].classList.add("active");
+        		sidemenu[7].classList.add('active');
+        		sidemenu[7].getElementsByTagName("a")[0].classList.add("active");
+        		searchFilter2[7].selected = true;
         		break;
         		
         	default:
         		msg = "전체";
    				msg2 = "조회 및 가입";
+        		sidemenu[0].classList.add('active');
+        		sidemenu[0].getElementsByTagName("a")[0].classList.add("active");
+        		searchFilter2[0].selected = true;
         		break;
         	}
+        	
         	document.querySelector("#item_body > div > div.sub-container > div.lnb-wrap > div > div > div > h2").innerText = msg2;
         	document.querySelector("#item_body > div > div.path-wrap > div > div > ul > li:nth-child(2)").innerText = msg2;
         	document.querySelector("#item_body > div > div.path-wrap > div > div > ul > li:nth-child(3)").innerText = msg;
         	document.querySelector("#item_body > div > div.sub-container > div.content-wrap > div.title > div > h3").innerText = msg;
-        	
         });
 
     </script>
@@ -269,19 +280,13 @@
                             <!--검색창-->
 
                             <!--공지사항1-->
-                            <div class="bn-list-common01 type01 bn-common bn-common">
+                            <div class="bn-list-common01 type01 bn-common bn-common hclub">
                                 <div class="b-top-info-wrap">
                                 </div>
                                 <table summary="구분" class=board-table>
                                     <caption class="hide">구분 </caption>
                                     <colgroup>
-                                        <col class="b-col01">
-                                        <col class="b-col02">
-                                        <col class="b-col03">
-                                        <col class="b-col04">
-                                        <col class="b-col05">
-                                        <col class="b-col06">
-                                        
+                                        <col class="b-col01-hclub">
                                     </colgroup>
                                     <thead>
                                         <tr>
@@ -298,85 +303,138 @@
                                             
                                         </tr>
                                     </thead>
+                                    <c:set var="clubList" value="${clubList}"></c:set>
                                     <tbody>
-                                        <c:forEach items='${clubList}' var="item" varStatus="status">
-									        <tr>
-									            <td class="b-num-box" id="id_${status.count}">
-									            	<!-- 사진 -->
-									            	<img class="logo"
-													src="upload/club/${item.intro_save_file_nm}"
-													onerror="this.src='images/error/error.png'" alt=""
-													style="width: 100px; height: 100px;">
-									            	
-									            </td>
-									            
-									            <td class="b-td-right">
-									           		 <!-- 동아리명 -->
-									           		<a href="#" title="${item.club_nm}"> 
-		                                                    	${item.club_nm}
-		                                             </a> 									            		
-	                                                <div class="b-title-box">
-	                                                   	<div class="b-m-con">
-		                                                   	<span class="b-writer">
-		                                                    	<img class="logo" 
-																src="upload/club/${item.intro_save_file_nm}"
-																onerror="this.src='images/error/error.png'" alt=""
-																style="width: 100px; height: 100px;">
-		                                                    </span>
-		                                                   <%--<span class="b-writer">
-		                                                    	<a href="#" title="${item.club_nm}"> 
-		                                                    	${item.club_nm}
-		                                                   		</a>
-		                                                    </span> --%>
-	                                                    	<!-- 회장 -->
-	                                                        <span class="b-writer">
-	                                                        ${item.president}
-	                                                        </span>
-	                                                        <!-- 개설년도 -->
-	                                                        <span class="b-date">
-	                                                        	 ${item.open_dt}
-	                                                        </span>
-	                                                        <span class="hit">인원: ${item.cnt}명</span>
-													
-															<span class="hit">  
-																<form method="post" action="/clubSignUpForm.do"
-			                                                	target="w" onsubmit="return postPopUp();">
-			                                                	<input type="hidden" name="club_id" value="${item.club_id}">
-																<input type="hidden" name="club_nm" value="${item.club_nm}">
-					                                            <input type="submit" value="가입신청" class="b-sel-btn">
-													            </form>
-															 </span>
-														</div>
-	                                                    <div>
-	                                                    
-	                                                    </div>
+                                    <%
+                                    	List<ClubVO> clubList = (List<ClubVO>) pageContext.getAttribute("clubList");
+                                       	//System.err.println("[clubSearch.do] clubList: " + clubList);
+                                       	Date oldDate;
+                                       	SimpleDateFormat oldFormat = new SimpleDateFormat("yyyyMMdd");
+                                       	SimpleDateFormat newFormat = new SimpleDateFormat("yyyy.MM.dd"); // String 타입을 Date 타입으로 변환
+                                       	
+                                    	for(int i=0; i<clubList.size(); i++) {
+                                    %>
+                                    	<tr class="hclubRow">
+                                    		<td class = "hclubRowbox">
+	                                            <div class="hclublist_photo">
+	                                                <img class="logo" src="upload/club/<%=clubList.get(i).getIntro_save_file_nm()%>" onerror="this.src='images/error/error.png'" alt="" style="width: 100px; height: 100px;">
+	                                            </div>
+	                                            <div class="hclublist_content">
+	                                                <div class="hclublist_content_top">
+	                                                    <form method="post" action="/clubSignUpForm.do" target="w" onsubmit="return postPopUp();">
+	                                                        <input type="hidden" name="club_id" value="<%=clubList.get(i).getClub_id()%>">
+	                                                        <input type="hidden" name="club_nm" value="<%=clubList.get(i).getClub_nm()%>">
+	                                                        <span><input type="submit" value="가입 신청하기"></span>
+	                                                    </form>
 	                                                </div>
-	                                            </td>
-	                                            
-	                                            <!-- 회장 -->
-	                                            <td>
-                                                 ${item.president}
-	                                            </td>
-	                                            <!-- 인원 -->
-	                                            <td>
-												${item.cnt}	
-												</td>
-												<!-- 개설년도 -->
-	                                            <td>${item.open_dt}</td>
-	                                            <form method="post" action="/clubSignUpForm.do"
-	                                                	target="w" onsubmit="return postPopUp();">
-	                                                	<input type="hidden" name="club_id" value="${item.club_id}">
-														<input type="hidden" name="club_nm" value="${item.club_nm}">
-	                                            <td class="b-no-right">
-	                                            	<span><input type="submit" value="가입신청" class="b-sel-btn"></span>
-									            </td>
-									            </form>
-									        </tr>  
-								    	</c:forEach>
+	                                                <div class="hclublist_content_middle">
+	                                                    <strong class="hclub_jung">중</strong>
+	                                                    <a href="/clubIntroView.do?club_id=<%=clubList.get(i).getClub_id()%>" target="_self">
+	                                                        <strong><%=clubList.get(i).getClub_nm()%></strong>
+	                                                    </a>
+	                                                </div>
+	                                                <div class="hclublist_content_bottom">
+	                                                    <span>대표자 : <%=clubList.get(i).getPresident()%></span>
+	                                                    <span>개설일 : 
+	                                                    <%
+		                                                    oldDate = oldFormat.parse(clubList.get(i).getOpen_dt());
+		                                                   	out.print(newFormat.format(oldDate));
+	                                                    %>
+	                                                    </span>
+	                                                </div>
+	                                                <div class="hclublist_content_bottom2 oneElement">
+	                                                    <span>인원수 : <%=clubList.get(i).getCnt()%>명</span>
+	                                                    <!-- <span>지도교수 : 미지정</span> -->
+	                                                </div>
+	                                            </div>
+	                                            <span class="hclublist_logo1 oneElement"> <!-- 뱃지가 하나이면 -->
+	                                            	<img src="images/main/hclublist_logo1.png">
+	                                            	<!-- 한림대학교 로고
+	                                            	<img src="
+	                                            	https://yt3.ggpht.com/a/AATXAJy-oZNcRRoXt-RnLhCrfJsMfWR_TTaQYhzbebi6uw=s68-c-k-c0x00ffffff-no-rj" style="height: 31px; width: 31px;">
+	                                            	-->
+	                                            </span>
+	                                            <span class="hclublist_logo1_text">동아리연합회<br>중앙동아리입니다.</span>
+	                                            <!-- 우수동아리 순위 뱃지
+	                                            <span class="hclublist_logo2">
+	                                                1
+	                                            </span>
+	                                            -->
+	                                        </td>
+                                        <%
+                                        	i++;
+                                        	if(i < clubList.size()) {
+                                        %>
+	                                        <td class = "hclubRowbox">
+	                                            <div class="hclublist_photo">
+	                                                <img class="logo" src="upload/club/<%=clubList.get(i).getIntro_save_file_nm()%>" onerror="this.src='images/error/error.png'" alt="" style="width: 100px; height: 100px;">
+	                                            </div>
+	                                            <div class="hclublist_content">
+	                                                <div class="hclublist_content_top">
+	                                                    <form method="post" action="/clubSignUpForm.do" target="w" onsubmit="return postPopUp();">
+	                                                        <input type="hidden" name="club_id" value="<%=clubList.get(i).getClub_id()%>">
+	                                                        <input type="hidden" name="club_nm" value="<%=clubList.get(i).getClub_nm()%>">
+	                                                        <span><input type="submit" value="가입 신청하기"></span>
+	                                                    </form>
+	                                                </div>
+	                                                <div class="hclublist_content_middle">
+	                                                    <strong class="hclub_jung">중</strong>
+	                                                    <a href="/clubIntroView.do?club_id=<%=clubList.get(i).getClub_id()%>" target="_self">
+	                                                        <strong><%=clubList.get(i).getClub_nm()%></strong>
+	                                                    </a>
+	                                                </div>
+	                                                <div class="hclublist_content_bottom">
+	                                                    <span>대표자 : <%=clubList.get(i).getPresident()%></span>
+	                                                    <span>개설일 : 
+	                                                    <%
+		                                                    oldDate = oldFormat.parse(clubList.get(i).getOpen_dt());
+		                                                   	out.print(newFormat.format(oldDate));
+	                                                    %>
+	                                                    </span>
+	                                                </div>
+	                                                <div class="hclublist_content_bottom2 oneElement">
+	                                                    <span>인원수 : <%=clubList.get(i).getCnt()%>명</span>
+	                                                    <!-- <span>지도교수 : 미지정</span> -->
+	                                                </div>
+	                                            </div>
+	                                            <span class="hclublist_logo1 oneElement"> <!-- 뱃지가 하나이면 -->
+	                                            	<img src="images/main/hclublist_logo1.png">
+	                                            	<!-- 한림대학교 로고
+	                                            	<img src="
+	                                            	https://yt3.ggpht.com/a/AATXAJy-oZNcRRoXt-RnLhCrfJsMfWR_TTaQYhzbebi6uw=s68-c-k-c0x00ffffff-no-rj" style="height: 31px; width: 31px;">
+	                                            	-->
+	                                            </span>
+	                                            <span class="hclublist_logo1_text">동아리연합회<br>중앙동아리입니다.</span>
+	                                            <!-- 우수동아리 순위 뱃지
+	                                            <span class="hclublist_logo2">
+	                                                1
+	                                            </span>
+	                                            -->
+	                                        </td>
+                                        <%
+                                        	}
+                                        %>
+                                    	</tr>
+                                    <%
+                                    	}
+                                    %>
 								    	<c:if test="${clubListCount lt 1}">
-									    	<tr>
-												<td class="b-no-post" colspan="6">검색된 동아리가 없습니다.</td> 
-											</tr>
+									    	<tr class="hclubRow clubRow">
+	                                    		<td class = "hclubRowbox clubRow">
+                                                    <div class="hclublist_photo">
+                                                        <img class="logo" src="images/main/error.png" onerror="this.src='images/error/error.png'" alt="" style="width: 100px; height: 100px;">
+                                                    </div>
+                                                    <div class="hclublist_content">
+                                                        <div class="hclublist_content_top">
+                                                            <span></span>
+                                                        </div>
+                                                        <div class="hclublist_content_middle">
+                                                            <strong>동아리를 찾을 수 없습니다.</strong>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </td>
+	                                    	</tr>
 										</c:if>
                                     </tbody>
                                 </table>

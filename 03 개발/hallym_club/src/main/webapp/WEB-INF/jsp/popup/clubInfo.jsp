@@ -61,26 +61,33 @@ table.type04 td {
 	<div class="main">
 		<div class="mainLeft">
 			
-			<c:if test="${isTopClub eq true}">
+			
 			<table id="myTable" class="type04" border="1"
 					style="table-layout: fixed;">
-					<th style="font-size: 25px; width: 200px;">우수 동아리 순위</th>
-					
+					<form name="form" method="post" action="topClubAction.do">
 						<tr>
-						<th>현재 순위</th>
-						<td>${clubRank}</td>
+							<th style="font-size: 25px; width: 200px;">우수동아리 등록</th>
+							<td></td>	
 						</tr>
-	
-					<form method="post" action="topClubRankAction.do" >
+						<tr>
+						<td>
+							<select id="selectYear" class="b-sel-title" name="year">
+								<option class=searchOption value="2019">2019</option>
+								<option class=searchOption value="2018">2018</option>
+								<option class=searchOption value="2017">2017</option>
+							</select>
+						</td>
+						<td>	
 							<input type="hidden" name="club_id" value="${club_id}">
-							<tr>
-							<th>순위 수정</th>
-							<td><input style="width: 99%; height: 99%; resize: none" name="rank"></td>
-							<td><input name="submit" type="submit" value="수정"></td>
-							</tr>
+							<input type="submit" value="등록" name="submit" class="manage-btn"
+							onclick="return confirm('${club_nm}(${club_id}) 우수 동아리로 등록 하겠습니까?');">
+						</td>
+						</tr> 
+					
 					</form>
+						
+						
 			</table>
-			</c:if>
 				
 			<table id="myTable" class="type04" border="1"
 				style="table-layout: fixed;">

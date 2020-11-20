@@ -102,23 +102,16 @@
 						-->
 						<div class="item">
 							<a id="banner0"
-								href="https://www.facebook.com/INTRAMURAL.LEAGUE/"
+								href="https://www.facebook.com/hallym.seeleeds"
 								title="새창으로 이동" target="_blank"> <img
-								src="/images/main/League_facebook.jpg" alt=" ">
+								src="/images/main/seeLeads_facebook.jpg" alt=" ">
 							</a>
 						</div>
 						<div class="item">
 							<a id="banner1"
-								href="https://www.youtube.com/channel/UC4KaD3dZYiT5sptk-44KQxg"
+								href="https://www.instagram.com/hallym_see.leeds/"
 								title="새창으로 이동" target="_blank"> <img
-								src="/images/main/HLBS_Youtube.jpg" alt=" ">
-							</a>
-						</div>
-						<div class="item">
-							<a id="banner2"
-								href="https://www.facebook.com/hlbs9306/"
-								title="새창으로 이동" target="_blank"> <img
-								src="/images/main/HLBS_facebook.jpg" alt=" ">
+								src="/images/main/seeLeads_instagram.jpg" alt=" ">
 							</a>
 						</div>
 						<div class="item">

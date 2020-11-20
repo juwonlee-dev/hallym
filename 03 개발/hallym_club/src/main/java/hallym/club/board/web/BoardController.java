@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -222,11 +221,7 @@ public class BoardController {
 			}
 		}
 		
-		searchBoard.setContents(
-					searchBoard.getContents().replaceAll("&lt;", "<")
-					.replaceAll("&gt;", ">")
-					.replaceAll("&quot;", "\"")
-					.replaceAll("&nbsp;", " "));
+		
 		
 		mav.addObject("hasThumbnail", hasThumbnail);
 		mav.addObject("thumbnailFile", thumbnailFile);
@@ -279,7 +274,6 @@ public class BoardController {
 			@RequestParam(value = "writer", required = false, defaultValue = "") String writer,
 			@RequestParam(value = "fix_yn", required = false) String fix_yn) {
 		response.setContentType("text/html; charset=UTF-8");
-		String redrt = "redirect:BoardSearch.do";
 		HttpSession session = request.getSession();
 		String board_cd = (String) session.getAttribute("board_cd");
 		// String[] banList = {"007001", "007002", "007003", "007004"};
@@ -518,7 +512,6 @@ public class BoardController {
 									@RequestParam(value = "deleteAttach", required = false) List<String> delAttachs) throws IOException
 	{
 		response.setContentType("text/html; charset=UTF-8");
-        String redrt = "redirect:BoardSearch.do";
         
 		HttpSession session = request.getSession();
 		
@@ -715,7 +708,6 @@ public class BoardController {
 			params.put("update_date", today);
 			boardService.updateBoard(params);
 			
-			redrt = "redirect:BoardReadForm.do?&num=" + board_no;
 			CommonUtils.showAlert(response, "정상적으로 수정되었습니다.", "/BoardReadForm.do?&num=" + board_no);
 			return null;
 		}

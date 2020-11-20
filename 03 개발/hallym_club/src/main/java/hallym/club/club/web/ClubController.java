@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.jms.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -278,8 +277,13 @@ public class ClubController {
 		params.put("join_cd", "008001");
 		params.put("id", userVO.getId());
 		params.put("opt", 1);
-		String staff_cd = clubMemberService.getClubMember(params).get(0).getStaff_cd();
-		
+		String staff_cd = null;
+		try {
+			staff_cd = clubMemberService.getClubMember(params).get(0).getStaff_cd();
+		} catch (Exception e) {
+			System.err.println("[" + userVO.getName() + "] 은(는) " + clubVO.getClub_nm() + "에 가입되지 않았습니다.");
+			staff_cd = "0";
+		}
 		params.put("board_no", 1);
 		params.put("board_cd", board_cd);
 		BoardVO boardVO = boardService.getBoard(params);
@@ -316,6 +320,7 @@ public class ClubController {
 		HttpSession session = request.getSession();
 		response.setContentType("text/html; charset=UTF-8");
 		UserVO userVO = (UserVO) session.getAttribute("userVO");
+		System.err.println("[clubIntroUpdateForm.do] club_id: " + club_id);
 		System.err.println("[clubIntroUpdateForm.do] board_cd: " + board_cd);
 		
 		Map<String, Object> params1 = new HashMap<String, Object>();
@@ -326,7 +331,7 @@ public class ClubController {
 		params1.put("id", userVO.getId());
 		params1.put("opt", 1);
 		String staff_cd = clubMemberService.getClubMember(params1).get(0).getStaff_cd();
-
+		
 		if(board_cd == "") board_cd = "007005";
 		boolean isStaff = false;
 		if((staff_cd.equals("004001") || staff_cd.equals("004002") )) {
@@ -2229,7 +2234,7 @@ public class ClubController {
 		List<ClubVO> clubList = null;
 		
 		int clubListCount = 1;
-		int limit = 5;
+		int limit = 6;
 		int currPage = Integer.parseInt(pageNumber);
 		currPage = (currPage < 1)?1:currPage;
 		int prevPage = 1;
@@ -2247,10 +2252,13 @@ public class ClubController {
 		System.err.println("[clubSearch.do] at_cd: " + at_cd);
 		System.err.println("[clubSearch.do] search: " + search);
 		
+	
 		try{ clubListCount = clubService.getClubListCnt(params); }
 		catch (Exception e) { clubListCount=0; }
 		try { totalPage = clubService.getTotalPageCnt(params); }
 		catch (Exception e) { totalPage=0; }
+		
+		
 		
 		/* 페이지 번호에 따른 가져올 게시글 범위 */
 		if(totalPage <= 1) {
@@ -2275,7 +2283,8 @@ public class ClubController {
 		params.put("search", search);	
 		
 		clubList = clubService.getClubList(params);			
-		System.err.println("[clubSearch.do] clubList: \n" + clubList);
+		
+		System.err.println("[clubSearch.do] clubList: \n" + clubList); 
 		System.err.println("[clubSearch.do] clubListCount: " + clubListCount);
 		System.err.println("[clubSearch.do] totalPage: " + totalPage);
 		
@@ -2299,6 +2308,8 @@ public class ClubController {
 		mav.addObject("currPage", currPage);
 		mav.addObject("nextPage", nextPage);
 		mav.addObject("clubList", clubList);
+		
+		
 		mav.addObject("clubListCount", clubListCount);
 		mav.setViewName("hallym/clubSearch");
 		return mav;
@@ -2333,6 +2344,11 @@ public class ClubController {
 		params.put("gb_cd", gb_cd);
 		params.put("at_cd", at_cd);
 		params.put("year", year);
+		if(at_cd.equals("002001"))
+			params.put("opt", 1);
+		else
+			params.put("opt", 2);
+			
 		
 		clubTopList = clubService.getTopClubList(params);
 		
