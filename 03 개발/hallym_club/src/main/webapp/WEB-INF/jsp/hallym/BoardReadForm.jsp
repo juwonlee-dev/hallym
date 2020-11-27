@@ -171,6 +171,12 @@
 		
 	</style>
 	-->
+	
+    <!-- 에디터로 업로드한 이미지가 반응형으로 조절되게 하기 위해 기존 에디터 크기 지정을 무시함 -->
+	<style type='text/css'>
+		div.content img { max-width: 100%; height: auto; float: none !important;}
+		/*div#cke_1_contents img { max-width: 100%; height: auto; }*/
+	</style>
 </head>
 <body id="item_body" class="pc">
 	<%

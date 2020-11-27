@@ -135,5 +135,10 @@ public class ClubMemberServiceImpl implements ClubMemberService{
 		clubMemberDAO.deleteClubMember(params);
 	}
 
+	@Override
+	public List<ClubMemberVO> getMyInfo(Map<String, Object> params) {
+		return clubMemberDAO.getMyInfo(params);
+	}
+
 
 }

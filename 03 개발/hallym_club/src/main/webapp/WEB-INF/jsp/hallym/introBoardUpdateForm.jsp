@@ -81,38 +81,39 @@
         	}
         	var msg = "";
         	var msg2 = "";
-        	var code = 0;
         	
     		sidemenu[activeNum].classList.remove('active');
     		sidemenu[activeNum].getElementsByTagName("a")[0].classList.remove("active");
         	switch(board_cd) {
-        	case "007005":
-        		msg = "동아리 연합회 소개";
+        	case "007009":
+        		msg = "동아리란?";
         		msg2 = "소개";
-        		code = 1;
-        		sidemenu[3].classList.add('active');
-        		sidemenu[3].getElementsByTagName("a")[0].classList.add("active");
+        		sidemenu[0].classList.add('active');
+        		sidemenu[0].getElementsByTagName("a")[0].classList.add("active");
+        		break;
+        	case "007005":
+        		msg = "동아리 연합회";
+        		msg2 = "소개";
+        		sidemenu[1].classList.add('active');
+        		sidemenu[1].getElementsByTagName("a")[0].classList.add("active");
         		break;
         	case "007006":
         		msg = "동아리 배치도";
         		msg2 = "소개";
-        		code = 1;
-        		sidemenu[3].classList.add('active');
-        		sidemenu[3].getElementsByTagName("a")[0].classList.add("active");
+        		sidemenu[2].classList.add('active');
+        		sidemenu[2].getElementsByTagName("a")[0].classList.add("active");
         		break;
         	case "007007":
         		msg = "회칙";
         		msg2 = "소개";
-        		code = 1;
         		sidemenu[3].classList.add('active');
         		sidemenu[3].getElementsByTagName("a")[0].classList.add("active");
         		break;
         	case "007008":
         		msg = "세칙";
         		msg2 = "소개";
-        		code = 1;
-        		sidemenu[3].classList.add('active');
-        		sidemenu[3].getElementsByTagName("a")[0].classList.add("active");
+        		sidemenu[4].classList.add('active');
+        		sidemenu[4].getElementsByTagName("a")[0].classList.add("active");
         		break;
         	default:
         		msg = "Null";
@@ -184,8 +185,11 @@
                         <li><a href="/index.do"><img src="images/common/ico-home.png" alt="home"></a></li>
                         <li>소개</li>
                         <c:choose>
+                        	<c:when test="${board_cd eq '007009'}">
+                       		 <li>동아리란?</li>
+                        	</c:when>
                         	<c:when test="${board_cd eq '007005'}">
-                       		 <li>동아리 연합회 소개</li>
+                       		 <li>동아리 연합회</li>
                         	</c:when>
                         	<c:when test="${board_cd eq '007006'}">
                        		 <li>동아리방 배치도</li>
@@ -212,13 +216,16 @@
                     </div>
                     <ul class="lnb-menu jwxe-menu-ul">
                     	<li>
-							<a href="/introView.do?board_cd=007005">동아리 연합회 소개</a>
+							<a href="/introUpdateForm.do?board_cd=007009">동아리란?</a>
+						</li>
+                    	<li>
+							<a href="/introUpdateForm.do?board_cd=007005">동아리 연합회</a>
 						</li>
 						<li>
-							<a href="/introView.do?board_cd=007006" >동아리방 배치도</a>
+							<a href="/introUpdateForm.do?board_cd=007006" >동아리방 배치도</a>
 						</li>
 						<li>
-							<a href="/introView.do?board_cd=007007" >회칙</a>
+							<a href="/introUpdateForm.do?board_cd=007007" >회칙</a>
 						</li>
                     </ul>
                 </div>
@@ -229,8 +236,11 @@
                 <div class="title">
                     <div class="jwxe_mnu_template jw-relative page-title">
                         <c:choose>
+                       	<c:when test="${board_cd eq '007009'}">
+                      		 <h3>동아리란?</h3>
+                       	</c:when>
                        	<c:when test="${board_cd eq '007005'}">
-                      		 <h3>동아리 연합회 소개</h3>
+                      		 <h3>동아리 연합회</h3>
                        	</c:when>
                        	<c:when test="${board_cd eq '007006'}">
                       		 <h3>동아리방 배치도</h3>
@@ -260,8 +270,11 @@
 	                        <form method="post" action="/introUpdateAction.do" name="boardForm" enctype="multipart/form-data">
 	                            <fieldset>
 	                            	<c:choose>
+				                       	<c:when test="${board_cd eq '007009'}">
+				                      		 <legend class="hide">동아리란?</legend>
+				                       	</c:when>
 				                       	<c:when test="${board_cd eq '007005'}">
-				                      		 <legend class="hide">동아리 연합회 소개</legend>
+				                      		 <legend class="hide">동아리 연합회</legend>
 				                       	</c:when>
 				                       	<c:when test="${board_cd eq '007006'}">
 				                      		 <legend class="hide">동아리방 배치도</legend>

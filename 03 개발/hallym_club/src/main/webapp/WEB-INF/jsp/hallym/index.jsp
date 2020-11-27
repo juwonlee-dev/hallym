@@ -14,6 +14,7 @@
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/res/league/css/m-mn.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/main/res/league/css/owl.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/res/league/css/user.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/res/board/css/board.css">
         <link type="text/css" rel="stylesheet" charset="UTF-8" href="https://translate.googleapis.com/translate_static/css/translateelement.css">
         <link type="text/css" rel="stylesheet" charset="UTF-8" href="https://translate.googleapis.com/translate_static/css/translateelement.css">
         
@@ -39,6 +40,7 @@
         <style type="text/css"></style>
         <script type="text/javascript" src="${pageContext.request.contextPath}/main/res/league/js/user/owl.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/res/league/js/user.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/res/board/js/hclubDesign.js" defer></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/main/res/league/js/user/visual.js"></script>
         <script type="text/javascript" charset="UTF-8" src="https://translate.googleapis.com/translate_static/js/element/main_ko.js"></script>
         <script type="text/javascript" charset="UTF-8" src="https://translate.googleapis.com/element/TE_20200506_00/e/js/element/element_main.js"></script>

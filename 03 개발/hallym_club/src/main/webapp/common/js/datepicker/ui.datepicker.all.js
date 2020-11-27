@@ -2077,6 +2077,7 @@ jQuery.ui ||
         var month = date.getMonth();
         var day = date.getDate();
         var pattern = /([+-]?[0-9]+)\s*(d|D|w|W|m|M|y|Y)?/g;
+        //var pattern = /([+-]?[0-9]+)\s*(y|Y|m|M|w|W|d|D)?/g;
         var matches = pattern.exec(offset);
         while (matches) {
           switch (matches[2] || "d") {

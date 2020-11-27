@@ -37,7 +37,10 @@
 				 	</a>
 					<ul class="sub-mn" style="display: none;">
 						<li>
-							<a href="/introView.do?board_cd=007005">동아리 연합회 소개</a>
+							<a href="/introView.do?board_cd=007009">동아리란?</a>
+						</li>
+						<li>
+							<a href="/introView.do?board_cd=007005">동아리 연합회</a>
 						</li>
 						<li>
 							<a href="/introView.do?board_cd=007006" >동아리방 배치도</a>
@@ -94,19 +97,17 @@
 	<nav class="slideMenu">
 	<div class="m-util">
 		<ul>
-			<li><a href="/index.do" title="home 바로가기">Home</a></li>
-			<li><a href="#a" title="사이트맵 보기" class="sitemap-btn">Sitemap</a></li>
+			<li><a href="/index.do" title="HOME 바로가기">HOME</a></li>
+			<li><a href="http://www.hallym.ac.kr/" target="_blank" title="한림대학교 사이트 새창열림">한림대학교</a></li>
+			<li style="border-right: none;"><a href="#a" title="사이트맵 보기" class="sitemap-btn">Sitemap</a></li>
 		<%	if(cuserId == null) { %>
-			<li class="login">
-				<a href="/login.do" class="login" title="Login">Login</a>
-			</li>
+			<li class="login"><a href="/login.do" class="login" title="Login">로그인</a></li>
+			<li><a href="" class="" title="">&nbsp</a></li>
+			<li style="border-right: none;"><a href="" class="" title="">&nbsp</a></li>
 		<%	} else { %>
-			<li class="profile">
-				<a href="/profile.do" class="profile" title="Profile"><%=cusername%>님</a>
-			</li>
-			<li class="logout">
-				<a href="/logout.do" class="logout" title="Logout">Logout</a>
-			</li>
+			<li><a href="" class="" title="사용자 이름"><%=cusername%>님</a></li>
+			<li class="profile"><a href="/profile.do" class="profile" title="Profile">마이페이지</a></li>
+			<li class="logout"><a href="/logout.do" class="logout" title="Logout">로그아웃</a></li>
 		<%	} %>
 		</ul>
 	</div>
@@ -122,7 +123,8 @@
 		<ul class="dep1 jwxe-menu-ul">
 			<li><a href="/introView.do">소개</a>
 				<ul class="dep2">
-					<li><a href="/introView.do?board_cd=007005">동아리 연합회 소개</a></li>
+					<li><a href="/introView.do?board_cd=007009">동아리란?</a></li>
+					<li><a href="/introView.do?board_cd=007005">동아리 연합회</a></li>
 					<li><a href="/introView.do?board_cd=007006" >동아리방 배치도</a></li>
 					<li><a href="/introView.do?board_cd=007007">회칙</a></li>
 				</ul></li>
@@ -158,7 +160,9 @@
 					href="/introView.do" class="depth_1 ">소개</a>
 					<ul class="depth_2">
 						<li id="menu_4142" class="depth_2 first"><a
-							href="/introView.do?board_cd=007005" class="depth_2 ">동아리 연합회 소개</a></li>
+							href="/introView.do?board_cd=007009" class="depth_2 ">동아리란?</a></li>
+						<li id="menu_4142" class="depth_2 first"><a
+							href="/introView.do?board_cd=007005" class="depth_2 ">동아리 연합회</a></li>
 						<li id="menu_4142" class="depth_2 first"><a
 							href="/introView.do?board_cd=007006" class="depth_2 ">동아리방 배치도</a></li>
 						<li id="menu_4142" class="depth_2 first"><a

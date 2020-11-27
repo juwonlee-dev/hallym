@@ -80,20 +80,36 @@
    	    	MAJOR = #{major},
    	    	GENDER_CD = #{gender_cd},
    	    	PHONE_NO = #{phone_no},
+   	    	EMAIL = #{email}
+   	    WHERE
+   	    	STUDENT_ID = #{id}
+
+   	</update>
+   	
+   	<!-- <update id="updateMyInfo" parameterType="map">
+   	    
+   	    UPDATE
+   	    	CLUB_MEMBER
+   	    SET
+   	    	MAJOR = #{major},
+   	    	GENDER_CD = #{gender_cd},
+   	    	PHONE_NO = #{phone_no},
    	    	EMAIL = #{email},
    	    	PLAN = #{plan},
    	    	HOPE = #{hope}
    	    WHERE
-   	    	CLUB_ID = #{club_id} AND
+   	    	//CLUB_ID = #{club_id} AND 
    	    	STUDENT_ID = #{id}
 
-   	</update>
+   	</update> -->
    	
    	<update id="updateClubMember" parameterType="map">
 		UPDATE 
 			CLUB_MEMBER
 		SET 
-			JOIN_DT = #{join_dt},
+			<if test="if==1">
+			JOIN_DT = #{join_dt}, 
+			</if>
 			JOIN_CD = '008001',
 			STAFF_CD = #{staff_cd} 
 		WHERE 
@@ -190,6 +206,14 @@
    	    	STAFF_CD = '004001'
    	</select>
    	
+   	<select id="getMyInfo" parameterType="map" resultMap="ClubMemberVOResult">
+   	    SELECT
+   	    	*
+   	    FROM
+   	    	CLUB_MEMBER
+   	    WHERE
+		    STUDENT_ID = #{id}
+   	</select>
    	
    	<select id="getClubMember" parameterType="map" resultMap="ClubMemberVOResult">
    	    SELECT
@@ -206,6 +230,7 @@
    	    	AND STAFF_CD = #{staff_cd}
    	    	</if>
    	</select>
+   	
    	<select id="getAllClubMember" parameterType="map" resultMap="ClubMemberVOResult">
 		SELECT 
 			M.NM, 

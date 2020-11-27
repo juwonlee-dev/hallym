@@ -35,6 +35,13 @@ import hallym.club.file.service.FileService;
 import hallym.club.product.service.ProductService;
 import hallym.club.board.service.BoardService;
 
+/*
+
+@패치
+20/11/11 22:07 Update
+
+*/
+
 @Controller
 public class CommonController {
 	
@@ -304,7 +311,7 @@ public class CommonController {
 	public ModelAndView clubManagement(HttpServletRequest request, HttpServletResponse response, 
 			ModelAndView mav,
 			@RequestParam(value = "year", required = false, defaultValue ="2019") String year,
-			@RequestParam(value = "gb_cd", required = false, defaultValue ="001001") String gb_cd,
+			@RequestParam(value = "gb_cd", required = false, defaultValue ="001") String gb_cd,
 			@RequestParam(value = "at_cd", required = false, defaultValue ="002") String at_cd,
 			@RequestParam(value = "page_cd", required = false, defaultValue = "013001") String page_cd,
 			@RequestParam(value = "page", required = false, defaultValue = "1") String page,
@@ -341,6 +348,7 @@ public class CommonController {
 		
 		System.err.println("[clubManagement.do] year: " + year);
 		System.err.println("[clubManagement.do] at_cd: " + at_cd);
+		System.err.println("[clubManagement.do] gb_cd: " + gb_cd);
 		
 		if(page_cd.equals("013004") || page_cd.equals("013005")) {
 			Map<String, Object> params = new HashMap<String, Object>();
@@ -628,7 +636,6 @@ public class CommonController {
 			@RequestParam(value = "submit", required = false, defaultValue ="") String submit)
 	{
 		HttpSession session = request.getSession();
-		UserVO userVO = (UserVO) session.getAttribute("userVO");
 		String auth_code = (String) session.getAttribute("auth_code");
 		response.setContentType("text/html; charset=UTF-8");
         
@@ -654,7 +661,11 @@ public class CommonController {
 		}
 		else if (submit.equals("거절")) {
 			try {
-				params.put("id", userVO.getId());
+				params.put("join_cd", "008001");
+				ClubMemberVO clubMemberVO = clubMemberService.getClubMember(params).get(0);
+				
+				params.put("id", clubMemberVO.getStudent_id());
+				System.err.println("[registerUpdateAction.do] id: " + clubMemberVO.getStudent_id());
 				clubMemberService.leaveClub(params);
 				clubService.deleteClub(params);
 				CommonUtils.showAlert(response, "정상적으로 처리 되었습니다.","clubManagement.do?page_cd=013001");
@@ -1149,6 +1160,7 @@ public class CommonController {
 			params.put("id", student_id);
 			Date today = new Date();
 			params.put("join_dt", today);
+			params.put("if", 1);
 			try {
 				clubMemberService.updateClubMember(params);
 				CommonUtils.showAlertNoClose(response, "정상적으로 처리되었습니다.", "clubInfo.do?club_id=" + club_id);
@@ -1218,10 +1230,10 @@ public class CommonController {
 		System.err.println("[clubMemberDeleteAction.do] submit: " + submit);
 		System.err.println("[clubMemberDeleteAction.do] staff_cd: " + staff_cd);
 		if (submit.equals("삭제")) {
-			if(staff_cd.equals("004001")) {
-				CommonUtils.showAlertNoClose(response, "회장은 탈퇴 할 수 없습니다.", "clubInfo.do?club_id=" + club_id);
-				return null;
-			}
+//			if(staff_cd.equals("004001")) {
+//				CommonUtils.showAlertNoClose(response, "회장은 탈퇴 할 수 없습니다.", "clubInfo.do?club_id=" + club_id);
+//				return null;
+//			}
 			try {
 				clubMemberService.leaveClub(params);
 				CommonUtils.showAlertNoClose(response, "정상적으로 처리 되었습니다.", "clubInfo.do?club_id=" + club_id);
@@ -1255,7 +1267,9 @@ public class CommonController {
 		System.err.println("[introView.do] auth_code: " + auth_code);
 		System.err.println("[introView.do] board_cd: " + board_cd);
 		if(auth_code == null) auth_code = "0";
-		if(board_cd == "" || board_cd.isEmpty()) board_cd = "007005";
+		if(board_cd == "" || board_cd.isEmpty()) board_cd = "007009";
+		session.setAttribute("board_cd", board_cd);
+		
 		boolean isAdmin = false;
 		if((auth_code.equals("010001") || auth_code.equals("010002") || auth_code.equals("010003"))) {
 			isAdmin = true;
@@ -1294,7 +1308,7 @@ public class CommonController {
 		System.err.println("[introUpdateForm.do] board_cd: " + board_cd);
 
 		if(auth_code == null) auth_code = "0";
-		if(board_cd == "") board_cd = "007005";
+		if(board_cd == "") board_cd = "007009";
 		boolean isAdmin = false;
 		if((auth_code.equals("010001") || auth_code.equals("010002") || auth_code.equals("010003"))) {
 			isAdmin = true;
@@ -1351,7 +1365,9 @@ public class CommonController {
 		
 		Date today = new Date();
 		Map<String, Object> params = new HashMap<String, Object>();
-		if(board_cd.equals("007005"))
+		if(board_cd.equals("007009"))
+			params.put("title", "동아리란?");
+		else if(board_cd.equals("007005"))
 			params.put("title", "동아리 연합회 소개");
 		else if(board_cd.equals("007006"))
 			params.put("title", "동아리방 배치도");
@@ -1360,7 +1376,7 @@ public class CommonController {
 		else if(board_cd.equals("007008"))
 			params.put("title", "동아리 세칙");
 		else
-			params.put("title", "동아리 연합회 소개");
+			params.put("title", "동아리란?");
 		params.put("contents", contents);
 		params.put("fix_yn", "N");
 		params.put("attach_yn", "N");

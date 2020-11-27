@@ -121,7 +121,7 @@
        		
         	document.querySelector("#item_body > div > div.sub-container > div.lnb-wrap > div > div > div > h2").innerText = msg2;
         	document.querySelector("#item_body > div > div.path-wrap > div > div > ul > li:nth-child(2)").innerText = msg2;
-        	document.querySelector("#item_body > div > div.path-wrap > div > div > ul > li:nth-child(3)").innerText += " - " + msg;
+        	document.querySelector("#item_body > div > div.path-wrap > div > div > ul > li:nth-child(3)").innerText = msg;
         	document.querySelector("#item_body > div > div.sub-container > div.content-wrap > div.title > div > h3").innerText += " - " + msg;
         	
         	switch(year){
@@ -275,11 +275,12 @@
 	                                            </div>
 	                                            <div class="hclublist_content">
 	                                                <div class="hclublist_content_top">
-	                                                    <form method="post" action="/clubSignUpForm.do" target="w" onsubmit="return postPopUp();">
+	                                                	<span>#<%=clubList.get(i).getGb_nm()%> #<%=clubList.get(i).getAt_nm()%></span>
+	                                                    <%-- <form method="post" action="/clubSignUpForm.do" target="w" onsubmit="return postPopUp();">
 	                                                        <input type="hidden" name="club_id" value="<%=clubList.get(i).getClub_id()%>">
 	                                                        <input type="hidden" name="club_nm" value="<%=clubList.get(i).getClub_nm()%>">
 	                                                        <span><input type="submit" value="가입 신청하기"></span>
-	                                                    </form>
+	                                                    </form> --%>
 	                                                </div>
 	                                                <div class="hclublist_content_middle">
 	                                                    <strong class="hclub_jung">중</strong>

@@ -70,7 +70,8 @@
 	</select>
 	   	<select id="getWaitJoinClub" parameterType="map" resultMap="ClubVOResult">
 			SELECT 
-				C.CLUB_NM, C.CLUB_ID 
+				C.CLUB_NM, C.CLUB_ID, C.CLUB_GB_CD, 
+				C.CLUB_AT_CD, C.OPEN_DT, C.INTRO_SAVE_FILE_NM
 			FROM 
 				CLUB C, CLUB_MEMBER M 
 			WHERE 
@@ -298,9 +299,11 @@
 			 	ROW_NUMBER() 
 			 	OVER(ORDER BY CLUB_NM) AS RK, 
 			 	A.*, 
+                S.SO_NM AS GB_NM, 
+        		D.SO_NM AS AT_NM, 
 			 	NVL(B.NM, ' ') AS STAFF_NM, 
 				NVL(B.PHONE_NO, ' ') AS STAFF_NO
-			FROM CLUB A LEFT OUTER JOIN(
+			FROM SO_CD S, SO_CD D, CLUB A LEFT OUTER JOIN(
 				SELECT 
 					CLUB_ID, 
 					NM , 
@@ -315,6 +318,8 @@
 			AND A.CLUB_NM LIKE '%' || #{search} || '%' 
 			AND	A.CLUB_AT_CD LIKE '%' || #{at_cd} || '%' 
 			AND A.REGISTER_CD='008001'
+            AND A.CLUB_GB_CD = S.SO_CD
+            AND A.CLUB_AT_CD = D.SO_CD
 			ORDER BY A.CLUB_NM) 
 		WHERE RK BETWEEN #{startNum} AND #{endNum}
 	   	    
@@ -376,11 +381,19 @@
 		SELECT
 			*
 		FROM
-			club c, topclub t
+			topclub t, (
+				SELECT
+					A.*,
+					S.SO_NM AS GB_NM, 
+                    D.SO_NM AS AT_NM
+                FROM SO_CD S, SO_CD D, CLUB A
+                WHERE A.CLUB_GB_CD = S.SO_CD
+                    AND A.CLUB_AT_CD = D.SO_CD
+			)c
 		WHERE
 			c.club_id = t.club_id and
 			c.register_cd='008001' and
-			c.club_gb_cd= #{gb_cd} and
+			c.club_gb_cd LIKE '%' || #{gb_cd} || '%' and
 			<choose>
 			    <when test="opt == 1">
 			        c.club_at_cd = '002001' and

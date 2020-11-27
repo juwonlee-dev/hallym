@@ -203,10 +203,10 @@ public class ClubMemberController {
 		
 		HttpSession session = request.getSession();
 		UserVO userVO = (UserVO) session.getAttribute("userVO");
-		System.err.println("[clubManageAction.do] club_id: " + club_id);
-		System.err.println("[clubManageAction.do] student_id: " + student_id);
-		System.err.println("[clubManageAction.do] staff_cd: " + staff_cd);
-		System.err.println("[clubManageAction.do] submit: " + submit);
+		System.err.println("[clubStaffUpdateAction.do] club_id: " + club_id);
+		System.err.println("[clubStaffUpdateAction.do] student_id: " + student_id);
+		System.err.println("[clubStaffUpdateAction.do] staff_cd: " + staff_cd);
+		System.err.println("[clubStaffUpdateAction.do] submit: " + submit);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", userVO.getId());
 		params.put("club_id", club_id);
@@ -224,6 +224,7 @@ public class ClubMemberController {
 			params.put("staff_cd", staff_cd);
 			params.put("id", student_id);
 			params.put("join_dt", new Date());
+			params.put("if", 1);
 			clubMemberService.updateClubMember(params);
 			CommonUtils.showAlert(response, "정상 처리 되었습니다.", "/clubIntro.do?club_id=" + club_id);
 			return null;

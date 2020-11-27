@@ -54,7 +54,97 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath}/custom/js/board.common.js" ></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/res/board/js/board.js" ></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/res/league/js/user.js"></script>
+	<script type="text/javascript">	        
+	   
+        
+        function getPage(data1, data2, data3, data4) {
+            var urlpaging = "/clubSearch.do?";
+        	var page = data1; /* 페이지 번호 */
+        	var opt = data2; /* gb_cd*/
+        	var opt2 = data3; /* at_cd*/
+        	var opt3 = data4; /* search */
+        	var link = urlpaging + "&page=" + page;
+        	
+        	if(opt != null) {
+        		link += "&gb_cd=" + opt;
+        	}
+        	if(opt2 != null) {
+        		link += "&at_cd=" + opt2;
+        	}
+        	if(opt3 != null) {
+        		link += "&search=" + opt3;
+        	}
+        	
+        	location.href = link; 
+        }
+        
+        $(document).ready(function() {
+        	var board_cd = "<%=session.getAttribute("board_cd") %>"
+        	var sidemenu = document.querySelector("#item_body > div > div.sub-container > div.lnb-wrap > div > ul").getElementsByTagName('li');
+        	var activeNum = 0;
+        	for(var i=0; i<sidemenu.length; i++) {
+        		if(sidemenu[i].className == "active") {
+        			activeNum = i;
+        			break;
+        		}
+        	}
 
+    		sidemenu[activeNum].classList.remove('active');
+    		sidemenu[activeNum].getElementsByTagName("a")[0].classList.remove("active");
+    		
+        	var msg = "";
+        	var msg2 = "";
+        	
+        	switch(board_cd) {
+        	case "007009":
+        		msg = "동아리란?";
+        		msg2 = "소개";
+        		sidemenu[0].classList.add('active');
+        		sidemenu[0].getElementsByTagName("a")[0].classList.add("active");
+        		break;
+        	case "007005":
+        		msg = "동아리 연합회";
+        		msg2 = "소개";
+        		sidemenu[1].classList.add('active');
+        		sidemenu[1].getElementsByTagName("a")[0].classList.add("active");
+        		break;
+        	case "007006":
+        		msg = "동아리방 배치도";
+        		msg2 = "소개";
+        		sidemenu[2].classList.add('active');
+        		sidemenu[2].getElementsByTagName("a")[0].classList.add("active");
+        		break;
+        	case "007007":
+        		msg = "회칙";
+        		msg2 = "소개";
+        		sidemenu[3].classList.add('active');
+        		sidemenu[3].getElementsByTagName("a")[0].classList.add("active");
+        		break;
+        	case "007008":
+        		msg = "세칙";
+        		msg2 = "소개";
+        		sidemenu[4].classList.add('active');
+        		sidemenu[4].getElementsByTagName("a")[0].classList.add("active");
+        		break;
+        	default:
+        		msg = "Null2";
+    			msg2 = "소개";
+        		break;
+        	}
+        	
+        	document.querySelector("#item_body > div > div.sub-container > div.lnb-wrap > div > div > div > h2").innerText = msg2;
+        	document.querySelector("#item_body > div > div.path-wrap > div > div > ul > li:nth-child(2)").innerText = msg2;
+        	document.querySelector("#item_body > div > div.path-wrap > div > div > ul > li:nth-child(3)").innerText = msg;
+        	document.querySelector("#item_body > div > div.sub-container > div.content-wrap > div.title > div > h3").innerText = msg;
+        });
+
+    </script>
+    
+    <!-- 에디터로 업로드한 이미지가 반응형으로 조절되게 하기 위해 기존 에디터 크기 지정을 무시함 -->
+	<style type='text/css'>
+		div.content img { max-width: 100%; height: auto;  float: none !important;}
+		/*div#cke_1_contents img { max-width: 100%; height: auto; }*/
+	</style>
 </head>
 <body id="item_body" class="pc">
 	<ul id="go_main">
@@ -75,8 +165,11 @@
                         <li><a href="/index.do"><img src="images/common/ico-home.png" alt="home"></a></li>
                         <li>소개</li>
                         <c:choose>
+                        	<c:when test="${board_cd eq '007009'}">
+                       		 <li>동아리란?</li>
+                        	</c:when>
                         	<c:when test="${board_cd eq '007005'}">
-                       		 <li>동아리 연합회 소개</li>
+                       		 <li>동아리 연합회</li>
                         	</c:when>
                         	<c:when test="${board_cd eq '007006'}">
                        		 <li>동아리방 배치도</li>
@@ -104,7 +197,10 @@
 					</div>
 					<ul class="lnb-menu jwxe-menu-ul">
 						<li>
-							<a href="/introView.do?board_cd=007005">동아리 연합회 소개</a>
+							<a href="/introView.do?board_cd=007009">동아리란?</a>
+						</li>
+						<li>
+							<a href="/introView.do?board_cd=007005">동아리 연합회</a>
 						</li>
 						<li>
 							<a href="/introView.do?board_cd=007006" >동아리방 배치도</a>
@@ -119,20 +215,7 @@
 	        <div class="content-wrap">
                 <div class="title">
                     <div class="jwxe_mnu_template jw-relative page-title">
-                    <c:choose>
-                       	<c:when test="${board_cd eq '007005'}">
-                      		 <h3>동아리 연합회 소개</h3>
-                       	</c:when>
-                       	<c:when test="${board_cd eq '007006'}">
-                      		 <h3>동아리방 배치도</h3>
-                       	</c:when>
-                       	<c:when test="${board_cd eq '007007'}">
-                      		 <h3>회칙</h3>
-                       	</c:when>
-                       	<c:when test="${board_cd eq '007008'}">
-                      		 <h3>세칙</h3>
-                       	</c:when>
-                     </c:choose>
+                    	<h3>Null</h3>
                     </div>
                 </div>
                 <div class="tab"></div>
@@ -143,9 +226,12 @@
 								<div class="">
 									<ul>
 										<li class="" style="width: 100%; float: left;padding-top: 20px;border-top: 1px solid #d8d8d8;">
-								        	<c:choose>
+								        	<%-- <c:choose>
+						                       	<c:when test="${board_cd eq '007009'}">
+						                      		 <h3 class="text-black">동아리란?</h3>
+						                       	</c:when>
 						                       	<c:when test="${board_cd eq '007005'}">
-						                      		 <h3 class="text-black">동아리 연합회 소개</h3>
+						                      		 <h3 class="text-black">동아리 연합회</h3>
 						                       	</c:when>
 						                       	<c:when test="${board_cd eq '007006'}">
 						                      		 <h3 class="text-black">동아리방 배치도</h3>
@@ -156,7 +242,7 @@
 						                       	<c:when test="${board_cd eq '007008'}">
 						                      		 <h3 class="text-black">세칙</h3>
 						                       	</c:when>
-						                     </c:choose>
+						                     </c:choose> --%>
 								        	<div class="border-box bg-gray">  
 												${boardVO.contents}
 						                       	<textarea id="articleText" 

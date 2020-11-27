@@ -734,6 +734,7 @@
 		var select = document.getElementById("selectYear");
 		var selectValue = select.options[select.selectedIndex].value;
 		location.href = "/clubManagement.do?page_cd="+page_cd+"&year="+selectValue;
+
 	}
 	
 </script>

@@ -131,7 +131,7 @@ table.type04 td {
 
 						<td>
 						<select id="staff" name="staff" style="font-size: 20px">
-								<!-- <option value="004001">회장</option> -->
+								<option value="004001">회장</option>
 								<option value="004002">부회장</option>
 								<option value="004003">총무</option>
 								<option value="004004" selected>회원</option>
@@ -166,7 +166,7 @@ table.type04 td {
 					<td>${item.staff_cd}</td>
 					<td>${item.join_dt}</td>
 					<td>
-						<input name="submit" type="submit" value="삭제">
+						<input name="submit" type="submit" value="삭제" onclick="return confirm('${item.name} 회원을 삭제하시겠습니까?');">
 					</td>
 					
 					<input type="hidden" name="club_id" value="${club_id}">

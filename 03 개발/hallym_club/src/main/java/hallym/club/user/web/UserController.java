@@ -1,5 +1,6 @@
 package hallym.club.user.web;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,7 @@ import hallym.club.board.service.BoardService;
 import hallym.club.club.service.ClubService;
 import hallym.club.club.vo.ClubVO;
 import hallym.club.clubmember.service.ClubMemberService;
+import hallym.club.clubmember.vo.ClubMemberVO;
 import hallym.club.common.service.CommonService;
 import hallym.club.user.service.UserService;
 import hallym.club.user.vo.UserVO;
@@ -184,62 +186,138 @@ public class UserController {
 	@RequestMapping(value="/profile.do")
 	public ModelAndView profile(HttpServletRequest request,
 							HttpServletResponse response,
+							@RequestParam(value = "page_cd", required = false, defaultValue = "014003") String page_cd,
 							ModelAndView mav) throws Exception {
 		HttpSession session = request.getSession();
 		UserVO userVO = (UserVO) session.getAttribute("userVO");
+		List<ClubMemberVO> clubMemberList = null;
 		
-		Map<String, Object> waitJoinClubParams = new HashMap<String, Object>();
-		waitJoinClubParams.put("id", userVO.getId());
-		waitJoinClubParams.put("join_cd", "008003");
-		List<ClubVO> waitJoinClub = clubService.getWaitJoinClub(waitJoinClubParams);
-		
-		
-		Map<String, Object> waitRegisterClubParams = new HashMap<String, Object>();
-		waitRegisterClubParams.put("id", userVO.getId());
-		waitRegisterClubParams.put("register_cd", "008003");
-		List<ClubVO> waitRegisterClubList = clubService.getWaitRegisterClub(waitRegisterClubParams);
-		
-		for(ClubVO clubVO : waitRegisterClubList) {
-			switch (clubVO.getClub_gb_cd()) {
-			case "001001":
-				clubVO.setClub_gb_cd("중앙동아리");
-				break;
-			case "001002":
-				clubVO.setClub_gb_cd("과동아리");
+		switch (page_cd) {
+		case "014001":
+			Map<String, Object> waitJoinClubParams = new HashMap<String, Object>();
+			waitJoinClubParams.put("id", userVO.getId());
+			waitJoinClubParams.put("join_cd", "008003");
+			List<ClubVO> waitJoinClub = clubService.getWaitJoinClub(waitJoinClubParams);
+			for(ClubVO clubVO : waitJoinClub) {
+				switch (clubVO.getClub_gb_cd()) {
+				case "001001":
+					clubVO.setClub_gb_cd("중앙동아리");
+					break;
+				case "001002":
+					clubVO.setClub_gb_cd("과동아리");
+				}
+				
+				switch (clubVO.getClub_at_cd()) {
+				case "002001":
+					clubVO.setClub_at_cd("공연");
+					break;
+				case "002002":
+					clubVO.setClub_at_cd("학술");
+					break;
+				case "002003":
+					clubVO.setClub_at_cd("취미예술");
+					break;
+				case "002004":
+					clubVO.setClub_at_cd("종교");
+					break;
+				case "002005":
+					clubVO.setClub_at_cd("체육");
+					break;
+				case "002006":
+					clubVO.setClub_at_cd("봉사");
+					break;
+				case "002007":
+					clubVO.setClub_at_cd("기타");
+					break;
+				}
+				Map<String, Object> cntParams = new HashMap<String, Object>();
+				cntParams.put("club_id", clubVO.getClub_id());
+				cntParams.put("opt", 1);
+				cntParams.put("join_cd", "008001");
+				clubVO.setCnt(clubMemberService.getClubMemberCnt(cntParams));
+				clubVO.setPresident(clubMemberService.getClubPresident(cntParams).getName());
+				
+               	SimpleDateFormat newFormat = new SimpleDateFormat("yyyy.MM.dd"); // String 타입을 Date 타입으로 변환
+               	SimpleDateFormat oldFormat = new SimpleDateFormat("yyyyMMdd");
+               	Date oldDate;
+               	try {
+               		oldDate = oldFormat.parse(clubVO.getOpen_dt());
+               		clubVO.setOpen_dt(newFormat.format(oldDate));
+               	} catch (Exception e) {
+               		continue;
+				}
 			}
+			System.err.println("[profile.do] waitJoinClub: " + waitJoinClub);
+			mav.addObject("waitJoinClub", waitJoinClub);
+			break;
+		case "014002":
+			Map<String, Object> waitRegisterClubParams = new HashMap<String, Object>();
+			waitRegisterClubParams.put("id", userVO.getId());
+			waitRegisterClubParams.put("register_cd", "008003");
+			List<ClubVO> waitRegisterClubList = clubService.getWaitRegisterClub(waitRegisterClubParams);
 			
-			switch (clubVO.getClub_at_cd()) {
-			case "002001":
-				clubVO.setClub_at_cd("공연");
-				break;
-			case "002002":
-				clubVO.setClub_at_cd("학술");
-				break;
-			case "002003":
-				clubVO.setClub_at_cd("취미예술");
-				break;
-			case "002004":
-				clubVO.setClub_at_cd("종교");
-				break;
-			case "002005":
-				clubVO.setClub_at_cd("체육");
-				break;
-			case "002006":
-				clubVO.setClub_at_cd("봉사");
-				break;
-			case "002007":
-				clubVO.setClub_at_cd("기타");
-				break;
+			for(ClubVO clubVO : waitRegisterClubList) {
+				switch (clubVO.getClub_gb_cd()) {
+				case "001001":
+					clubVO.setClub_gb_cd("중앙동아리");
+					break;
+				case "001002":
+					clubVO.setClub_gb_cd("과동아리");
+				}
+				
+				switch (clubVO.getClub_at_cd()) {
+				case "002001":
+					clubVO.setClub_at_cd("공연");
+					break;
+				case "002002":
+					clubVO.setClub_at_cd("학술");
+					break;
+				case "002003":
+					clubVO.setClub_at_cd("취미예술");
+					break;
+				case "002004":
+					clubVO.setClub_at_cd("종교");
+					break;
+				case "002005":
+					clubVO.setClub_at_cd("체육");
+					break;
+				case "002006":
+					clubVO.setClub_at_cd("봉사");
+					break;
+				case "002007":
+					clubVO.setClub_at_cd("기타");
+					break;
+				}
+				waitRegisterClubParams.put("club_id", clubVO.getClub_id());
+				clubVO.setPresident(clubMemberService.getClubPresident(waitRegisterClubParams).getName());
+				
+				SimpleDateFormat newFormat = new SimpleDateFormat("yyyy.MM.dd"); // String 타입을 Date 타입으로 변환
+               	SimpleDateFormat oldFormat = new SimpleDateFormat("yyyyMMdd");
+               	Date oldDate;
+               	try {
+               		oldDate = oldFormat.parse(clubVO.getOpen_dt());
+               		clubVO.setOpen_dt(newFormat.format(oldDate));
+               	} catch (Exception e) {
+               		continue;
+				}
 			}
-		}
+			System.err.println("[profile.do] waitRegisterClubList: " + waitRegisterClubList);
+			mav.addObject("waitRegisterClubList", waitRegisterClubList);
+			break;
+		case "014003":
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("id", userVO.getId());
+			clubMemberList = clubMemberService.getMyInfo(params);
+			
+			mav.addObject("phone_no", clubMemberList.get(0).getPhone_no());
+			mav.addObject("email", clubMemberList.get(0).getEmail());
+			break;
 
-		System.err.println("[profile.do] myClubParams: " + waitJoinClub);
-		System.err.println("[profile.do] myClubParams: " + waitRegisterClubList);
+		}
 		
 		/* profile */
-		
-		mav.addObject("waitJoinClub", waitJoinClub);
-		mav.addObject("waitRegisterClubList", waitRegisterClubList);
+		session.setAttribute("page_cd", page_cd);
+		mav.addObject("userVO", userVO);
 		mav.setViewName("hallym/profile");
 		return mav;
 	}
@@ -289,8 +367,10 @@ public class UserController {
 		UserVO userVO = (UserVO) session.getAttribute("userVO");
 		
 		Map<String, Object> leaveClubParams = new HashMap<String, Object>();
-		leaveClubParams.put("id", userVO.getId());
+
 		leaveClubParams.put("club_id", club_id);
+		leaveClubParams.put("id", userVO.getId());
+		
 		
 		try {
 			clubMemberService.leaveClub(leaveClubParams);

@@ -73,6 +73,8 @@ public class ClubController {
 	private CommonService commonService;
 
 	/*
+	 * TODO 위치 변경 필요 ( profile.do )로 사용
+	 * 검토후 삭제
 	 * @RequestMapping(value="/clubMyInfo.do")
 	 * 동아리 커뮤니티
 	 * 동아리 - 소개
@@ -149,6 +151,7 @@ public class ClubController {
 	}
 	
 	/*
+	 * TODO 위치 변경 필요
 	 * @RequestMapping(value="/clubMyInfoAction.do")
 	 * 동아리 커뮤니티
 	 * 동아리 - 소개
@@ -158,6 +161,8 @@ public class ClubController {
 	public ModelAndView clubMyInfoAction(HttpServletRequest request, HttpServletResponse response,
 							 ModelAndView mav,
 							 @RequestParam(value = "club_id", required = false, defaultValue ="") String club_id,
+							 @RequestParam(value = "email", required = false, defaultValue ="") String email,
+							 @RequestParam(value = "phone_no", required = false, defaultValue ="") String phone_no,
 							 @RequestParam(value = "plan", required = false, defaultValue ="") String plan,
 							 @RequestParam(value = "hope", required = false, defaultValue ="") String hope) {
 		HttpSession session = request.getSession();
@@ -171,18 +176,18 @@ public class ClubController {
 			params.put("gender_cd", "003001");
 		else
 			params.put("gender_cd", "003002");
-		params.put("phone_no", userVO.getPhoneNumber());
-		params.put("email", userVO.getE_mail());
+		params.put("phone_no", phone_no);
+		params.put("email", email);
 		params.put("plan", plan);
 		params.put("hope", hope);
 		
 		try {
 			clubMemberService.updateMyInfo(params);
-			CommonUtils.showAlert(response, "정상처리 되었습니다.", "clubMyInfo.do?club_id=" + club_id);
+			CommonUtils.showAlert(response, "정상처리 되었습니다.", "profile.do");
 		return null;
 		} catch (Exception e) {
 			System.err.println("[clubMyInfoAction.do] Err: " + e.getMessage());
-			CommonUtils.showAlert(response, "에러 발생", "clubMyInfo.do?club_id=" + club_id);
+			CommonUtils.showAlert(response, "에러 발생", "profile.do");
 			return null;
 		}
 	}
@@ -281,7 +286,7 @@ public class ClubController {
 		try {
 			staff_cd = clubMemberService.getClubMember(params).get(0).getStaff_cd();
 		} catch (Exception e) {
-			System.err.println("[" + userVO.getName() + "] 은(는) " + clubVO.getClub_nm() + "에 가입되지 않았습니다.");
+//			System.err.println("[" + userVO.getName() + "] 은(는) " + clubVO.getClub_nm() + "에 가입되지 않았습니다.");
 			staff_cd = "0";
 		}
 		params.put("board_no", 1);
@@ -289,13 +294,15 @@ public class ClubController {
 		BoardVO boardVO = boardService.getBoard(params);
 		if(boardVO == null) boardVO = new BoardVO();
 		
-		
+		ClubMemberVO clubMemberVO = clubMemberService.getClubPresident(params);
+		 
 		boolean isStaff = false;
 		if((staff_cd.equals("004001") || staff_cd.equals("004002") )) {
 			isStaff = true;
 		} 
 		System.err.println("[clubIntroView.do] staff_cd: " + isStaff);
 		
+		mav.addObject("email", clubMemberVO.getEmail());
 		mav.addObject("clubVO", clubVO);
 		mav.addObject("board_cd", board_cd);
 		mav.addObject("boardVO", boardVO);
@@ -1837,7 +1844,7 @@ public class ClubController {
 			params.put("id", student_id);
 			Date today = new Date();
 			params.put("join_dt", today);
-			
+			params.put("if", 1);
 			clubMemberService.updateClubMember(params);
 			CommonUtils.showAlert(response, "정상 처리 되었습니다.", "/clubManage.do?club_id=" + club_id);
 			return null;
@@ -2284,7 +2291,7 @@ public class ClubController {
 		
 		clubList = clubService.getClubList(params);			
 		
-		System.err.println("[clubSearch.do] clubList: \n" + clubList); 
+//		System.err.println("[clubSearch.do] clubList: \n" + clubList); 
 		System.err.println("[clubSearch.do] clubListCount: " + clubListCount);
 		System.err.println("[clubSearch.do] totalPage: " + totalPage);
 		
@@ -2309,14 +2316,13 @@ public class ClubController {
 		mav.addObject("nextPage", nextPage);
 		mav.addObject("clubList", clubList);
 		
-		
 		mav.addObject("clubListCount", clubListCount);
 		mav.setViewName("hallym/clubSearch");
 		return mav;
 	}
 	
 	/*
-	 * @RequestMapping(value="/getTopClub.do")
+	 * @RequestMapping(value="/topClub.do")
 	 * 동아리
 	 * 우수동아리
 	 * @RequestParam gb_cd, at_cd
@@ -2385,6 +2391,7 @@ public class ClubController {
 		HttpSession session = request.getSession();
 		UserVO userVO = (UserVO) session.getAttribute("userVO");
 	        
+		System.err.println("[createClub.do] user_id: " + userVO.getId());
 		mav.addObject("user_id", userVO.getId());
 		mav.setViewName("hallym/createClub");
 
@@ -2429,6 +2436,13 @@ public class ClubController {
 		Map<String, Object> userParams = new HashMap<String, Object>();
 		userParams.put("ID", user_id);	
 		System.err.println("[createClubAction.do] user_id: " + user_id);
+		System.err.println("[createClubAction.do] club_nm: " + club_nm);
+		System.err.println("[createClubAction.do] club_gb_cd: " + club_gb_cd);
+		System.err.println("[createClubAction.do] club_at_cd: " + club_at_cd);
+		System.err.println("[createClubAction.do] club_aim: " + club_aim);
+		System.err.println("[createClubAction.do] club_active: " + club_active);
+		System.err.println("[createClubAction.do] club_room: " + club_room);
+		System.err.println("[createClubAction.do] open_dt: " + open_dt);
 		UserVO userVO = userService.getUserVO(userParams);
 		
 		/* 유저 정보 확인 */

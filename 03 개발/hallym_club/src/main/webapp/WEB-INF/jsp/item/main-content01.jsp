@@ -51,51 +51,39 @@
 			</div>
 			<div class="main-mini-box main-mini-box02">
 				<h3 class="main-title">동아리</h3>
-				<div class="club">
-					<ul>
+					<ul class="newclubListBox">
 						<c:forEach items='${clubList}' var="item" varStatus="status">
-						<li>
-							<div class="thm">
-								<img class="logo"
-									src="upload/club/${item.intro_save_file_nm}"
-									onerror="this.src='images/error/error.png'" alt="">
+						<li class="newclubList">
+							<div class="newclubList_list">
+								<div class="newclubList_list-left">
+                                    <img src="upload/club/${item.intro_save_file_nm}" onerror="this.src='images/error/error.png'">
+                                </div>
+                                <div class="newclubList_list-right">
+                                    <div class="newclubList_list-right-top">
+                                        <span>#${item.gb_nm} #${item.at_nm}</span>
+                                    </div>
+                                    <div class="newclubList_list-right-middle">
+                                    <c:choose>
+										<c:when test="${userVO eq null}">
+											<a href="clubSearch.do?search=${item.club_nm}"><h3>${item.club_nm}</h3></a>
+										</c:when>
+									    <c:otherwise>
+											<a href="clubIntro.do?club_id=${item.club_id}"><h3>${item.club_nm}</h3></a>
+										</c:otherwise>
+									</c:choose>
+                                    </div>
+                                    <div class="newclubList_list-right-bottom">
+                                        <div class="bottom-content">
+                                            <p>${item.club_aim}</p>
+                                        </div>
+                                    </div>
+                                </div>
 							</div>
-							
-							
-							<div class="tit">
-							<c:choose>
-								<c:when test="${userVO eq null}">
-									<a href="clubSearch.do?search=${item.club_nm}">${item.club_nm}</a>
-								</c:when>
-							    <c:otherwise>
-							    
-									<a href="clubIntro.do?club_id=${item.club_id}">${item.club_nm}</a>
-								
-								<%-- 	 star	<c:when test="${ }">
-									
-									</c:when> --%>
-								</c:otherwise>
-							</c:choose>
-							</div>
-							<div class="note">
-							<c:choose>
-								<c:when test="${userVO eq null}">
-								${item.club_aim}
-								</c:when>
-							</c:choose> 
-							<%-- staff_cd	<c:otherwise>
-								${item }
-								</c:otherwise> --%>
-							</div>
-							<div class="tag">
-								#${item.gb_nm}
-								#${item.at_nm}</div>
 						</li>
 						</c:forEach>
-					
 					</ul>
+					<a href="clubSearch.do?page=1" title="동아리 더보기" class="viewmore">더보기</a>
 				</div>
-				<a href="#" title="동아리 더보기" class="viewmore">더보기</a>
 			</div>
 		</div>
 	</div>

@@ -25,4 +25,5 @@ public interface ClubMemberDAO {
 	public String getJoinCD(Map<String, Object> params) throws Exception;
 	public void updateMyInfo(Map<String, Object> params);
 	public void deleteClubMember(Map<String, Object> params);
+	public List<ClubMemberVO> getMyInfo(Map<String, Object> params);
 }

@@ -38,6 +38,9 @@
 							<!-- <p>
 								<span>Developer, SongOk Jeon</span><span>E-Mail : <a href="mailto:juwonlee.dev@gmail.com" title="메일보내기">eminem3573@gmail.com</a></span>
 							</p> -->
+							<p>
+								<span>Designer, MinSeok Park</span><span>E-Mail : <a href="mailto:pms0905@naver.com" title="메일보내기">pms0905@naver.com</a></span>
+							</p>
 	                    </li>
 	                </ul>
 	            </li>

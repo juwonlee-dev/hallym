@@ -5,7 +5,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml"%>
+
 <%@page import="hallym.club.user.vo.UserVO"%>
+<%@page import="hallym.club.club.vo.ClubVO"%>
+<%@page import="java.util.Arrays"%>
+<%@page import="java.util.List"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -54,9 +60,22 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath}/custom/js/board.common.js" ></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/res/board/js/board.js" ></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/res/league/js/user.js"></script>
-
+	
+    <!-- 에디터로 업로드한 이미지가 반응형으로 조절되게 하기 위해 기존 에디터 크기 지정을 무시함 -->
+	<style type='text/css'>
+		div.content img { max-width: 100%; height: auto;  float: none !important;}
+		/*div#cke_1_contents img { max-width: 100%; height: auto; }*/
+	</style>
 </head>
 <body id="item_body" class="pc">
+	<%
+		UserVO cuserVO = null;
+		String cuserId = null;
+		if (session.getAttribute("userVO") != null) {
+			cuserVO = (UserVO) session.getAttribute("userVO");
+			cuserId = cuserVO.getId();
+		}
+	%>
 	<ul id="go_main">
 		<li><a href="#jwxe_main_content" >본문 바로가기</a></li>
 		<li><a href="#jwxe_main_menu" >주메뉴 바로가기</a></li>
@@ -73,8 +92,11 @@
                 <div class="jwxe_navigator jw-relative">
                     <ul>
                         <li><a href="/index.do"><img src="images/common/ico-home.png" alt="home"></a></li>
-                        <li>소개</li>
-                       		 <li>${clubVO.club_nm}  소개</li>
+                        <li>활동</li>
+                        <li>조회 및 가입</li>
+                       	<li>${clubVO.club_nm}</li>
+                       	<li>소개</li>
+                       	
                     </ul>
                 </div>
             </div>
@@ -86,21 +108,34 @@
 				<div class="lnb">
 					<div class="lnb-title-box">
 						<div>			
-							<h2>소개</h2>
+							<h2>${clubVO.club_nm}</h2>
 						</div>
 					</div>
 					<ul class="lnb-menu jwxe-menu-ul">
-						<li>
-							<a href="/clubIntroView.do?club_id=${clubVO.club_id}">${clubVO.club_nm}  소개</a>
+						<li class="active">
+							<a class="active" href="/clubIntroView.do?club_id=${clubVO.club_id}">소개</a>
 						</li>
-						
+						<li>
+							<a href="#" onclick="postPopUp(${clubVO.club_id}, '${clubVO.club_nm}');">가입신청</a>
+						</li>
+						<li>
+							<c:choose>
+								<c:when test="${not empty email}">
+								<a href="mailto:${email}" title="메일보내기">문의(E-mail)</a>
+								</c:when>
+								<c:otherwise>
+								<a href="#" onclick="alert('이메일이 주소를 찾을 수 없습니다.');">문의(E-mail)</a>
+								</c:otherwise>
+							</c:choose>
+						</li>
 					</ul>
 				</div>
 			</div>
 	        <div class="content-wrap">
                 <div class="title">
                     <div class="jwxe_mnu_template jw-relative page-title">
-                      		 <h3>${clubVO.club_nm}  소개</h3>
+                      		 <h3>${clubVO.club_nm}  소개 </h3>
+                      		 
                     </div>
                 </div>
                 <div class="tab"></div>
@@ -112,7 +147,7 @@
 									<ul>
 										<li class="" style="width: 100%; float: left;padding-top: 20px;border-top: 1px solid #d8d8d8;">
 								        	
-						                      <h3 class="text-black">${clubVO.club_nm}  소개</h3>
+						                      <h3 class="text-black"></h3>
 								        	<div class="border-box bg-gray">  
 												${boardVO.contents}
 						                       	<textarea id="articleText" 
@@ -134,9 +169,12 @@
 							<input type="hidden" name="board_cd" value="${board_cd}">
 							 <c:if test="${isStaff eq true}">
 								<button type="submit" class="b-btn-login" value="수정하기">수정하기</button>
-							 </c:if>
-					    	</div>
+							 </c:if> 
+							</div>
 						</form>
+						<%--  <div class="bn-login01 type01">
+							<button style="margin-top: 20px; padding: 12px 1px;" class="b-btn-login" onclick="postPopUp(${clubVO.club_id}, '${clubVO.club_nm}');">가입 신청</button>
+					    </div> --%>
 					</div>
                 </div>
             </div>
@@ -147,6 +185,32 @@
 			<div class="bottom-footer-wrap"><jsp:include page="/WEB-INF/jsp/item/footer.jsp"/></div>
 		</footer> 
 	</div>
+	<script type="text/javascript">
+		var winRef;
+		function postPopUp(club_id, club_nm) {
+		<%if (cuserId == null) {%>
+			alert("로그인이 필요합니다.");
+			location.href='/login.do';
+			return false;
+		<%} else {%>
+		if(winRef == null){
+			/* ie 브라우저에서는 스크롤이 기본 옵션이 아니라 추가 옵션이라 scrollbars를 통해 별도로 지정하지 않으면 작동하지 않는다. */
+			winRef = window.open("/clubSignUpForm.do?club_id="+club_id+"&club_nm="+club_nm, 'w', 'width=900,height=650,location=no,status=no,scrollbars=yes');
+			return true;
+			
+		} else {
+			if(winRef.closed == false){
+				winRef.focus();
+				return true;
+			}
+			else {
+				winRef = window.open("/clubSignUpForm.do?club_id="+club_id+"&club_nm="+club_nm, 'w', 'width=900,height=650,location=no,status=no,scrollbars=yes');
+				return true;
+			}
+		}
+		<%}%>
+		}
+	</script>
 	<noscript><p>이 사이트는 자바스크립트를 지원하지 않으면 정상적으로 보이지 않을수 있습니다.</p></noscript>
 </body>
 </html>

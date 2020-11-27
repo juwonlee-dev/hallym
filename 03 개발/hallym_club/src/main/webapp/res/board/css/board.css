@@ -1268,6 +1268,7 @@ button {
 .bn-write-common01.type01 .b-file-box.type03 .b-input[name="wr-file-name"] {
   max-width: calc(100% - 104px);
 }
+
 .bn-write-common01.type01 .b-file-box.type03 .b-add-btn {
   padding: 8px;
   background-color: #fec240;
@@ -3788,7 +3789,7 @@ button {
   bottom: 0;
   width: 100%;
   text-align: center;
-  background-color: #116a8a;
+  background-color: lightseagreen;
   height: 40px;
   padding-top: 15px;
   z-index: 99;
@@ -3831,6 +3832,7 @@ button {
 .b-title-box.top {
   font-size: 15px;
   color: #116a8a;
+  text-align: center;
 
   margin-bottom: 10px;
 }
@@ -3839,7 +3841,8 @@ button {
   color: #1a001a;
 }
 .b-title-box.top {
-  text-align: center;
+  margin-left: 15px;
+  color: lightseagreen;
 }
 .b-title-box.new {
   text-align: center;
@@ -4048,6 +4051,7 @@ button {
   font-size: 14px;
   padding: 10px;
   margin-top: 5px;
+  font-weight: 600;
 }
 .b-con-box > span {
   color: #e83838;
@@ -4094,8 +4098,15 @@ input[type="radio"] {
 }
 #clubDate,
 #leagueStart,
-#leagueEnd {
+#leagueEnd,
+#clubStart {
   border: 1px solid rgba(0, 0, 0, 0.15);
+  padding: 8px 0;
+  text-align: center;
+  font-size: 14px;
+}
+.clubda {
+  border: 1px solid black;
   padding: 8px 0;
   text-align: center;
   font-size: 14px;
@@ -4130,17 +4141,27 @@ input[type="radio"] {
   width: 10%;
   height: 10%;
 }
-
+.clubda {
+  background: url("../../../images/calendar.png") no-repeat;
+  background-size: 20px 20px;
+  background-position: 90% 50%;
+}
 #leagueStart {
   background: url("../../../images/calendar.png") no-repeat;
   background-size: 20px 20px;
   background-position: 90% 50%;
+}
+#clubStart {
+  background: url("../../../images/calendar.png") no-repeat;
+  background-size: 20px 20px;
+  background-position: 95% 50%;
 }
 #leagueEnd {
   background: url("../../../images/calendar.png") no-repeat;
   background-size: 20px 20px;
   background-position: 90% 50%;
 }
+
 /*종목등록*/
 .bn-list-common01.type01 .b-col01.leagueKind {
   width: 10%;
@@ -4223,7 +4244,7 @@ input[type="radio"] {
 }
 /*경기 결과 관리*/
 .bn-list-common01.type01 .b-col01.leagueKind.Consult {
-  width: 8%;
+  width: 12%;
 }
 .bn-list-common01.type01 .b-col02.leagueKind.Consult {
   width: 10%;
@@ -4239,6 +4260,19 @@ input[type="radio"] {
 }
 .bn-list-common01.type01 .b-col06.leagueKind.Consult {
   width: 10%;
+}
+.leagueRecordBtn,
+.leagueEmphasizeBtn {
+  border: none;
+  background-color: #1fd39d;
+  border-radius: 5px;
+  padding: 4px 6px;
+  color: #fff;
+  transition: background-color 0.5s linear;
+}
+.leagueRecordBtn:hover,
+.leagueEmphasizeBtn:hover {
+  background-color: #9575cd;
 }
 /*대진표,심판 경기장*/
 .leagueRefreeBox {
@@ -4258,16 +4292,16 @@ input[type="radio"] {
   margin-right: 30px;
 }
 .bn-list-common01.type01 .b-col01.leagueKind.leagueRef {
-  width: 8%;
+  width: 20%;
 }
 .bn-list-common01.type01 .b-col02.leagueKind.leagueRef {
-  width: 5%;
+  width: 15%;
 }
 .bn-list-common01.type01 .b-col03.leagueKind.leagueRef {
-  width: 11%;
+  width: 20%;
 }
 .bn-list-common01.type01 .b-col04.leagueKind.leagueRef {
-  width: 14%;
+  width: 20%;
 }
 /*대진표 작성*/
 .b-btn-type01.b-btn-c-blue.submit.leaugeKind.play {
@@ -4277,6 +4311,23 @@ input[type="radio"] {
 .b-btn-type01.b-btn-c-blue.submit.leaugeKind.play.write {
   margin-top: 10px;
   width: 75%;
+}
+.fightBtn {
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 15px;
+  width: 30%;
+  outline: none;
+  border: none;
+  background-color: #1070b9;
+  color: white;
+  transition: background-color 0.5s ease-in-out;
+}
+.fightBtn:hover {
+  background-color: #54c49f;
+}
+.fightBtn.show {
+  float: left;
 }
 /*동아리 목록 리스트*/
 .hclubRow,
@@ -4419,12 +4470,10 @@ input[type="radio"] {
   display: flex;
   width: 100%;
 }
-/*
-.bn-search01.type01 .b-sel-box .b-sel-title {
+.b-sel-box .b-sel-title.leagueform {
   margin-right: 10px;
-  width: 30%;
 }
-*/
+
 #leagueCome_val {
   width: 70%;
 }
@@ -4433,6 +4482,811 @@ input[type="radio"] {
   .b-row-box
   .b-title-box.league.leagueCome {
   display: none;
+}
+.bn-search01.type01 .b-sel-box.b-cate-basic.league .b-sel-title.leagueform {
+  width: 30%;
+}
+/*심판 관리(출석)*/
+input[type="checkbox"] {
+  transform: scale(1.5);
+}
+.tabBtn {
+  display: flex;
+  margin-top: 80px;
+  border: none;
+  margin-bottom: 5px;
+}
+.tabBtn a {
+  background-color: #1070b9;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 16px 20px;
+  transition: all 0.5s ease-in-out;
+  color: white;
+  font-size: 16px;
+  text-decoration: none;
+  border-radius: 8px;
+  margin-right: 5px;
+}
+.tabBtn a:hover,
+.tabBtn a.active {
+  background-color: #ce79ca;
+}
+
+@keyframes showing {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.content.hleagueTab,
+.moneyRow.hleagueTab {
+  display: none;
+  padding: 6px 12px;
+  animation: showing 1s linear;
+  animation-fill-mode: forwards;
+}
+.bn-list-common01.type01 .b-col01.leagueReferee {
+  width: 5%;
+}
+.bn-list-common01.type01 .b-col02.leagueReferee {
+  width: 10%;
+}
+.bn-list-common01.type01 .b-col03.leagueReferee {
+  width: 10%;
+}
+.bn-list-common01.type01 .b-col04.leagueReferee {
+  width: 10%;
+}
+.bn-list-common01.type01 .b-col05.leagueReferee {
+  width: 10%;
+}
+/*내 경기 일정*/
+#calendar {
+  width: 100%;
+  margin: 0 auto;
+}
+#jwxe_main_content_leagueManageRefree {
+  display: block;
+}
+#jwxe_main_content_leaguePlayerList2 {
+  display: block;
+}
+#jwxe_main_content_leagueDraw2 {
+  display: block;
+}
+#jwxe_main_content_leagueReferee2 {
+  display: block;
+}
+/*동아리 index 부분*/
+.newclubListBox {
+  background-color: #fff;
+  width: 100%;
+}
+.newclubList {
+  border: 3px solid #c0ccd8;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  transition: all 1s linear;
+}
+.newclubList:hover {
+  background-color: ivory;
+  transform: scale(0.95);
+  color: white;
+}
+.newclubList_list {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+.newclubList_list-left {
+  width: 30%;
+  padding: 20px;
+  position: relative;
+}
+.newclubList_list-left img {
+  width: 110px;
+  border-radius: 10px;
+  height: 110px;
+}
+.newclubList_list-right-top > span {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 13px;
+}
+.newclubList_list-right {
+  padding: 15px;
+  padding-left: 0;
+  width: 100%;
+}
+.newclubList_list-right-top {
+  margin-bottom: 6px;
+}
+.newclubList_list-right-middle {
+  margin-bottom: 8px;
+}
+.newclubList_list-right-middle a:hover {
+  color: red;
+}
+.newclubList_list-right-bottom {
+  width: 100%;
+}
+.bottom-content {
+  width: 90%;
+  color: #1d1616;
+  transition: all 1s ease-in-out;
+  margin-bottom: 5px;
+}
+.bottom-content:hover {
+  transform: scale(1.05);
+  color: #fff;
+  background-color: #46496b;
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 10px 0 10px 0;
+}
+/*리그 메인*/
+.hleagueWrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+.hleague_slider {
+  width: 100%;
+}
+.hleague_slider_list {
+  width: 100%;
+}
+.mainbox {
+  width: 100%;
+  margin-top: 60px;
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.5s linear;
+  border: 2px solid rgb(236, 242, 250);
+  border-radius: 10px;
+}
+.mainbox:hover {
+  transform: scale(0.9);
+  background-color: #f5b9b9;
+  color: white;
+}
+.mainbox-header {
+  width: 100%;
+}
+.mainbox-header img {
+  height: 200px;
+  width: 100%;
+  border-radius: 10px 10px 0 0;
+}
+.mainbox-middle {
+  width: 100%;
+}
+.mainbox-middle-top,
+.mainbox-middle-middle,
+.mainbox-middle-bottom {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.mainbox-middle-top {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.mainbox-middle-top h5 {
+  color: rgb(88, 124, 192);
+}
+.mainbox-middle-middle {
+  margin-bottom: 50px;
+}
+.mainbox-middle-bottom {
+  margin-bottom: 10px;
+}
+.mainbox-middle-bottom span {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.7);
+}
+.mainbox-middle-bottom i {
+  margin-right: 10px;
+}
+/*동아리 커뮤니티 메인*/
+.main-content-wrap01.ver2 {
+  display: block;
+  justify-content: center;
+  width: 100%;
+}
+.main-content-box01 .main-mini-box01.ver2 {
+  padding-right: 0px;
+  padding-left: 0px;
+}
+.gnb-ul.jwxe-menu-ul.newClub {
+  margin-bottom: 22px;
+}
+.newClubCommunity {
+  margin-top: 60px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.communitybox {
+  width: 90%;
+  display: flex;
+}
+.communitybox:first-child {
+  margin-bottom: 50px;
+}
+.community-left {
+  margin-right: 50px;
+}
+.community-right {
+  margin-left: 50px;
+}
+.commnunity-left,
+.community-right {
+  width: 100%;
+  border: 2px solid rgb(26, 65, 145);
+  padding: 30px 30px;
+  border-radius: 10px;
+  transition: all 0.5s linear;
+}
+.commnunity-left:hover,
+.community-right:hover {
+  background-color: #fffff9;
+  transform: scale(0.98);
+}
+.community-title {
+  border-bottom: 2px solid rgba(148, 212, 169, 0.5);
+  margin-bottom: 30px;
+}
+.community-title span > i {
+  padding-right: 5px;
+}
+.community-title span {
+  font-size: 20px;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.7);
+  font-style: italic;
+}
+.community-title span:nth-child(2) {
+  float: right;
+  font-style: normal;
+}
+.community-title span:nth-child(2):after,
+.community-title span:nth-child(2):before {
+  content: "";
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.community-left-middle {
+  display: flex;
+}
+.community-left-middle img {
+  width: 150px;
+  height: 150px;
+}
+.community-left-middle-text {
+  display: flex;
+  flex-direction: column;
+  margin-left: 30px;
+}
+.community-left-middle-text h3 {
+  font-size: 30px;
+}
+.community-left-middle-text span {
+  font-size: 20px;
+}
+.community-left-middle-text span:nth-child(2) {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.community-right-middle-top,
+.community-right-middle-bottom {
+  display: flex;
+  justify-content: center;
+  background-color: rgb(223, 97, 97);
+}
+.community-right-middle-top.ver2,
+.community-right-middle-bottom.ver2 {
+  display: flex;
+  justify-content: center;
+  background-color: rgb(97, 183, 223);
+}
+.community-right-middle-top.ver3,
+.community-right-middle-bottom.ver3 {
+  display: flex;
+  justify-content: center;
+  background-color: rgb(223, 97, 202);
+}
+.community-right-middle-top {
+  border-radius: 10px 10px 0 0;
+  border-bottom: 1px solid #fff;
+}
+.community-right-middle-bottom {
+  border-radius: 0 0 10px 10px;
+}
+.community-right-middle-top a,
+.community-right-middle-bottom a {
+  padding: 28px;
+  text-align: center;
+  font-size: 22px;
+  border-right: 1px solid #fff;
+  width: 100%;
+  display: inline-block;
+}
+.community-right-middle-top a,
+.community-right-middle-bottom a {
+  color: white;
+}
+.listskin > a {
+  color: cornflowerblue;
+}
+/*동아리 커뮤니티-물품목록*/
+.sub-container.newclub {
+  padding: 50px;
+}
+.sub-container.newclub h1 {
+  font-style: italic;
+  margin-bottom: 50px;
+}
+.sub-container.newclub i {
+  padding-right: 5px;
+}
+#article_val,
+#person_val,
+#notice_val,
+#notice2_val,
+#clubphoto_val,
+#money_val {
+  width: 100%;
+}
+.bn-list-common01.type01 .b-col01.articleList {
+  width: 12%;
+}
+.bn-list-common01.type01 .b-col02.articleList,
+.bn-list-common01.type01 .b-col03.articleList {
+  width: 30%;
+}
+.bn-list-common01.type01 .b-col04.articleList {
+  width: 78%;
+}
+.b-etc-box.leagueKind span:first-child {
+  padding-right: 10px;
+}
+#contentTable1 input[type="text"],
+#contentTable2 input[type="text"],
+#contentTable3 input[type="text"] {
+  width: 80%;
+  padding: 6px 8px;
+  text-align: center;
+}
+/*동아리 커뮤니티 - 회원 목록*/
+.bn-list-common01.type01 .b-col01.personList,
+.bn-list-common01.type01 .b-col02.personList,
+.bn-list-common01.type01 .b-col03.personList,
+.bn-list-common01.type01 .b-col04.personList {
+  width: 100%;
+}
+/*동아리 커뮤니티 - 공지사항*/
+
+.bn-list-common01.type01 .b-col03.noticeList,
+.bn-list-common01.type01 .b-col04.noticeList,
+.bn-list-common01.type01 .b-col035.noticeList {
+  width: 13%;
+}
+/*동아리 커뮤니티 - 일정*/
+.b-btn-wrap.date {
+  margin-bottom: 80px;
+  margin-top: -30px;
+}
+.b-btn-wrap.date button {
+  background-color: #1f94d3;
+  border-radius: 10px;
+  border: none;
+}
+/*테이블 새로 디자인한 부분*/
+.bn-list-common01.type01 table thead th.hver2 {
+  background-color: lightgoldenrodyellow;
+}
+.bn-search01.type01 .b-sel-btn.ver2 {
+  background-color: rgb(102, 196, 191);
+}
+.b-btn-type01.b-btn-c-blue.submit.ver2 {
+  background-color: lightseagreen;
+  border: none;
+}
+.b-paging01.type01 .b-paging-wrap ul li a.active.ver2 {
+  background-color: lightseagreen;
+  border: none;
+}
+.bn-search01.type01 .b-sel-box.b-cate-basic.league .b-sel-title.ver2 {
+  border: 1.5px solid lightsteelblue;
+}
+#notice2_val,
+#article_val,
+#person_val,
+#notice_val,
+#money_val {
+  border: 1.5px solid lightsteelblue;
+}
+/*커뮤니티 공지사항 글쓰기 폼*/
+.sub-container.newform {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+#content-form {
+  width: 97%;
+  height: 500px;
+}
+#writeperson {
+  width: 100%;
+}
+
+/*동아리 커뮤니티 일정 작성*/
+#writecontent {
+  width: 97%;
+  height: 200px;
+  border: 1px solid lightblue;
+}
+.showdate {
+  width: 25%;
+}
+/*동아리 커뮤니티 - 사진*/
+.content-wrap.newphoto {
+  width: 100%;
+  margin: 0 20px;
+}
+.bn-list-img01.type01 .b-box01 .b-img-box.newclub a img {
+  width: 100%;
+}
+.bn-list-img01.type01 .b-box01 .b-img-box.newclub a {
+  height: 280px;
+}
+.nophoto {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  border-bottom: 1px solid black;
+  height: 350px;
+  padding-bottom: 50px;
+  width: 100%;
+}
+/*동아리 커뮤니티 -사진 작성폼*/
+.b-input.jwvalid-imgfile.img-check.ver2 {
+  border: 1px solid lightblue;
+}
+/*동아리 커뮤니티 - 예산 목록*/
+.content.hleagueTab.money {
+  padding: 0;
+}
+#jwxe_main_content_refereeInfo {
+  width: 100%;
+}
+#jwxe_main_content_incomeList2,
+#jwxe_main_content_expenditureList2 {
+  width: 46%;
+  display: inline-block;
+}
+#jwxe_main_content_incomeList2 {
+  margin-right: 80px;
+}
+.bn-list-common01.type01 .b-col01.dateList {
+  width: 25%;
+}
+.bn-list-common01.type01 .b-col02.dateList {
+  width: 25%;
+}
+.bn-list-common01.type01 .b-col03.dateList {
+  width: 40%;
+}
+.moneyBtn {
+  width: 200px;
+  padding: 8px 12px;
+  border: none;
+  background-color: #59d4b8;
+  color: #fff;
+  border-radius: 15px;
+  margin: 20px 0;
+  font-size: 20px;
+}
+
+.bn-list-common01.type01 .b-col01.dateAllList,
+.bn-list-common01.type01 .b-col02.dateAllList,
+.bn-list-common01.type01 .b-col03.dateAllList {
+  width: 30%;
+}
+/*동아리 커뮤니티 - 회원 관리*/
+.bn-list-common01.type01 .b-col01.manage {
+  width: 15%;
+}
+.bn-list-common01.type01 .b-col02.manage {
+  width: 5%;
+}
+.bn-list-common01.type01 .b-col03.manage {
+  width: 13%;
+}
+.bn-list-common01.type01 .b-col04.manage {
+  width: 8%;
+}
+.bn-list-common01.type01 .b-col05.manage {
+  width: 12%;
+}
+.bn-list-common01.type01 .b-col06.manage {
+  width: 8%;
+}
+.bn-list-common01.type01 .b-col07.manage {
+  width: 10%;
+}
+.bn-list-common01.type01 .b-col08.manage {
+  width: 15%;
+}
+/*동아리 커뮤니티 - 회원 관리*/
+.personBtn {
+  border: none;
+  width: 40%;
+  background-color: lightseagreen;
+  font-size: 13px;
+  padding: 8px 10px;
+  cursor: pointer;
+  border-radius: 10px;
+  color: #fff;
+}
+.personBtn.mobile {
+  width: 20%;
+  font-size: 12px;
+  padding: 4px 6px;
+  margin-top: 5px;
+}
+.personBtn.mobile2 {
+  width: 20%;
+  font-size: 12px;
+  padding: 4px 6px;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+.personBtn.mobile3 {
+  width: 20%;
+  font-size: 12px;
+  padding: 2px 4px;
+}
+#jwxe_main_content_memberManageList {
+  display: block;
+}
+#jwxe_main_content_activeSchool1 {
+  display: block;
+}
+/*동아리 커뮤니티 - 등록현황*/
+.bn-list-common01.type01 .b-col01.enroll {
+  width: 14%;
+}
+.bn-list-common01.type01 .b-col02.enroll {
+  width: 14%;
+}
+.bn-list-common01.type01 .b-col03.enroll {
+  width: 14%;
+}
+.bn-list-common01.type01 .b-col04.enroll {
+  width: 13%;
+}
+.bn-list-common01.type01 .b-col05.enroll {
+  width: 13%;
+}
+.bn-list-common01.type01 .b-col06.enroll {
+  width: 10%;
+}
+.bn-list-common01.type01 .b-col07.enroll {
+  width: 12%;
+}
+/*동아리 커뮤니티 - 동아리 가입 정보 수정*/
+.textareaBox.modify {
+  height: 90px;
+}
+.modify_span {
+  float: right;
+  margin-right: 20px;
+  margin-top: 30px;
+}
+.b-btn-type01.b-btn-c-blue.submit.modify {
+  margin-right: 20px;
+  margin-top: 10px;
+  border-radius: 10px;
+  background-color: lightseagreen;
+  border: none;
+}
+/*동아리 커뮤니티 메인*/
+.hclubmain {
+  width: 100%;
+}
+.hclubmain__row {
+  display: flex;
+  width: 100%;
+}
+.hclubmain__row__box {
+  border: 1px solid #fff;
+  width: 25%;
+  height: 40vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.hclubmain__row__box.content1 {
+  background-color: lightcoral;
+}
+.hclubmain__row__box.content1 span {
+  color: rgb(238, 238, 161);
+  margin-bottom: 30px;
+}
+.hclubmain__row__box.content1 h3 {
+  color: #fff;
+  margin-bottom: 30px;
+}
+.hclubmain__row__box.content1 p {
+  color: rgb(162, 206, 209);
+}
+.hclubmain__row__box.content2 {
+  background-image: url("../../../images/attach/whiepalte.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.hclubmain__row__box.content2 span {
+  text-align: center;
+}
+.hclubmain__row__box.content3 {
+  background-color: rgb(240, 172, 172);
+}
+.hclubmain__row__box.content4 {
+  background-color: rgb(238, 217, 217);
+}
+/*동아리 커뮤니티 - 교내 활동*/
+.bn-list-common01.type01 .b-col01.inner {
+  width: 10%;
+}
+.bn-list-common01.type01 .b-col02.inner {
+  width: 20%;
+}
+.bn-list-common01.type01 .b-col03.inner {
+  width: 10%;
+}
+.bn-list-common01.type01 .b-col04.inner {
+  width: 10%;
+}
+.bn-list-common01.type01 .b-col05.inner {
+  width: 10%;
+}
+.bn-list-common01.type01 .b-col06.inner {
+  width: 10%;
+}
+.content.hleagueTab.modify {
+  padding-left: 0;
+  padding-right: 0;
+}
+/*공지사항, 작성폼 등등 디자인 색깔*/
+.bn-write-common01.type01 .b-table-box .b-row-box .b-title-box.ver2 {
+  background-color: lightgoldenrodyellow;
+  border-bottom: 1px solid lightblue;
+}
+.bn-write-common01.type01 .b-input.ver2 {
+  border: 1px solid lightblue;
+}
+#leagueStart,
+#leagueEnd {
+  border: 1px solid lightblue;
+}
+.bn-write-common01.type01 .b-table-box .b-row-box .b-con-box.ver2 {
+  border-bottom: 1px solid lightblue;
+}
+.bn-write-common01.type01 .b-table-box .b-row-box .b-con-box02.ver2 {
+  border-bottom: 1px solid lightblue;
+}
+#cke_clubContent {
+  border: 1px solid lightblue;
+}
+.bn-write-common01.type01 .b-select.ver2 {
+  border: 1px solid lightblue;
+}
+.b-btn-type01.b-btn-c-white.ver2 {
+  background-color: lightseagreen;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+.bn-write-common01.type01 .b-chk.ver2:checked + label:before {
+  background: lightblue url(../../../images/board/ico-check01.png) no-repeat 50%
+    50%;
+}
+/*공지사항 readform*/
+.bn-view-common01.type01 .b-main-box .b-top-box.ver2 {
+  border-bottom: 1px solid lightblue;
+  background-color: lightyellow;
+}
+.bn-view-common01.type01 .b-pager-box .prever2:nth-of-type(1) {
+  border-top: 1.5px solid lightblue;
+}
+.bn-view-common01.type01 .b-pager-box .nextver2:nth-of-type(2) {
+  border-bottom: 1.5px solid lightblue;
+}
+.bn-view-common01.type01 .b-pager-box .prever2 {
+  border-bottom: 1px solid lightgreen;
+}
+.bn-view-common01.type01 .b-file-box.ver2 {
+  border-top: 1px solid lightblue;
+  border-bottom: 1px solid lightblue;
+}
+.textareaBox.ver2 {
+  border: 1px solid lightblue;
+}
+#clubStart {
+  border: 1px solid lightblue;
+}
+.bn-write-common01.type01 .b-file-box.type03 .b-file-btn.ver2 {
+  background-color: lightblue;
+}
+.hclub_btn {
+  position: absolute;
+  right: 50px;
+  top: 55px;
+}
+.hclub_btn button {
+  padding: 8px 12px;
+  border: none;
+  background-color: lightseagreen;
+  color: white;
+  font-size: 15px;
+  border-radius: 10px;
+}
+.main-mini-wrap.ver2 {
+  width: 100%;
+  display: flex;
+}
+.main-mini-box.main-mini-box01.border {
+  border: 2px solid rgb(26, 65, 145);
+  width: 50%;
+  border-radius: 10px;
+  height: 280px;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  justify-content: center;
+  transition: transform 0.7s linear;
+}
+.main-mini-box.main-mini-box01.border:hover {
+  transform: scale(0.98);
+  background-color: #fffff9;
+}
+.main-mini-box.main-mini-box01.ver2.border {
+  margin-left: 50px;
+}
+.main-content-box01 .main-mini-box01 .viewmore.ver2 {
+  position: absolute;
+  top: 50px;
+  right: 30px;
+}
+.mini-board-content.ver2 {
+  height: 190px;
+  overflow-y: hidden;
+}
+.main-content-box01 .main-mini-box01 .main-title.ver2 {
+  border-bottom: 2px solid rgba(148, 212, 169, 0.5);
+  font-style: italic;
+  font-size: 25px;
+}
+.communitybox.ver2 {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: -20px;
+}
+.main-mini-wrap.ver2.plus {
+  margin-top: -80px;
 }
 @media screen and (max-width: 1024px) {
 }
@@ -6013,18 +6867,27 @@ input[type="radio"] {
   .b-sel-label {
     width: 100%;
   }
-  #search_val,
+  #search_enroll1,
+  #search_ref1,
+  #search_stadium1,
   #ref_val,
-  #ref2_val,
-  #ref3_val,
-  #ref4_val,
-  #playerlist1_val,
-  #playerlist2_val,
+  #search_ref2,
+  #search_ref3,
+  #search_ref4,
+  #search_ref5,
+  #search_result,
+  #playerlist1,
+  #playerlist2,
   #playerlist3_val,
   #draw1_val,
-  #draw2_val,
-  #draw3_val,
-  #leagueCome_val {
+  #search_draw2,
+  #search_draw3,
+  #leagueCome_val,
+  #article_val,
+  #notice_val,
+  #notice2_val,
+  #person_val,
+  #money_val {
     width: 100%;
     margin-bottom: 7px;
   }
@@ -6104,9 +6967,10 @@ input[type="radio"] {
     margin-bottom: 30px;
   }
   .b-btn-type01.b-btn-c-blue.submit.leaugeKind {
-    width: 31%;
+    width: 25%;
   }
   .b-btn-wrap.leagueKind {
+    width: 100%;
     text-align: center;
   }
   .b-sel-btn.leagueKindBtn {
@@ -6166,6 +7030,260 @@ input[type="radio"] {
   }
   #leagueCome_val {
     width: 100%;
+  }
+  .bn-search01.type01 .b-sel-box.b-cate-basic.league .b-sel-title.leagueform {
+    width: 100%;
+  }
+  /*경기 결과 관리*/
+  .leagueRecordBtn,
+  .leagueEmphasizeBtn {
+    margin-left: 8px;
+  }
+
+  /*심판관리(출석)*/
+  .tabBtn {
+    justify-content: center;
+  }
+  .tabBtn a {
+    width: 30%;
+    text-align: center;
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+  #calendar {
+    width: 700px;
+  }
+  .b-btn-type01.b-btn-c-blue.submit {
+    min-width: 100px;
+  }
+  .fightBtn.show {
+    width: 100%;
+  }
+  /*동아리 index 디자인*/
+  .newclubList_list-left {
+    width: 40%;
+  }
+  .newclubList_list-right-bottom p {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    height: 40px;
+    width: 300px;
+  }
+  .hleagueWrap {
+    width: 100%;
+    margin: 2em auto;
+    position: relative;
+    display: block;
+  }
+  /*동아리 커뮤니티 메인(사용안하는데 혹시나)*/
+
+  .newClubCommunity {
+    width: 100%;
+  }
+  .communitybox {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    align-items: center;
+  }
+  .community-left {
+    margin-right: 0px;
+  }
+  .community-right {
+    margin-left: 0px;
+    margin-top: 50px;
+  }
+  .community-right-middle-top a,
+  .community-right-middle-bottom a {
+    font-size: 20px;
+  }
+  /*동아리 커뮤니티 - 물품목록*/
+  .sub-container.newclub {
+    padding: 20px;
+  }
+  /*동아리 커뮤니티 - 일정*/
+  .b-btn-wrap.date {
+    margin-bottom: 80px;
+    margin-top: 30px;
+  }
+  #calendar {
+    width: 90%;
+  }
+  /*동아리 커뮤니티 일정 작성*/
+  .showdate {
+    width: 46%;
+  }
+  .bn-list-common01.type01 table tbody td.b-td-left.leagueKind.to {
+    display: block;
+  }
+  .bn-list-common01.type01 table tbody td.b-td-left.leagueKind.to > span {
+    display: block;
+  }
+  /*테이블 행 추가 부분*/
+  .bn-list-common01.type01.bn-common.rowplus table tbody tr {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .bn-list-common01.type01.bn-common.rowplus table tbody tr td:nth-of-type(1) {
+    display: inline;
+    width: 10%;
+  }
+  .bn-list-common01.type01.bn-common.rowplus table tbody tr td:nth-of-type(2) {
+    display: inline;
+    width: 33%;
+  }
+  .bn-list-common01.type01.bn-common.rowplus table tbody tr td:nth-of-type(3) {
+    display: inline;
+    width: 33%;
+  }
+  .bn-list-common01.type01.bn-common.rowplus table tbody tr td:nth-of-type(4) {
+    display: inline;
+    width: 100%;
+  }
+  #contentTable1 input[type="text"],
+  #contentTable2 input[type="text"],
+  #contentTable3 input[type="text"] {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 5px;
+  }
+  #contentTable1 td input[type="checkbox"],
+  #contentTable2 td input[type="checkbox"],
+  #contentTable3 td input[type="checkbox"] {
+    position: absolute;
+    top: 72px;
+    z-index: 99;
+  }
+  #contentTable1 td:last-child,
+  #contentTable2 td:last-child,
+  #contentTable3 td:last-child {
+    border-bottom: 1px solid black;
+    padding-bottom: 10px;
+  }
+  #contentTable1 td,
+  #contentTable2 td,
+  #contentTable3 td {
+    width: 100%;
+    padding: 4px 6px;
+    border: none;
+    display: flex;
+  }
+  #contentTable1 td:nth-child(2)::before {
+    content: "물품명";
+    width: 30%;
+    margin-top: 10px;
+    margin-left: 20px;
+  }
+  #contentTable1 td:nth-child(3)::before {
+    content: "물품수";
+    width: 30%;
+    margin-top: 10px;
+    margin-left: 20px;
+  }
+  #contentTable1 td:nth-child(4)::before {
+    content: "물품설명";
+    width: 30%;
+    margin-top: 10px;
+    margin-left: 20px;
+  }
+  #contentTable2 td:nth-child(2)::before,
+  #contentTable3 td:nth-child(2)::before {
+    content: "날짜";
+    width: 20%;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 38px;
+  }
+  #contentTable2 td:nth-child(3)::before,
+  #contentTable3 td:nth-child(3)::before {
+    content: "금액";
+    width: 20%;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 38px;
+  }
+  #contentTable2 td:nth-child(4)::before,
+  #contentTable3 td:nth-child(4)::before {
+    content: "사용내역";
+    width: 30%;
+    margin-top: 10px;
+    margin-left: 16px;
+    margin-right: 12px;
+  }
+  .bn-list-common01.type01 table thead .mobile-show {
+    display: flex;
+  }
+  .bn-list-common01.type01 table thead th.hver2 {
+    width: 23%;
+  }
+  /*동아리 커뮤니티 예산*/
+  #jwxe_main_content_incomeList2,
+  #jwxe_main_content_expenditureList2 {
+    width: 100%;
+    display: block;
+  }
+  .moneyBtn {
+    width: 40%;
+  }
+  /*동아리 커뮤니티 메인*/
+  .hclubmain__row {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .hclubmain__row__box {
+    width: 48%;
+  }
+  .b-btn-type01.b-btn-c-blue.submit.modify {
+    margin-right: 0;
+    margin-top: 0;
+  }
+  .clubda {
+    border: 1px solid black;
+    padding: 8px 0;
+    text-align: center;
+    font-size: 14px;
+  }
+  .main-mini-wrap.ver2 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .main-mini-box.main-mini-box01.border {
+    border: 2px solid rgb(26, 65, 145);
+    width: 70%;
+    border-radius: 10px;
+    margin-right: 20px;
+    margin-top: 20px;
+  }
+  .main-mini-box.main-mini-box01.ver2.border {
+    margin-left: 0;
+  }
+  .communitybox.ver2 {
+    width: 70%;
+    margin-top: 10px;
+    margin-bottom: -20px;
+  }
+  .main-content-box01 .main-mini-box01 .main-title.ver2 {
+    font-size: 18px;
+  }
+  .communitybox.ver2 {
+    margin-bottom: 0;
+    margin-top: -40px;
+  }
+  .main-mini-box.main-mini-box01.border {
+    height: 200px;
+  }
+  .main-content-box01 .main-mini-box01 .viewmore.ver2 {
+    top: 35px;
+  }
+  .main-mini-wrap.ver2.plus {
+    margin-top: -20px;
   }
 }
 @media screen and (max-width: 460px) {
@@ -6250,5 +7368,82 @@ input[type="radio"] {
     font-size: 15px;
     padding-left: 20px;
     padding-right: 20px;
+  }
+  .bottom-content {
+    width: 90%;
+    height: 30%;
+    color: #1d1616;
+    transition: all 0.8s ease-in-out;
+  }
+  /*리그 메인화면*/
+  .mainbox-header img {
+    height: 150px;
+    width: 100%;
+  }
+  .mainbox-middle-top h5 {
+    font-size: 10px;
+  }
+  .mainbox-middle-middle h4 {
+    font-size: 13px;
+  }
+  .mainbox-middle-bottom span {
+    font-size: 10px;
+  }
+  /*동아리 커뮤니티 메인*/
+  .community-title span {
+    font-size: 15px;
+  }
+  .community-left-middle img {
+    width: 80px;
+    height: 80px;
+  }
+  .community-left-middle-text h3 {
+    font-size: 20px;
+  }
+  .community-left-middle-text span {
+    font-size: 15px;
+  }
+  .community-right-middle-top a,
+  .community-right-middle-bottom a {
+    font-size: 14px;
+  }
+
+  /*동아리 커뮤니티 - 일정*/
+  #calendar {
+    width: 100%;
+  }
+  .fc-center h2 {
+    font-size: 15px;
+  }
+  .fc-button {
+    font-size: 12px;
+  }
+  /*동아리 커뮤니티 - 동아리 가입 정보 수정*/
+  .modify_span {
+    font-size: 11px;
+    text-align: center;
+    margin-right: 0;
+  }
+  .hclub_btn {
+    position: absolute;
+    right: 50px;
+    top: 10px;
+    font-size: 12px;
+  }
+  #contentTable2 td:nth-child(2)::before,
+  #contentTable3 td:nth-child(2)::before {
+    content: "날짜";
+    width: 20%;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 28px;
+  }
+  #contentTable2 td:nth-child(3)::before,
+  #contentTable3 td:nth-child(3)::before {
+    content: "금액";
+    width: 20%;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 28px;
   }
 }

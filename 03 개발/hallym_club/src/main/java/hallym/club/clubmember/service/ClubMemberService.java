@@ -24,5 +24,6 @@ public interface ClubMemberService {
 	public String getJoinCD(Map<String, Object> params);
 	public void updateMyInfo(Map<String, Object> params);
 	public void deleteClubMember(Map<String, Object> params);
+	public List<ClubMemberVO> getMyInfo(Map<String, Object> params);
 	
 }

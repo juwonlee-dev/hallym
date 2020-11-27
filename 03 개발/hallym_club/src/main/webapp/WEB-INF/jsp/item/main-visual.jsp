@@ -19,7 +19,7 @@
 					
 					<div class="item">
 						<div class="main-visual-img-box">
-							<img src="${pageContext.request.contextPath}/images/attach/main_banner_group_photo.jpg"
+							<img src="${pageContext.request.contextPath}/images/attach/main_banner_group_photo.png"
 								alt="동연단체사진">
 						</div>
 					</div>

@@ -307,7 +307,6 @@
                                     <tbody>
                                     <%
                                     	List<ClubVO> clubList = (List<ClubVO>) pageContext.getAttribute("clubList");
-                                       	//System.err.println("[clubSearch.do] clubList: " + clubList);
                                        	Date oldDate;
                                        	SimpleDateFormat oldFormat = new SimpleDateFormat("yyyyMMdd");
                                        	SimpleDateFormat newFormat = new SimpleDateFormat("yyyy.MM.dd"); // String 타입을 Date 타입으로 변환
@@ -321,11 +320,12 @@
 	                                            </div>
 	                                            <div class="hclublist_content">
 	                                                <div class="hclublist_content_top">
-	                                                    <form method="post" action="/clubSignUpForm.do" target="w" onsubmit="return postPopUp();">
+	                                                	<span>#<%=clubList.get(i).getGb_nm()%> #<%=clubList.get(i).getAt_nm()%></span>
+	                                                    <%-- <form method="post" action="/clubSignUpForm.do" target="w" onsubmit="return postPopUp();">
 	                                                        <input type="hidden" name="club_id" value="<%=clubList.get(i).getClub_id()%>">
 	                                                        <input type="hidden" name="club_nm" value="<%=clubList.get(i).getClub_nm()%>">
 	                                                        <span><input type="submit" value="가입 신청하기"></span>
-	                                                    </form>
+	                                                    </form> --%>
 	                                                </div>
 	                                                <div class="hclublist_content_middle">
 	                                                    <strong class="hclub_jung">중</strong>
@@ -337,8 +337,13 @@
 	                                                    <span>대표자 : <%=clubList.get(i).getPresident()%></span>
 	                                                    <span>개설일 : 
 	                                                    <%
-		                                                    oldDate = oldFormat.parse(clubList.get(i).getOpen_dt());
-		                                                   	out.print(newFormat.format(oldDate));
+	                                                    	try {
+			                                                    oldDate = oldFormat.parse(clubList.get(i).getOpen_dt());
+			                                                   	out.print(newFormat.format(oldDate));
+	                                                    	} catch(Exception e){
+	                                                    		out.print(clubList.get(i).getOpen_dt());
+	                                                    	}
+		                                                 
 	                                                    %>
 	                                                    </span>
 	                                                </div>
@@ -371,11 +376,12 @@
 	                                            </div>
 	                                            <div class="hclublist_content">
 	                                                <div class="hclublist_content_top">
-	                                                    <form method="post" action="/clubSignUpForm.do" target="w" onsubmit="return postPopUp();">
+	                                                	<span>#<%=clubList.get(i).getGb_nm()%> #<%=clubList.get(i).getAt_nm()%></span>
+	                                                    <%-- <form method="post" action="/clubSignUpForm.do" target="w" onsubmit="return postPopUp();">
 	                                                        <input type="hidden" name="club_id" value="<%=clubList.get(i).getClub_id()%>">
 	                                                        <input type="hidden" name="club_nm" value="<%=clubList.get(i).getClub_nm()%>">
 	                                                        <span><input type="submit" value="가입 신청하기"></span>
-	                                                    </form>
+	                                                    </form> --%>
 	                                                </div>
 	                                                <div class="hclublist_content_middle">
 	                                                    <strong class="hclub_jung">중</strong>
@@ -387,8 +393,12 @@
 	                                                    <span>대표자 : <%=clubList.get(i).getPresident()%></span>
 	                                                    <span>개설일 : 
 	                                                    <%
-		                                                    oldDate = oldFormat.parse(clubList.get(i).getOpen_dt());
-		                                                   	out.print(newFormat.format(oldDate));
+		                                                    try {
+			                                                    oldDate = oldFormat.parse(clubList.get(i).getOpen_dt());
+			                                                   	out.print(newFormat.format(oldDate));
+	                                                    	} catch(Exception e){
+	                                                    		out.print(clubList.get(i).getOpen_dt());
+	                                                    	}
 	                                                    %>
 	                                                    </span>
 	                                                </div>
