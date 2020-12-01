@@ -24,8 +24,14 @@ public class BudgetServiceImpl implements BudgetService {
 	}
 
 	@Override
-	public String getTotal(Map<String, Object> params) {
-		return budgetDAO.getTotal(params);
+	public int getTotal(Map<String, Object> params)  {
+		int tot = 0;
+		try {
+			tot = budgetDAO.getTotal(params);
+		} catch (Exception e) {
+			System.err.println("[BudgetServiceImpl] getTotal ERR: " + e.getMessage());
+		}
+		return tot;
 	}
 
 	@Override

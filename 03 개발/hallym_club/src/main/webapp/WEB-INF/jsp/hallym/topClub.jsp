@@ -124,7 +124,8 @@
         	document.querySelector("#item_body > div > div.path-wrap > div > div > ul > li:nth-child(3)").innerText = msg;
         	document.querySelector("#item_body > div > div.sub-container > div.content-wrap > div.title > div > h3").innerText += " - " + msg;
         	
-        	switch(year){
+        	$('#selectYear option[value='+year+']').attr('selected','selected');
+        	/* switch(year){
         	case "2019":
         		$('#selectYear option[value=2019]').attr('selected','selected');
         		break;
@@ -137,7 +138,7 @@
         	default:
         		$('#selectYear option[value=2019]').attr('selected','selected');
         		break;
-        	}
+        	} */
         	
         	
         });
@@ -225,10 +226,21 @@
 										<legend class="hide">게시글 검색</legend>
 										<div class="b-sel-box b-cate-basic" style="z-index: 0;">
 											<select id="selectYear" class="b-sel-title" name="year" onchange="changeSelect('${gb_cd}','${at_cd}');">
-												<option class=searchOption value="2019"
-												>2019</option>
+											
+											<jsp:useBean id="now" class="java.util.Date"/>
+											<fmt:formatDate value="${now}" pattern="yyyy" var="yearStart"/>
+											<c:forEach begin="0" end="${yearStart - 2017}" var="result" step="1" varStatus="status">
+											
+											<option class=searchOption value="${yearStart-result}"
+												<c:if test="${status.first}">
+													selected
+												</c:if>
+											>${yearStart-result}</option>
+											
+											</c:forEach>
+												<!-- <option class=searchOption value="2019">2019</option>
 												<option class=searchOption value="2018">2018</option>
-												<option class=searchOption value="2017">2017</option>
+												<option class=searchOption value="2017">2017</option> -->
 											</select>
 										</div>
 										<input type="hidden" name="at_cd" value="${at_cd}">

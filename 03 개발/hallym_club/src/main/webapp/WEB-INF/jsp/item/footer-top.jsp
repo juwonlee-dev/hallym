@@ -8,16 +8,11 @@
 <body>
 	<div class="top-footer-box">
 		<ul class="footer-link">
-	        <li class="privacy">
-	            <a href="https://www.hallym.ac.kr/sub07/cP2/tab2" target="_blank" title="개인정보처리방침 새창열림">개인정보처리방침</a></li>
-	        <li>
-	            <a href="https://was1.hallym.ac.kr:8081/HLMS/main/LoginPage.do" target="_blank" title="통합정보시스템 새창열림">통합정보시스템</a></li>
-	        <li>
-	            <a href="https://www.hallym.ac.kr/sub02/cP1/sCP1" target="_blank" title="학사일정 새창열림">학사일정</a></li>
-	        <li>
-	            <a href="https://www.hallym.ac.kr/sub07/cP1" target="_blank" title="주요민원 연락처 새창열림">주요민원 연락처</a></li>
-	        <li>
-	            <a href="https://hleague.hallym.ac.kr:2443/" target="_blank" title="동아리 플랫폼 새창열림">Intramural League</a></li>
+	        <li class="privacy"><a href="https://www.hallym.ac.kr/sub07/cP2/tab2" target="_blank" title="개인정보처리방침 새창열림">개인정보처리방침</a></li>
+	        <li><a href="https://was1.hallym.ac.kr:8081/HLMS/main/LoginPage.do" target="_blank" title="통합정보시스템 새창열림">통합정보시스템</a></li>
+	        <li><a href="https://www.hallym.ac.kr/sub02/cP1/sCP1" target="_blank" title="학사일정 새창열림">학사일정</a></li>
+	        <li><a href="https://www.hallym.ac.kr/sub07/cP1" target="_blank" title="주요민원 연락처 새창열림">주요민원 연락처</a></li>
+	        <!-- <li><a href="https://hleague.hallym.ac.kr:2443/" target="_blank" title="동아리 플랫폼 새창열림">Intramural League</a></li> -->
 	    </ul>
 	</div>
 </body>

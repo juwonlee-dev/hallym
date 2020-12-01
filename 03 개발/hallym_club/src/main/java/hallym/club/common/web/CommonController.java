@@ -3,6 +3,7 @@ package hallym.club.common.web;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -310,7 +311,7 @@ public class CommonController {
 	@RequestMapping(value = "/clubManagement.do")
 	public ModelAndView clubManagement(HttpServletRequest request, HttpServletResponse response, 
 			ModelAndView mav,
-			@RequestParam(value = "year", required = false, defaultValue ="2019") String year,
+			@RequestParam(value = "year", required = false, defaultValue ="") String year,
 			@RequestParam(value = "gb_cd", required = false, defaultValue ="001") String gb_cd,
 			@RequestParam(value = "at_cd", required = false, defaultValue ="002") String at_cd,
 			@RequestParam(value = "page_cd", required = false, defaultValue = "013001") String page_cd,
@@ -326,8 +327,12 @@ public class CommonController {
 			CommonUtils.showAlert(response, "관리자 권한이 필요한 서비스입니다.","index.do");
 			return null;
 		} 
+		
 		List<ClubVO> clubList = null;
 		session.setAttribute("page_cd", page_cd);
+		if(year == "" || year.isEmpty() || year == null) {
+			year = new SimpleDateFormat("yyyy").format(new Date()).toString();
+		}
 		String condition = cdn; // title
 		String register_cd = null;
 		if (page_cd.equals("013001"))
@@ -352,7 +357,7 @@ public class CommonController {
 		
 		if(page_cd.equals("013004") || page_cd.equals("013005")) {
 			Map<String, Object> params = new HashMap<String, Object>();
-			params.put("year", year);
+			
 			if (page_cd.equals("013004"))
 				params.put("opt", 1);
 			
@@ -596,7 +601,7 @@ public class CommonController {
 			ModelAndView mav,
 			@RequestParam(value = "club_id", required = false, defaultValue ="") String club_id,
 			@RequestParam(value = "curRank", required = false, defaultValue ="") String curRank,
-			@RequestParam(value = "year", required = false, defaultValue ="2019") String year)
+			@RequestParam(value = "year", required = false, defaultValue ="") String year)
 	{
 		
 		HttpSession session = request.getSession();
@@ -612,6 +617,11 @@ public class CommonController {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("club_id", club_id);
 		ClubVO clubVO = clubService.getClub(params);
+		
+		if(year == "" || year.isEmpty() || year == null) {
+			year = new SimpleDateFormat("yyyy").format(new Date()).toString();
+		}
+		
 		
 		clubVO.setTopClub_rank(curRank);
 		
@@ -1411,7 +1421,7 @@ public class CommonController {
 							ModelAndView mav)
 	{
 		
-		CommonUtils.showAlertNoClose(response, "요류가 발생했습니다. \n하단 메일에 문의 주세요", "/index.do");
+		CommonUtils.showAlertNoClose(response, "오류가 발생했습니다. 하단 메일에 문의 주세요", "/index.do");
 		return null;
 	}
 }

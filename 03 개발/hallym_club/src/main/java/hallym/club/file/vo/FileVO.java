@@ -2,6 +2,7 @@ package hallym.club.file.vo;
 
 public class FileVO {
 	private int club_id;
+	private String board_cd;
 	private int board_no;
 	private int file_no;
 	private String file_nm;
@@ -18,11 +19,12 @@ public class FileVO {
 	
 	@Override
 	public String toString() {
-		return "FileVO [club_id=" + club_id + ", board_no=" + board_no + ", file_no=" + file_no + ", file_nm=" + file_nm
+		return "FileVO [club_id=" + club_id + ", board_cd=" + board_cd + ", board_no=" + board_no + ", file_no=" + file_no + ", file_nm=" + file_nm
 				+ ", file_save_nm=" + file_save_nm + ", file_path=" + file_path + ", input_id=" + input_id
 				+ ", input_ip=" + input_ip + ", input_date=" + input_date + ", update_id=" + update_id + ", update_ip="
 				+ update_ip + ", update_date=" + update_date + "]";
 	}
+	
 	public String getEnclude_yn() {
 		return enclude_yn;
 	}
@@ -36,6 +38,12 @@ public class FileVO {
 	}
 	public void setClub_id(int club_id) {
 		this.club_id = club_id;
+	}
+	public String getBoard_cd() {
+		return board_cd;
+	}
+	public void setBoard_cd(String board_cd) {
+		this.board_cd = board_cd;
 	}
 	public int getBoard_no() {
 		return board_no;

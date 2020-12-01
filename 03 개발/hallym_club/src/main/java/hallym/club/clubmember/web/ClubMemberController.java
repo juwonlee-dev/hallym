@@ -193,7 +193,7 @@ public class ClubMemberController {
 							 ModelAndView mav,
 							 @RequestParam(value = "club_id", required = false, defaultValue ="0") String club_id,
 							 @RequestParam(value = "student_id", required = false, defaultValue ="") String student_id,
-							 @RequestParam(value = "staff", required = false, defaultValue ="") String staff_cd,
+							 @RequestParam(value = "staff_cd", required = false, defaultValue ="") String staff_cd,
 							 @RequestParam(value = "submit", required = false, defaultValue ="") String submit)
 	{
 		if (club_id.equals("0")) {
@@ -223,10 +223,8 @@ public class ClubMemberController {
 			params.put("club_id", club_id);
 			params.put("staff_cd", staff_cd);
 			params.put("id", student_id);
-			params.put("join_dt", new Date());
-			params.put("if", 1);
 			clubMemberService.updateClubMember(params);
-			CommonUtils.showAlert(response, "정상 처리 되었습니다.", "/clubIntro.do?club_id=" + club_id);
+			CommonUtils.showAlert(response, "정상 처리 되었습니다.", "/clubManageList.do?club_id=" + club_id);
 			return null;
 		} 
 		else if (submit.equals("회장위임")) {
@@ -238,7 +236,7 @@ public class ClubMemberController {
 			params.put("staff_cd", "004001");
 			params.put("id", student_id);
 			clubMemberService.updateClubMember(params);
-			CommonUtils.showAlert(response, "정상 처리 되었습니다.", "/clubIntro.do?club_id=" + club_id);
+			CommonUtils.showAlert(response, "정상 처리 되었습니다.", "/clubManageList.do?club_id=" + club_id);
 			return null;
 		} else {
 			CommonUtils.showAlert(response, "오류 발생.", "/clubIntro.do?club_id=" + club_id);

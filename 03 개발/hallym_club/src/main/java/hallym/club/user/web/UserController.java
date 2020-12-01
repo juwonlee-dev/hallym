@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -104,24 +105,24 @@ public class UserController {
 		
 		// 사용자 로그인 체크
 		String result = userService.checkLogin(session, params);
-//		Cookie cookie = null;
-//		if(chk_id != null && !chk_id.isEmpty() && chk_id.equalsIgnoreCase("Y")) {
-//			cookie = new Cookie("ID", ID);
-//			cookie.setMaxAge(60*60*24*7); /* 7 days */
-//			response.addCookie(cookie);
-//			
-//			cookie = new Cookie("GBN", GBN);
-//			cookie.setMaxAge(60*60*24*7); /* 7 days */
-//			response.addCookie(cookie);
-//		} else {
-//			cookie = new Cookie("ID", null);
-//			cookie.setMaxAge(0);
-//			response.addCookie(cookie);
-//			
-//			cookie = new Cookie("GBN", null);
-//			cookie.setMaxAge(0);
-//			response.addCookie(cookie);
-//		}
+		Cookie cookie = null;
+		if(chk_id != null && !chk_id.isEmpty() && chk_id.equalsIgnoreCase("Y")) {
+			cookie = new Cookie("ID", ID);
+			cookie.setMaxAge(60*60*24*7); /* 7 days */
+			response.addCookie(cookie);
+			
+			cookie = new Cookie("GBN", GBN);
+			cookie.setMaxAge(60*60*24*7); /* 7 days */
+			response.addCookie(cookie);
+		} else {
+			cookie = new Cookie("ID", null);
+			cookie.setMaxAge(0);
+			response.addCookie(cookie);
+			
+			cookie = new Cookie("GBN", null);
+			cookie.setMaxAge(0);
+			response.addCookie(cookie);
+		}
 		
 		String logType = (result.equalsIgnoreCase("F"))?"011003":( (result.equalsIgnoreCase("E"))?"011004":"011001");
 		if(result.equalsIgnoreCase("F")) {
@@ -131,7 +132,7 @@ public class UserController {
 			return null;
 		} else if(result.equalsIgnoreCase("E")) {
 			System.err.println("[login.do] 알 수 없는 오류가 발생했습니다.");
-			CommonUtils.showAlert(response, "알 수 없는 오류가 발생했습니다.","login.do");
+			CommonUtils.showAlert(response, "아이디 또는 비밀번호가 올바르지 않습니다.","login.do");
 			return null;
 		} 
 		else if(result.equalsIgnoreCase("N")) {

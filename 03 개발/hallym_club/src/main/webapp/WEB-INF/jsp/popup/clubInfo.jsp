@@ -72,9 +72,20 @@ table.type04 td {
 						<tr>
 						<td>
 							<select id="selectYear" class="b-sel-title" name="year">
-								<option class=searchOption value="2019">2019</option>
+								<jsp:useBean id="now" class="java.util.Date"/>
+								<fmt:formatDate value="${now}" pattern="yyyy" var="yearStart"/>
+								<c:forEach begin="0" end="${yearStart - 2017}" var="result" step="1" varStatus="status">
+								
+								<option class=searchOption value="${yearStart-result}"
+									<c:if test="${status.first}">
+										selected
+									</c:if>
+								>${yearStart-result}</option>
+								
+								</c:forEach>
+								<!-- <option class=searchOption value="2019">2019</option>
 								<option class=searchOption value="2018">2018</option>
-								<option class=searchOption value="2017">2017</option>
+								<option class=searchOption value="2017">2017</option> -->
 							</select>
 						</td>
 						<td>	

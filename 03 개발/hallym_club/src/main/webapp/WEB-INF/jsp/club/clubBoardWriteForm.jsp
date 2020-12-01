@@ -126,8 +126,7 @@ h2 {
 
 	<jsp:include page="clubPlatform.jsp"></jsp:include>
 	<div class="main">
-		<form name="board_form" method="post" action="/clubBoardWriteAction.do"
-			style="margin: 0 auto;" onsubmit="return check_form();">
+		<form name="board_form" method="post" action="/clubBoardWriteAction.do" style="margin: 0 auto;" onsubmit="return check_form();">
 			<br>
 
 			<table class="table" width="800px;" height="80px;">

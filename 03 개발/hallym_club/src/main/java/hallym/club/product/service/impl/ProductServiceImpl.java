@@ -33,6 +33,35 @@ public class ProductServiceImpl implements ProductService{
 		return productDAO.getProducts(params);
 	}
 
+	@Override
+	public List<ProductVO> getProductList(Map<String, Object> params) {
+		return productDAO.getProductList(params);
+	}
+
+	@Override
+	public int getTotalPageCnt(Map<String, Object> params) {
+		int totalPageCnt = 0;
+		
+		try {
+			totalPageCnt = productDAO.getTotalPageCnt(params);
+		} catch (Exception e) {
+			System.err.println("[ProductServiceImpl] getTotalPageCnt ERR: " + e.getMessage());
+		}
+		return totalPageCnt;
+	}
+
+	@Override
+	public int getProductListCnt(Map<String, Object> params) {
+		int productListCnt = 0;
+		
+		try {
+			productListCnt = productDAO.getProductListCnt(params);
+		} catch (Exception e) {
+			System.err.println("[ProductServiceImpl] getProductListCnt ERR: " + e.getMessage());
+		}
+		return productListCnt;
+	}
+
 
 
 	

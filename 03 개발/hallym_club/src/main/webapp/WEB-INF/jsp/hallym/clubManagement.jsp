@@ -299,10 +299,20 @@
 										<legend class="hide">게시글 검색</legend>
 										<div class="b-sel-box b-cate-basic" style="z-index: 0;">
 											<select id="selectYear" class="b-sel-title" name="year" onchange="changeSelect('${page_cd}','${gb_cd}','${at_cd}');">
-												<option class=searchOption value="2019"
-												>2019</option>
+												<jsp:useBean id="now" class="java.util.Date"/>
+												<fmt:formatDate value="${now}" pattern="yyyy" var="yearStart"/>
+												<c:forEach begin="0" end="${yearStart - 2017}" var="result" step="1" varStatus="status">
+												
+												<option class=searchOption value="${yearStart-result}"
+													<c:if test="${status.first}">
+														selected
+													</c:if>
+												>${yearStart-result}</option>
+												
+												</c:forEach>
+												<!-- <option class=searchOption value="2019">2019</option>
 												<option class=searchOption value="2018">2018</option>
-												<option class=searchOption value="2017">2017</option>
+												<option class=searchOption value="2017">2017</option> -->
 											</select>
 										</div>
 										
@@ -730,11 +740,10 @@
 		}
 	}
 	
-	function changeSelect(page_cd,gb_cd, at_cd){
+	function changeSelect(page_cd, gb_cd, at_cd) {
 		var select = document.getElementById("selectYear");
 		var selectValue = select.options[select.selectedIndex].value;
 		location.href = "/clubManagement.do?page_cd="+page_cd+"&year="+selectValue;
-
 	}
 	
 </script>

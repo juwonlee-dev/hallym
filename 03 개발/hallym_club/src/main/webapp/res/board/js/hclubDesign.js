@@ -112,18 +112,18 @@ $(function () {
     maxCount += 1;
     $("#contentTable2").append(
       "<tr><td><input type='checkbox'></td>" +
-        "<td><input title='시작 날짜' class='clubda' id='cluber" +
+        "<td><input title='시작 날짜' class='clubda' name='income_use_dt' id='cluber" +
         maxCount +
         "' type='text' maxlength='10' readonly='readonly' value='' data-valid-title='공지시작일'></td>" +
-        "<td><input type='text'></td>" +
-        "<td><input type='text'></td></tr>"
+        "<td><input type='text' name='income_price'></td>" +
+        "<td><input type='text' name='income_contents'></td></tr>"
     );
     $(function () {
       $("input[id^='cluber']").each(function () {
         var _this = this.id;
 
         $("#" + _this).datepicker({
-          dateFormat: "yy/mm/dd",
+          dateFormat: "yy.mm.dd",
           buttonImage: "images/calendar.png",
 
           buttonImageOnly: true,
@@ -180,18 +180,18 @@ $(function () {
     maxCount += 1;
     $("#contentTable3").append(
       "<tr><td><input type='checkbox'></td>" +
-        "<td><input title='시작 날짜' class='clubda' id='cluber" +
+        "<td><input title='시작 날짜' name='expense_use_dt' class='clubda' id='cluber" +
         maxCount +
         "' type='text' maxlength='10' readonly='readonly' value='' data-valid-title='공지시작일'></td>" +
-        "<td><input type='text'></td>" +
-        "<td><input type='text'></td></tr>"
+        "<td><input type='text' name='expense_price'></td>" +
+        "<td><input type='text' name='expense_contents'></td></tr>"
     );
     $(function () {
       $("input[id^='cluber']").each(function () {
         var _this = this.id;
 
         $("#" + _this).datepicker({
-          dateFormat: "yy/mm/dd",
+          dateFormat: "yy.mm.dd",
           buttonImage: "images/calendar.png",
 
           buttonImageOnly: true,
@@ -208,7 +208,7 @@ $(function () {
             "4월",
             "5월",
             "6월",
-            "7월",
+            "7월", 
             "8월",
             "9월",
             "10월",
@@ -236,7 +236,7 @@ $(function () {
   });
 
   $("#moneyDel3").click(function () {
-    $("#contentTable2 tbody input[type='checkbox']:checked")
+    $("#contentTable3 tbody input[type='checkbox']:checked")
       .parent()
       .parent()
       .remove();

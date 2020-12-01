@@ -128,6 +128,7 @@ public class BoardController {
 			params2.put("ID", v.getInput_id());
 			writerList.add(userService.getUserVO(params2));
 			writerAuthList.add(commonService.checkAuth(params2));
+			
 		}
 		
 		
@@ -271,7 +272,6 @@ public class BoardController {
 	public String boardWriteAction(MultipartHttpServletRequest request, HttpServletResponse response,
 			@RequestParam(value = "title", required = false) String title,
 			@RequestParam(value = "contents", required = false) String contents,
-			@RequestParam(value = "writer", required = false, defaultValue = "") String writer,
 			@RequestParam(value = "fix_yn", required = false) String fix_yn) {
 		response.setContentType("text/html; charset=UTF-8");
 		HttpSession session = request.getSession();
@@ -306,7 +306,7 @@ public class BoardController {
 			params.put("attach_yn", "N");
 			params.put("start_date", today);
 			params.put("end_date", today);
-			params.put("input_id", (writer.isEmpty()) ? userVO.getId() : writer); // 게시글을 작성한 사용자 ID
+			params.put("input_id", userVO.getId()); // 게시글을 작성한 사용자 ID
 			params.put("input_ip", CommonUtils.getClientIP(request));
 			params.put("input_date", today);
 			boardService.addBoard(params);
@@ -386,7 +386,7 @@ public class BoardController {
 						fileParams.put("file_save_nm", saveFileName);
 						fileParams.put("file_path", savePath);
 						fileParams.put("enclude_yn", "N");
-						fileParams.put("input_id", (writer.isEmpty()) ? userVO.getId() : writer);
+						fileParams.put("input_id", userVO.getId());
 						fileParams.put("input_ip", CommonUtils.getClientIP(request));
 						fileParams.put("input_date", today);
 						fileService.addFile(fileParams);

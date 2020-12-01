@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hallym.club.actfile.dao.ActFileDAO">
+    
+    <!-- ActFileVO -->
+    <!-- 
+    private int club_id;
+	private int act_no;
+	private int file_no;
+	private String act_cd;
+	private String file_nm;
+	private String file_save_nm;
+	private String file_path;
+	private String enclude_yn;
+	private String input_id;
+	private String input_ip;
+	private String input_date;
+	private String update_id;
+	private String update_ip;
+	private String update_date;
+     -->
+	<!-- ActFileVO -->
+	<resultMap type="hallym.club.file.vo.ActFileVO" id="actFileVOResult">
+    	<result property="club_id" column="CLUB_ID" />
+       	<result property="act_no" column="ACT_NO" />
+       	<result property="file_no" column="FILE_NO" />
+       	<result property="act_cd" column="ACT_CD" />
+       	<result property="file_nm" column="FILE_NM" />
+       	<result property="file_save_nm" column="FILE_SAVE_NM" />
+       	<result property="file_path" column="FILE_PATH" />
+       	<result property="enclude_yn" column="ENCLUDE_YN" />
+       	<result property="input_id" column="INPUT_ID" />
+       	<result property="input_ip" column="INPUT_IP" />
+       	<result property="input_date" column="INPUT_DATE" />
+       	<result property="update_id" column="UPDATE_ID" />
+       	<result property="update_ip" column="UPDATE_IP" />
+       	<result property="update_date" column="UPDATE_DATE" />
+    </resultMap>
+	
+	<!-- 파일 목록 가져오기 -->
+	
+	<select id="getFileList" parameterType="map" resultMap="actFileVOResult">
+
+		SELECT
+			*
+		FROM
+			ACT_RECORD_FILE
+		WHERE
+			CLUB_ID = #{club_id}
+		<choose>
+		    <when test="opt == 1"><!--  게시판 파일 조회 -->
+				AND ACT_CD = #{act_cd}
+		    </when>
+		    <when test="opt == 2"><!--  게시글 파일 조회 -->
+				AND ACT_CD = #{act_cd}
+		        AND ACT_NO = #{act_no}
+		    </when>
+		    <otherwise></otherwise> <!-- 전체 파일 조회 -->
+		</choose>
+		ORDER BY
+    		ACT_NO
+			
+     </select>  
+	<!-- 파일 개수 가져오기 -->
+
+     <select id="getFileListCnt" parameterType="map" resultType="int">
+     	
+		SELECT
+			COUNT(ACT_NO)
+		FROM
+			ACT_RECORD_FILE
+		WHERE 
+			CLUB_ID = #{club_id}
+		<choose>
+	    <when test="opt == 1"> <!-- 게시판 파일 조회 -->
+			AND ACT_CD = #{act_cd}
+	    </when>
+	    <when test="opt == 2"> <!-- 게시글 파일 조회 -->
+			AND ACT_CD = #{act_cd}
+	        AND ACT_NO = #{act_no}
+	    </when>
+	    <otherwise></otherwise> <!-- 전체 파일 조회 -->
+	</choose>
+     </select>
+
+     <!-- 파일 가져오기 -->
+     <select id="getFile" parameterType="map" resultMap="actFileVOResult">
+       	
+       	SELECT
+         	*
+         FROM (
+         	SELECT
+         		ROW_NUMBER()
+         		OVER(ORDER BY ACT_NO DESC, FILE_NO DESC) RNUM,
+         		ACT_RECORD_FILE.*
+         	FROM
+         		ACT_RECORD_FILE
+         	WHERE
+         		CLUB_ID = #{club_id} AND
+         		ACT_CD = #{act_cd} AND
+	       	    ACT_NO = #{act_no}
+       	    <if test="opt != 1">
+         		AND FILE_NO = #{file_no}
+         	</if>
+         )
+         WHERE 1=1
+         <if test="opt == 1">
+         	AND RNUM = 1
+         </if>
+
+     </select>
+     
+     <!-- 파일 업로드 -->
+     <insert id="addFile" parameterType="map">
+
+        INSERT INTO
+        	ACT_RECORD_FILE(
+        		CLUB_ID,
+        		FILE_NO,
+        		ACT_CD,
+				ACT_NO,
+				FILE_NM,
+				FILE_SAVE_NM,
+				FILE_PATH,
+				ENCLUDE_YN,
+				INPUT_ID,
+				INPUT_IP,
+				INPUT_DATE
+        	)
+         	
+         	VALUES(
+         		#{club_id},
+         		(SELECT NVL( MAX(FILE_NO), 0) + 1 FROM ACT_RECORD_FILE),
+         		#{act_cd},
+         		#{act_no},
+         		#{file_nm},
+         		#{file_save_nm},
+         		#{file_path},
+         		#{enclude_yn},
+         		#{input_id},
+         		#{input_ip},
+         		SYSDATE
+         	)
+       
+     </insert>
+     
+     <!-- 파일 수정 -->
+     <!-- 
+     <update id="updateFile" parameterType="map">
+     		
+	 	UPDATE
+	 		BOARD_FILE
+	 	SET
+	 		FILE_NM = #{file_nm},
+			FILE_SAVE_NM = #{file_save_nm},
+			FILE_PATH = #{file_path},
+			ENCLUDE_YN = #{enclude_yn},
+			UPDATE_ID = #{update_id},
+			UPDATE_IP = #{update_ip},
+			UPDATE_DATE = TO_DATE(#{update_date},'yyyy-mm-dd hh24:mi:ss')
+	 	WHERE
+	 		BOARD_CD = #{board_cd}
+	 		AND BOARD_NO = #{board_no}
+	 		AND FILE_NO = #{file_no}
+      
+     </update>
+     --> 
+     <!-- 파일 수정 -->
+     <update id="attachFile" parameterType="map">
+     		
+	 	UPDATE
+	 		ACT_RECORD_FILE
+	 	SET
+	 		ACT_NO = #{act_no}
+	 	WHERE
+	 		CLUB_ID = #{club_id}
+			AND	ACT_CD = #{act_cd}
+	 		AND ACT_NO = 0
+	 		AND FILE_NO = #{file_no}
+      
+     </update>
+
+     <delete id="deleteFile" parameterType="map">
+     	
+   		DELETE
+   		FROM
+   			ACT_RECORD_FILE
+   		WHERE 1=1
+	    AND CLUB_ID = #{club_id}
+	<choose>
+	    <when test="opt == 1"> <!-- 게시판 파일 일괄 삭제 -->
+			AND ACT_CD = #{act_cd}
+	    </when>
+	    <when test="opt == 2"> <!-- 게시글 파일 일괄 삭제 -->
+			AND ACT_CD = #{act_cd}
+	        AND ACT_NO = #{act_no}
+	    </when>
+	    <otherwise> <!-- 단일 파일 삭제 -->
+	        AND FILE_NO = #{file_no}
+	    </otherwise>
+	</choose>
+     	
+     </delete>  
+     
+     <delete id="deleteClubFile" parameterType="map">
+     	
+   		DELETE
+   		FROM
+   			ACT_RECORD_FILE
+   		WHERE 
+	    	CLUB_ID = #{club_id}
+	  </delete>
+</mapper>

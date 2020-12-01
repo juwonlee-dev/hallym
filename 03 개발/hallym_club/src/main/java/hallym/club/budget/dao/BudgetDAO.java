@@ -10,7 +10,7 @@ import hallym.club.budget.vo.BudgetVO;
 public interface BudgetDAO {
 	
 	public List<BudgetVO> getBudget(Map<String, Object> params);
-	public String getTotal(Map<String, Object> params);
+	public int getTotal(Map<String, Object> params) throws Exception;
 	public void deleteBudget(Map<String, Object> params);
 	public void insertBudget(Map<String, Object> params);
 	

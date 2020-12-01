@@ -1,7 +1,7 @@
 $(function () {
   $("#clubDate").datepicker({
     /*showOn: "both",*/
-    dateFormat: "yy/mm/dd",
+    dateFormat: "yy.mm.dd",
     buttonImage: "images/calendar.png",
     buttonImageOnly: true,
     changeYear: true,
@@ -43,7 +43,7 @@ $(function () {
 $(function () {
   $("#leagueStart").datepicker({
     //showOn: "both",
-    dateFormat: "yy/mm/dd",
+    dateFormat: "yy.mm.dd",
     buttonImage: "images/calendar.png",
 
     buttonImageOnly: true,
@@ -87,7 +87,7 @@ $(function () {
 $(function () {
   $("#leagueEnd").datepicker({
     //showOn: "both",
-    dateFormat: "yy/mm/dd",
+    dateFormat: "yy.mm.dd",
     buttonImage: "images/calendar.png",
 
     buttonImageOnly: true,
@@ -132,7 +132,7 @@ $(function () {
 $(function () {
   $("#clubStart").datepicker({
     //showOn: "both",
-    dateFormat: "yy/mm/dd",
+    dateFormat: "yy.mm.dd",
     buttonImage: "images/calendar.png",
 
     buttonImageOnly: true,

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hallym.club.activity.dao.ActivityDAO">
+    
+	<!-- ActivityVO -->
+	<!-- 
+	private int club_id;
+	private int act_no;
+	private String act_cd;
+	private String act_kind_cd;
+	private String act_title;
+	private String act_contents;
+	private String act_temp;
+	private String act_place;
+	private String act_date;
+	private int act_cnt;
+	private String accept_cd;
+	private String input_id;
+	private String input_ip;
+	private String input_date;
+	private String update_id;
+	private String update_ip;
+	private String update_date; -->
+	<resultMap type="hallym.club.activity.vo.ActivityVO" id="activityVOResult">
+	    
+	    <result property="club_id" column="CLUB_ID" />
+    	<result property="act_no" column="ACT_NO" />
+       	<result property="act_cd" column="ACT_CD" />
+       	<result property="act_kind_cd" column="ACT_KIND_CD" />
+       	<result property="act_title" column="ACT_TITLE" />
+       	<result property="act_contents" column="ACT_CONTENTS" />
+       	<result property="act_temp" column="ACT_TEMP" />       	   
+       	<result property="act_place" column="ACT_PLACE" />
+       	<result property="act_date" column="ACT_DATE" />        	
+       	<result property="act_cnt" column="ACT_CNT" />        	
+       	<result property="accept_cd" column="ACCEPT_CD" />
+       	<result property="input_id" column="INPUT_ID" />
+       	<result property="input_ip" column="INPUT_IP" />
+       	<result property="input_date" column="INPUT_DATE" />
+       	<result property="update_id" column="UPDATE_ID" />
+       	<result property="update_ip" column="UPDATE_IP" />
+       	<result property="update_date" column="UPDATE_DATE" />
+    </resultMap>
+    
+
+	
+	<select id="getActivityList" parameterType="map" resultMap="activityVOResult">
+		SELECT
+			*
+		FROM 
+			(
+				SELECT 
+					ROW_NUMBER() OVER 
+						(ORDER BY ACT_NO DESC)
+						RNUM, CLUB_ACT_RECORD.* 
+				FROM 
+					CLUB_ACT_RECORD 
+				WHERE 
+					<choose>
+					    <when test="select == 1">
+					        ACT_TITLE LIKE '%' || #{cdn} || '%' AND
+					    </when>
+					    <when test="select == 2">
+					        ACT_PLACE LIKE '%' || #{cdn} || '%' AND
+					    </when>
+					</choose>
+					CLUB_ID = #{club_id} AND 
+					ACT_CD  LIKE '%' || #{act_cd} || '%' AND
+					ACT_KIND_CD LIKE '%' || #{act_kind_cd} || '%'
+			) 
+		WHERE 
+			RNUM BETWEEN #{startNum} AND #{endNum} ORDER BY RNUM ASC
+	    
+	</select>
+    
+	<select id="getActivityListCnt" parameterType="map" resultType="int">
+	    SELECT
+			COUNT(ACT_NO)
+		FROM
+			CLUB_ACT_RECORD
+		WHERE
+			<choose>
+			    <when test="select == 1">
+			        ACT_TITLE LIKE '%' || #{cdn} || '%' AND
+			    </when>
+			    <when test="select == 2">
+			        ACT_PLACE LIKE '%' || #{cdn} || '%' AND
+			    </when>
+			</choose>
+			CLUB_ID = #{club_id} AND 
+			ACT_CD  LIKE '%' || #{act_cd} || '%' AND
+			ACT_KIND_CD LIKE '%' || #{act_kind_cd} || '%'
+	    
+	</select>
+	
+	<select id="getTotalPageCnt" parameterType="map" resultType="int">
+	    SELECT
+			distinct CEIL(
+				(
+					SELECT
+						NVL(COUNT(ACT_NO), 0)
+					FROM (
+						SELECT ACT_NO
+						FROM CLUB_ACT_RECORD
+						WHERE
+							<choose>
+							    <when test="select == 1">
+							        ACT_TITLE LIKE '%' || #{cdn} || '%' AND
+							    </when>
+							    <when test="select == 2">
+							        ACT_PLACE LIKE '%' || #{cdn} || '%' AND
+							    </when>
+							</choose>
+							CLUB_ID = #{club_id} AND 
+							ACT_CD  LIKE '%' || #{act_cd} || '%' AND
+							ACT_KIND_CD LIKE '%' || #{act_kind_cd} || '%'
+					)
+				)
+			/ #{limit} ) as page
+		FROM
+			CLUB_ACT_RECORD
+	    
+	    
+	</select>
+	
+     
+     <!-- 게시글 가져오기 -->
+     <select id="getActivity" parameterType="map" resultMap="activityVOResult">
+		
+         SELECT
+         	*
+         FROM (
+         	SELECT
+         		ROW_NUMBER()
+         		OVER(ORDER BY act_no DESC) RNUM,
+         		CLUB_ACT_RECORD.*
+         	FROM
+         		CLUB_ACT_RECORD
+         	WHERE
+         		CLUB_ID = #{club_id} AND 
+				ACT_CD = #{act_cd}
+			<if test="opt != 1">
+				AND ACT_NO = #{act_no}
+			</if>
+         	)
+         WHERE 1=1
+         <if test="opt == 1">
+         	AND RNUM = 1
+         </if>
+
+     </select>
+	 
+	
+	<insert id="addActivity" parameterType="map">
+
+        INSERT INTO
+        	CLUB_ACT_RECORD (
+        		CLUB_ID,
+        		ACT_NO,
+				ACT_CD,
+				ACT_KIND_CD,
+				ACT_TITLE,
+				ACT_CONTENTS,
+				ACT_TEMP,
+				ACT_PLACE,
+				ACT_DATE,
+				ACT_CNT,
+				ACCEPT_CD,
+				INPUT_ID,
+				INPUT_IP,
+				INPUT_DATE
+        	)
+         	
+         	VALUES(
+         	
+         		#{club_id},
+         		(SELECT NVL( MAX(ACT_NO), 0) + 1 FROM CLUB_ACT_RECORD WHERE CLUB_ID=#{club_id} AND ACT_CD = #{act_cd}),
+         		#{act_cd},
+         		#{act_kind_cd},
+         		#{act_title},
+         		#{act_contents},
+         		#{act_temp},
+         		#{act_place}, 
+         		#{act_date},
+         		#{act_cnt},
+         		#{accept_cd},
+         		#{input_id},
+         		#{input_ip},
+         		#{input_date}
+         	)
+         	
+     </insert>
+    <!-- 게시글 수정 -->
+     <update id="updateActivity" parameterType="map">
+			
+       	UPDATE
+			CLUB_ACT_RECORD
+		SET
+			ACT_KIND_CD = #{act_kind_cd},
+			ACT_TITLE = #{act_title},
+			ACT_CONTENTS = #{act_contents},
+			ACT_TEMP = #{act_temp},
+			ACT_PLACE = #{act_place}, 
+			ACT_DATE = #{act_date},
+			ACT_CNT = #{act_cnt},
+			UPDATE_ID = #{update_id},
+			UPDATE_IP = #{update_ip},
+			UPDATE_DATE = #{update_date}
+		WHERE
+			ACT_CD = #{act_cd} AND 
+			ACT_NO = #{act_no} AND
+			CLUB_ID = #{club_id}	
+			      
+     </update> 
+	
+	
+     
+     
+     <!-- 게시글 삭제(영구) -->
+     <delete id="deleteActivity" parameterType="map">
+     	
+   		DELETE
+   		FROM
+   			CLUB_ACT_RECORD
+   		WHERE
+   			ACT_CD = #{act_cd} AND 
+			ACT_NO = #{act_no} AND
+			CLUB_ID = #{club_id}
+     	
+     </delete>
+     
+     
+</mapper>

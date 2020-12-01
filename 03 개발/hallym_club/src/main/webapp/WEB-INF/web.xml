@@ -103,11 +103,13 @@
 	</error-page>
 	<error-page>
 		<error-code>404</error-code>
-		<location>/common/error.jsp</location>
+		<location>/WEB-INF/jsp/common/404error.jsp</location>
+		<!-- <location>/common/error.jsp</location> -->
 	</error-page>
 	<error-page>
 		<error-code>500</error-code>
-		<location>/common/error.jsp</location>
+		<location>/WEB-INF/jsp/common/500error.jsp</location>
+		<!-- <location>/common/error.jsp</location> -->
 	</error-page>
 	
 	<!-- HTTP 접속시 HTTPS로 리다이렉션 -->

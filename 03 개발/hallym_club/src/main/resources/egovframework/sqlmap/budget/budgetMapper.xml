@@ -41,12 +41,12 @@
 			CLUB_ID = #{club_id} AND
 			IO_GB_CD LIKE #{io_gb_cd} 
 			<if test="opt==1">
-			AND USE_DT LIKE #{use_dt}
+			AND USE_DT LIKE '%' || #{use_dt} || '%'
 			</if>
 		ORDER BY USE_DT
     </select>
     
-   	<select id="getTotal" parameterType="map" resultType="string">
+   	<select id="getTotal" parameterType="map" resultType="int">
 
 		SELECT 
 			NVL(SUM(PRICE),0) 
@@ -56,7 +56,7 @@
 			CLUB_ID = #{club_id} AND 
 			IO_GB_CD LIKE #{io_gb_cd}
 		<if test="opt == 1">
-		    AND USE_DT LIKE #{use_dt}
+		    AND USE_DT LIKE '%' || #{use_dt} || '%'
 		</if>	
 		ORDER BY USE_DT
    	</select>	
@@ -75,22 +75,23 @@
    	<insert id="insertBudget" parameterType="map">
    	    INSERT INTO 
    	    	BUDGET 
-   	    		(
+   	    	(
    	    		CLUB_ID, 
    	    		SEQ_NO, 
    	    		IO_GB_CD, 
    	    		USE_DT, 
    	    		CONTENTS, 
    	    		PRICE
-   	    		)
-			VALUES(
+   	    	)
+			VALUES 
+			(
 				 #{club_id},
 				 (SELECT NVL(MAX(seq_no) + 1, 1) FROM budget),
 				 #{io_gb_cd},
 				 #{use_dt}, 
 				 #{contents}, 
 				 #{price}
-				 )
+			)
    	    
    	</insert>
    	

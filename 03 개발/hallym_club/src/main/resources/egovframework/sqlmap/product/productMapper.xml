@@ -38,6 +38,7 @@
 				)
 	    
 	</insert>
+	
 	<delete id="deleteProduct" parameterType="map">
 	    DELETE
 	    
@@ -47,6 +48,59 @@
 	    	CLUB_ID = #{club_id}
 	    
 	</delete>
+	
+	<select id="getProductList" parameterType="map" resultMap="productVOResult">
+		SELECT
+			*
+		FROM 
+			(
+				SELECT 
+					ROW_NUMBER() OVER 
+						(ORDER BY SEQ_NO DESC)
+						RNUM, PRODUCT.* 
+				FROM 
+					PRODUCT 
+				WHERE 
+					PRODUCT_NM LIKE '%' || #{product_nm} || '%' AND
+					PRODUCT_CONT LIKE '%' || #{product_cont} || '%' AND
+					CLUB_ID = #{club_id}) 
+		WHERE 
+			RNUM BETWEEN #{startNum} AND #{endNum} ORDER BY RNUM ASC
+	    
+	</select>
+    
+	<select id="getProductListCnt" parameterType="map" resultType="int">
+	    SELECT
+			COUNT(SEQ_NO)
+		FROM
+			PRODUCT
+		WHERE
+			PRODUCT_NM LIKE '%' || #{product_nm} || '%' AND
+			PRODUCT_CONT LIKE '%' || #{product_cont} || '%' AND
+			CLUB_ID = #{club_id}
+	    
+	</select>
+	
+	<select id="getTotalPageCnt" parameterType="map" resultType="int">
+	    SELECT
+			distinct CEIL(
+				(
+					SELECT
+						NVL(COUNT(SEQ_NO), 0)
+					FROM (
+						SELECT SEQ_NO
+						FROM PRODUCT
+						WHERE
+							PRODUCT_NM LIKE '%' || #{product_nm} || '%' AND
+							PRODUCT_CONT LIKE '%' || #{product_cont} || '%' AND
+							CLUB_ID = #{club_id}
+					)
+				)
+			/ #{limit} ) as page
+		FROM
+			PRODUCT
+			
+	</select>
 	
 	<select id="getProducts" parameterType="map" resultMap="productVOResult">
 		SELECT 
@@ -58,8 +112,10 @@
 			PRODUCT
 		
 		WHERE 
-			CLUB_ID=#{club_id} 
-		ORDER BY PRODUCT_NM
+			CLUB_ID=#{club_id} AND
+			PRODUCT_NM LIKE '%' || #{product_nm} || '%' AND
+			PRODUCT_CONT LIKE '%' || #{product_cont} || '%' 
+		ORDER BY SEQ_NO
 	</select>
 	
 </mapper>

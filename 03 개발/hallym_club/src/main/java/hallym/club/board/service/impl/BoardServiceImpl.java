@@ -22,6 +22,11 @@ public class BoardServiceImpl implements BoardService{
 		/* 메인화면 공지 조회 */
 		return boardDAO.getIntroNotice();
 	}
+	
+	@Override
+	public List<BoardVO> getClubBoardList(Map<String, Object> params) {
+		return boardDAO.getClubBoardList(params);
+	}
 
 	@Override
 	public List<BoardVO> getBoardList(Map<String, Object> params) {

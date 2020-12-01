@@ -160,9 +160,16 @@
                 
                                 <!-- 로그인 버튼 -->
                                 <button type="submit" class="b-btn-login" value="LOGIN ">로그인</button>
+                               
                                 <!-- 회원가입/비밀번호찾기 -->
                             </fieldset>
                         </form>
+                         <div style="text-align: center; color: rgb(170, 16, 0); margin: 5px;">
+                                * Internet Explorer 의 경우, 호환성의 문제로 일부 기능에 제한이 있을 수 있습니다.
+                         </div>
+                         <div style="text-align: center; color: rgb(170, 16, 0); margin: 5px;"> 
+								* 이 시스템은 Chrome / Safari / Microsoft Edge 에 최적화되어 있습니다. 
+                         </div>
                     </div>
                 </div>
             </div>

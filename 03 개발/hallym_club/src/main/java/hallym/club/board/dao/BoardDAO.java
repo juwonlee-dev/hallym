@@ -10,6 +10,7 @@ import hallym.club.board.vo.BoardVO;
 public interface BoardDAO {
 	
 	public List<BoardVO> getIntroNotice();
+	public List<BoardVO> getClubBoardList(Map<String, Object> params);
 	public List<BoardVO> getBoardList(Map<String, Object> params);
 	public int getTotalPageCnt(Map<String, Object> params) throws Exception;
 	public int getBoardListCnt(Map<String, Object> params) throws Exception;

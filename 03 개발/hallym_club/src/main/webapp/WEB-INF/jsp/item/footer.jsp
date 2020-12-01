@@ -12,7 +12,7 @@
 	        <ul class="related-site">
 	            <li><a href="https://www.hallym.ac.kr/hallym_univ/sub05/cP3/sCP1" target="_blank" title="대학공지사항 새창열림">대학공지사항</a></li>
 	            <li><a href="https://www.hallym.ac.kr/hallym_univ/sub04/cP6/sCP1.html" target="_blank" title="캠퍼스 안내 새창열림">캠퍼스 안내</a></li>
-	            <li><a href="https://hleague.hallym.ac.kr:2443/" target="_blank" title="리그 플랫폼 새창열림">리그 플랫폼</a></li>
+	            <!-- <li><a href="https://hleague.hallym.ac.kr:2443/" target="_blank" title="리그 플랫폼 새창열림">리그 플랫폼</a></li> -->
 	        </ul>
 	    </div>
 	    <div class="footer-content-box">
@@ -45,7 +45,7 @@
 	                </ul>
 	            </li>
 	            <li>
-	                <p class="copyright">copyright (C) HALLYM University, Team LHJ All rights reserved.</p>
+	                <p class="copyright">copyright (C) HALLYM University All rights reserved.</p>
 	            </li>
 	        </ul>
 	    </div>

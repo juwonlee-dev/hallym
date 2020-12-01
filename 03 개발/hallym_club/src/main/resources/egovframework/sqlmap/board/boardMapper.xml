@@ -56,8 +56,20 @@
 				BBSAVAILABLE = 1 AND CLUB_ID = 1 AND BOARD_CD = '007001') 
 		WHERE 
 			RNUM BETWEEN 1 AND 6 ORDER BY RNUM ASC
-	    
-	    
+	</select>
+	
+	<select id="getClubBoardList" resultMap="boardVOResult">
+	    SELECT 
+	    	* 
+	    FROM (
+	    	SELECT 
+	    		ROW_NUMBER() OVER (ORDER BY BOARD_FIX DESC, BOARD_NO DESC) RNUM, BOARD.* 
+			FROM 
+				BOARD 
+			WHERE 
+				BBSAVAILABLE = 1 AND CLUB_ID = #{club_id} AND BOARD_CD = #{board_cd}) 
+		WHERE 
+			RNUM BETWEEN 1 AND 6 ORDER BY RNUM ASC
 	</select>
 
 	<select id="getCalendar" parameterType="map" resultMap="boardVOResult">
@@ -89,10 +101,15 @@
 				FROM 
 					BOARD 
 				WHERE 
-					BBSAVAILABLE = '1' AND 
-					TITLE LIKE '%' || #{title} || '%' AND
+					BBSAVAILABLE = '1' AND
+					<choose>
+					    <when test="opt == 1">TITLE LIKE '%' || #{cdn} || '%' AND</when>
+					    <when test="opt == 2">CONTENTS LIKE '%' || #{cdn} || '%' AND</when>
+					    <when test="opt == 3">CONTENTS LIKE '%' || #{cdn} || '%' AND</when>
+					    <otherwise></otherwise>
+					</choose>
 					CLUB_ID = #{club_id} AND 
-					BOARD_CD = #{board_cd}) 
+					BOARD_CD = #{board_cd})
 		WHERE 
 			RNUM BETWEEN #{startNum} AND #{endNum} ORDER BY RNUM ASC
 	    
@@ -105,7 +122,11 @@
 			BOARD
 		WHERE
 			BBSAVAILABLE = '1' AND 
-			TITLE LIKE '%' || #{title} || '%' AND
+			<choose>
+			    <when test="opt == 1">TITLE LIKE '%' || #{cdn} || '%' AND</when>
+			    <when test="opt == 2">CONTENTS LIKE '%' || #{cdn} || '%' AND</when>
+			    <otherwise></otherwise>
+			</choose>
 			CLUB_ID = #{club_id} AND 
 			BOARD_CD = #{board_cd}
 	    
@@ -121,8 +142,12 @@
 						SELECT BOARD_NO
 						FROM BOARD
 						WHERE
-							BBSAVAILABLE = '1' AND 
-							TITLE LIKE '%' || #{title} || '%' AND
+							BBSAVAILABLE = '1' AND
+							<choose>
+							    <when test="opt == 1">TITLE LIKE '%' || #{cdn} || '%' AND</when>
+							    <when test="opt == 2">CONTENTS LIKE '%' || #{cdn} || '%' AND</when>
+							    <otherwise></otherwise>
+							</choose>
 							CLUB_ID = #{club_id} AND 
 							BOARD_CD = #{board_cd}
 					)

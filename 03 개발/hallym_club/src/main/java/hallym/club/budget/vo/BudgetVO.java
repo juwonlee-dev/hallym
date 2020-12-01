@@ -1,7 +1,5 @@
 package hallym.club.budget.vo;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class BudgetVO {
 	private int club_id;
@@ -10,6 +8,7 @@ public class BudgetVO {
 	private String use_dt;
 	private String contents;
 	private int price;
+	private String str_price;
 	private String input_id;
 	private String input_ip;
 	private String input_date;
@@ -131,6 +130,14 @@ public class BudgetVO {
 
 	public void setUpdate_date(String update_date) {
 		this.update_date = update_date;
+	}
+
+	public String getStr_price() {
+		return str_price;
+	}
+
+	public void setStr_price(String str_price) {
+		this.str_price = str_price;
 	}
 
 }

@@ -4105,6 +4105,10 @@ input[type="radio"] {
   text-align: center;
   font-size: 14px;
 }
+#clubStart {
+  text-align: left;
+  padding-left: 10px;
+}
 .clubda {
   border: 1px solid black;
   padding: 8px 0;
@@ -4161,10 +4165,13 @@ input[type="radio"] {
   background-size: 20px 20px;
   background-position: 90% 50%;
 }
-
+/*리그 등록 관리 신청 폼*/
+.b-sel-title.league.option {
+  width: 100%;
+}
 /*종목등록*/
 .bn-list-common01.type01 .b-col01.leagueKind {
-  width: 10%;
+  width: 8%;
 }
 .bn-list-common01.type01 .b-col02.leagueKind {
   width: 7%;
@@ -4182,6 +4189,9 @@ input[type="radio"] {
   width: 12%;
 }
 .bn-list-common01.type01 .b-col07.leagueKind {
+  width: 12%;
+}
+.bn-list-common01.type01 .b-col08.leagueKind {
   width: 12%;
 }
 .b-title-box.league {
@@ -4220,9 +4230,12 @@ input[type="radio"] {
   display: flex;
 }
 .bn-list-common01.type01 .b-col01.leagueKind.Team {
-  width: 50%;
+  width: 12%;
 }
 .bn-list-common01.type01 .b-col02.leagueKind.Team {
+  width: 35%;
+}
+.bn-list-common01.type01 .b-col03.leagueKind.Team {
   width: 50%;
 }
 .b-sel-box.b-cate-basic.leagueKind {
@@ -4247,19 +4260,22 @@ input[type="radio"] {
   width: 12%;
 }
 .bn-list-common01.type01 .b-col02.leagueKind.Consult {
-  width: 10%;
+  width: 12%;
 }
 .bn-list-common01.type01 .b-col03.leagueKind.Consult {
-  width: 18%;
+  width: 12%;
 }
 .bn-list-common01.type01 .b-col04.leagueKind.Consult {
-  width: 10%;
+  width: 25%;
 }
 .bn-list-common01.type01 .b-col05.leagueKind.Consult {
-  width: 10%;
+  width: 12%;
 }
 .bn-list-common01.type01 .b-col06.leagueKind.Consult {
-  width: 10%;
+  width: 15%;
+}
+.bn-list-common01.type01 .b-col07.leagueKind.Consult {
+  width: 15%;
 }
 .leagueRecordBtn,
 .leagueEmphasizeBtn {
@@ -4286,9 +4302,7 @@ input[type="radio"] {
   display: flex;
 }
 #jwxe_main_content_leagueReferee1,
-#jwxe_main_content_leagueReferee3,
-#jwxe_main_content_leaguePlayerList2,
-#jwxe_main_content_leagueDraw2 {
+#jwxe_main_content_leaguePlayerList2 {
   margin-right: 30px;
 }
 .bn-list-common01.type01 .b-col01.leagueKind.leagueRef {
@@ -4570,7 +4584,7 @@ input[type="checkbox"] {
   border: 3px solid #c0ccd8;
   border-radius: 5px;
   margin-bottom: 5px;
-  transition: all 1s linear;
+  transition: all 0.4s linear;
 }
 .newclubList:hover {
   background-color: ivory;
@@ -4616,7 +4630,7 @@ input[type="checkbox"] {
 .bottom-content {
   width: 90%;
   color: #1d1616;
-  transition: all 1s ease-in-out;
+  transition: all 0.4s ease-in-out;
   margin-bottom: 5px;
 }
 .bottom-content:hover {
@@ -4647,7 +4661,7 @@ input[type="checkbox"] {
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: all 0.5s linear;
+  transition: all 0.4s linear;
   border: 2px solid rgb(236, 242, 250);
   border-radius: 10px;
 }
@@ -4732,7 +4746,7 @@ input[type="checkbox"] {
   border: 2px solid rgb(26, 65, 145);
   padding: 30px 30px;
   border-radius: 10px;
-  transition: all 0.5s linear;
+  transition: all 0.4s linear;
 }
 .commnunity-left:hover,
 .community-right:hover {
@@ -5147,22 +5161,25 @@ input[type="checkbox"] {
 }
 /*동아리 커뮤니티 - 교내 활동*/
 .bn-list-common01.type01 .b-col01.inner {
-  width: 10%;
+  width: 8%;
 }
 .bn-list-common01.type01 .b-col02.inner {
-  width: 20%;
+  width: 8%;
 }
 .bn-list-common01.type01 .b-col03.inner {
-  width: 10%;
+  width: 20%;
 }
 .bn-list-common01.type01 .b-col04.inner {
-  width: 10%;
+  width: 8%;
 }
 .bn-list-common01.type01 .b-col05.inner {
-  width: 10%;
+  width: 8%;
 }
 .bn-list-common01.type01 .b-col06.inner {
-  width: 10%;
+  width: 8%;
+}
+.bn-list-common01.type01 .b-col07.inner {
+  width: 8%;
 }
 .content.hleagueTab.modify {
   padding-left: 0;
@@ -5175,6 +5192,9 @@ input[type="checkbox"] {
 }
 .bn-write-common01.type01 .b-input.ver2 {
   border: 1px solid lightblue;
+}
+.leagueonly {
+  width: 48%;
 }
 #leagueStart,
 #leagueEnd {
@@ -5248,7 +5268,7 @@ input[type="checkbox"] {
   display: flex;
 }
 .main-mini-box.main-mini-box01.border {
-  border: 2px solid rgb(26, 65, 145);
+  border: 2px solid lightseagreen;
   width: 50%;
   border-radius: 10px;
   height: 280px;
@@ -5257,10 +5277,10 @@ input[type="checkbox"] {
   flex-direction: column;
   padding: 30px;
   justify-content: center;
-  transition: transform 0.7s linear;
+  transition: all 0.4s linear;
 }
 .main-mini-box.main-mini-box01.border:hover {
-  transform: scale(0.98);
+  transform: scale(0.96);
   background-color: #fffff9;
 }
 .main-mini-box.main-mini-box01.ver2.border {
@@ -5287,6 +5307,111 @@ input[type="checkbox"] {
 }
 .main-mini-wrap.ver2.plus {
   margin-top: -80px;
+}
+.bn-write-common01.type01 .b-sel-title.clubver {
+  border: 1px solid lightblue;
+  width: 100%;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.bn-write-common01.type01 .b-file-box.type04 .b-file-del-btn.ver2 {
+  background-color: lightblue;
+}
+.content-wrap.new {
+  width: 100%;
+  padding: 0;
+}
+.bn-view-common01.type01 .b-main-box.ver2.read {
+  border: none;
+}
+.bn-view-common01.type01 .b-file-box.ver2.read {
+  margin-top: 20px;
+}
+.clubChairman {
+  padding: 8px 12px;
+  background-color: lightseagreen;
+  border: none;
+  color: white;
+  border-radius: 10px;
+  margin-left: 20px;
+}
+.commnunity-left.ver2 {
+  border: 2px solid lightseagreen;
+}
+.clubChair {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+.b-sel-title.leagueform.ver2.chair {
+  width: 18%;
+  border: 1px solid lightseagreen;
+}
+.clubChair > span {
+  margin-top: 7px;
+  margin-right: 7px;
+}
+.path-box ul li.clubonly:last-of-type {
+  color: forestgreen;
+}
+.top-header-box .clubBlues {
+  background-color: #1070b9;
+}
+.top-header-wrap.clubGreen {
+  background-color: #1eb1ae;
+}
+.bn-write-common01.type01 .b-sel-title.league {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+/*리그 관리자 -신청자 선수 명단*/
+.bn-list-common01.type01 .b-col01.leagueKind.player {
+  width: 12%;
+}
+.bn-list-common01.type01 .b-col02.leagueKind.player {
+  width: 44%;
+}
+.bn-list-common01.type01 .b-col03.leagueKind.player {
+  width: 44%;
+}
+/*종목별 팀*/
+.bn-list-common01.type01 .b-col01.leagueKind.stdTeam {
+  width: 10%;
+}
+.bn-list-common01.type01 .b-col02.leagueKind.stdTeam {
+  width: 18%;
+}
+.bn-list-common01.type01 .b-col03.leagueKind.stdTeam {
+  width: 18%;
+}
+.bn-list-common01.type01 .b-col04.leagueKind.stdTeam {
+  width: 18%;
+}
+.bn-list-common01.type01 .b-col05.leagueKind.stdTeam {
+  width: 18%;
+}
+.bn-list-common01.type01 .b-col06.leagueKind.stdTeam {
+  width: 18%;
+}
+/*대진표*/
+.bn-list-common01.type01 .b-col01.leagueKind.stdfight {
+  width: 10%;
+}
+.bn-list-common01.type01 .b-col02.leagueKind.stdfight {
+  width: 20%;
+}
+.bn-list-common01.type01 .b-col03.leagueKind.stdfight {
+  width: 20%;
+}
+.bn-list-common01.type01 .b-col04.leagueKind.stdfight {
+  width: 20%;
+}
+.bn-list-common01.type01 .b-col05.leagueKind.stdfight {
+  width: 20%;
+}
+.clubS {
+  width: 47%;
 }
 @media screen and (max-width: 1024px) {
 }
@@ -6887,7 +7012,8 @@ input[type="checkbox"] {
   #notice_val,
   #notice2_val,
   #person_val,
-  #money_val {
+  #money_val,
+  #search_std {
     width: 100%;
     margin-bottom: 7px;
   }
@@ -7285,6 +7411,27 @@ input[type="checkbox"] {
   .main-mini-wrap.ver2.plus {
     margin-top: -20px;
   }
+  .content-wrap.new {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .b-sel-title.leagueform.ver2.chair {
+    width: 50%;
+    border: 1px solid lightseagreen;
+  }
+  /*리그 종목 등록 신청 폼*/
+  .leagueonly {
+    width: 45%;
+  }
+  .leagueChk {
+    margin-right: 5px;
+    position: relative;
+    bottom: 3px;
+    margin-left: 3px;
+  }
+  .clubS {
+    width: 48%;
+  }
 }
 @media screen and (max-width: 460px) {
   /* bn-view-common01 type01 */
@@ -7445,5 +7592,21 @@ input[type="checkbox"] {
     margin-top: 10px;
     margin-left: 20px;
     margin-right: 28px;
+  }
+  .b-sel-title.leagueform.ver2.chair {
+    width: 80%;
+    border: 1px solid lightseagreen;
+  }
+  .clubChair {
+    flex-wrap: wrap;
+  }
+  .clubChair > span {
+    width: 10%;
+  }
+  .clubChairman {
+    margin-top: 10px;
+  }
+  .clubS {
+    width: 45%;
   }
 }

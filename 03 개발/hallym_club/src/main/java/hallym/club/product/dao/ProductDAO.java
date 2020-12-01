@@ -13,4 +13,9 @@ public interface ProductDAO {
 	public void deleteProduct(Map<String, Object> params);
 	public List<ProductVO> getProducts(Map<String, Object> params);
 	
+	public List<ProductVO> getProductList(Map<String, Object> params);
+	public int getTotalPageCnt(Map<String, Object> params) throws Exception;
+	public int getProductListCnt(Map<String, Object> params) throws Exception;
+	
+	
 }

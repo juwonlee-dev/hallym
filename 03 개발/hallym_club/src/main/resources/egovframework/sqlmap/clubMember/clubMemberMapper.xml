@@ -296,22 +296,24 @@
 			(
 				SELECT 
 					ROW_NUMBER() OVER 
-						(ORDER BY NM DESC)
+						(ORDER BY STUDENT_ID DESC)
 						RNUM, CLUB_MEMBER.*
 				FROM 
 					CLUB_MEMBER
 				WHERE 
 					CLUB_ID = #{club_id} AND 
 					JOIN_CD = #{join_cd} AND
-					<if test="category == 'name'">
-					NM LIKE '%' || #{search} || '%'
-					</if>
-			    	<if test="category == 'major'">
-					MAJOR LIKE '%' || #{search} || '%'
-					</if>
-					<if test="category == 'student_id'">
-					STUDENT_ID LIKE '%' || #{search} || '%'
-					</if>
+					<choose>
+					    <when test="select == 1">
+						STUDENT_ID LIKE '%' || #{cdn} || '%'
+					    </when>
+					    <when test="select == 2">
+						NM LIKE '%' || #{cdn} || '%'
+					    </when>
+					    <when test="select == 3">
+						MAJOR LIKE '%' || #{cdn} || '%'
+					    </when>
+					</choose>
 			)
 		WHERE 
 			RNUM BETWEEN #{startNum} AND #{endNum} ORDER BY RNUM ASC
@@ -326,16 +328,17 @@
 		WHERE
 			CLUB_ID = #{club_id} AND 
 			JOIN_CD = #{join_cd} AND
-			<if test="category == 'name'">
-			NM LIKE '%' || #{search} || '%'
-			</if>
-	    	<if test="category == 'major'">
-			major LIKE '%' || #{search} || '%'
-			</if>
-			<if test="category == 'student_id'">
-			student_id LIKE '%' || #{search} || '%'
-			
-			</if>
+			<choose>
+			    <when test="select == 1">
+				STUDENT_ID LIKE '%' || #{cdn} || '%'
+			    </when>
+			    <when test="select == 2">
+				NM LIKE '%' || #{cdn} || '%'
+			    </when>
+			    <when test="select == 3">
+				MAJOR LIKE '%' || #{cdn} || '%'
+			    </when>
+			</choose>
 	</select>
    	
    	<select id="getTotalPageCnt" parameterType="map" resultType="int">
@@ -350,15 +353,17 @@
 						WHERE
 							CLUB_ID = #{club_id} AND 
 							JOIN_CD = #{join_cd} AND
-							<if test="category == 'name'">
-							NM LIKE '%' || #{search} || '%'
-							</if>
-					    	<if test="category == 'major'">
-							major LIKE '%' || #{search} || '%'
-							</if>
-							<if test="category == 'student_id'">
-							student_id LIKE '%' || #{search} || '%'
-							</if>
+							<choose>
+							    <when test="select == 1">
+								STUDENT_ID LIKE '%' || #{cdn} || '%'
+							    </when>
+							    <when test="select == 2">
+								NM LIKE '%' || #{cdn} || '%'
+							    </when>
+							    <when test="select == 3">
+								MAJOR LIKE '%' || #{cdn} || '%'
+							    </when>
+							</choose>
 					)
 				)
 			/ #{limit} ) as page
