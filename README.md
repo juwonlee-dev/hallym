@@ -2,8 +2,9 @@
 # 빅데이터 캡스톤([CapstoneDesign]( https://github.com/lab-lwc/20202_CapstoneDesign ))  
 
   
-
-## 프로젝트 소개
+## 결과물
+  * [한림대 동아리]( https://hclub.hallym.ac.kr:1443 )  
+## 프로젝트 소개 
 ### 프로젝트명
   * 동호회 관리시스템 개발([git]( https://github.com/juwonlee-dev/hallym ))  
 ### 목적과 기대 효과
