@@ -15,7 +15,7 @@
 ## 팀 구성 인원
 팀명 :    L H P  
 지도교수 : 이원철  
-팀원 : [이주원]( https://github.com/juwonlee-dev ), [허주환]( https://github.com/juhwanHeo ), [박민석]( https://github.com/pms0905 )  
+팀원 : [이주원]( https://github.com/juwonlee-dev ), [허주환]( https://github.com/juhwanHeo ), [박민석]( https://github.com/Minseok-Park )  
   
 ## 개발 환경
  * 서버 : Apache Tomcat 7.0  
